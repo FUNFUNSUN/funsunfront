@@ -13,8 +13,10 @@ class HomeScreen extends StatelessWidget {
     if (await isKakaoTalkInstalled()) {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoTalk();
+        User user = await UserApi.instance.me();
         print('카카오톡으로 로그인 성공');
         print(token);
+        print(user);
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
 
