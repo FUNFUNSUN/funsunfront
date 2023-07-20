@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/main_screen.dart';
 import '../services/kakaoLoginButton.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,19 +7,28 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(50.0),
+        padding: const EdgeInsets.all(50.0),
         child: Column(
           children: [
-            Text(
+            const Text(
               '즐거운\n펀딩플랫폼\nFunSun',
               style: TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.w900,
               ),
             ),
-            KakaoLoginButton(),
+            const KakaoLoginButton(),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainScreen()),
+                );
+              },
+              child: const Text('메인화면으로 이동 임시테스트'),
+            )
           ],
         ),
       ),
