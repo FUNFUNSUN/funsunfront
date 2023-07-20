@@ -6,19 +6,22 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 2,
-        foregroundColor: Colors.green,
-        backgroundColor: Colors.white,
-        title: const Text(
-          '윤선이와 친구들',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+    return const Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(50.0),
+        child: Column(
+          children: [
+            Text(
+              '즐거운\n펀딩플랫폼\nFunSun',
+              style: TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            KakaoLoginButton(),
+          ],
         ),
       ),
-      body: const KakaoLoginButton(),
     );
   }
 }

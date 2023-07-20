@@ -12,7 +12,7 @@ class KakaoLoginButton extends StatelessWidget {
     return GestureDetector(
       onTap: kakaoLogin,
       child: Center(
-        heightFactor: 15, //추후 높이조절요망
+        heightFactor: 5,
         child: Image.asset('assets/images/kakaologin.png'),
       ),
     );
