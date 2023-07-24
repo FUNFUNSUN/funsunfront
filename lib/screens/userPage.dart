@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/widgets/profile.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({super.key});
@@ -12,44 +13,11 @@ class UserPage extends StatelessWidget {
             padding: const EdgeInsets.all(30.0),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.circle,
-                      color: Colors.black,
-                      size: 125,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Data',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Row(
-                          children: [
-                            const Text('data'),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              '|',
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            const Text('data'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                const Profile(
+                  userName: '안녕',
+                  following: 12,
+                  follower: 10,
+                  //이렇게 하는게 맞는지 정확히는 모르겠음
                 ),
                 const SizedBox(
                   height: 30,

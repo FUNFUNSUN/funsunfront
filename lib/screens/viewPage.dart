@@ -5,7 +5,7 @@ class ViewPage extends StatelessWidget {
   const ViewPage({super.key});
   @override
   Widget build(BuildContext context) {
-    double percent = 0.5;
+    double percent = 0.60;
     double tmp = percent * 100;
     int temp = tmp.toInt();
     String percentStr = temp.toString();
@@ -121,7 +121,7 @@ class ViewPage extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
@@ -131,8 +131,16 @@ class ViewPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           color: const Color(0xffFF80C0),
                         ),
-                        child: const Text(
-                          '펀딩하기',
+                        child: const Center(
+                          child: Text(
+                            '펀딩하기',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ],
