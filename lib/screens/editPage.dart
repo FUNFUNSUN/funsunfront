@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class EditPage extends StatefulWidget {
   const EditPage({super.key});
@@ -14,6 +15,22 @@ class EditPage extends StatefulWidget {
 class _EditPageState extends State<EditPage> {
   File? _image;
   final picker = ImagePicker();
+  String _selectedDate = "";
+
+  Future _selectDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(
+          DateTime.now().year + 1, DateTime.now().month, DateTime.now().day),
+    );
+    if (selected != null) {
+      setState(() {
+        _selectedDate = (DateFormat.yMMMd()).format(selected);
+      });
+    }
+  }
 
   Future getImage(ImageSource imageSource) async {
     final image = await picker.pickImage(source: imageSource);
@@ -36,6 +53,7 @@ class _EditPageState extends State<EditPage> {
 
   @override
   Widget build(BuildContext context) {
+    String dateStr = _selectedDate.toString();
     return MaterialApp(
       home: SafeArea(
         child: Scaffold(
@@ -106,14 +124,6 @@ class _EditPageState extends State<EditPage> {
                           print('눌림');
                           getImage(ImageSource.gallery);
                         },
-                        // child: Container(
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(20),
-                        //     color: const Color(0xffF4F4F4),
-                        //   ),
-                        // height: 110,
-                        // width: 110,
-                        // ),
                       ),
                     ]),
                   ),
@@ -186,6 +196,42 @@ class _EditPageState extends State<EditPage> {
                         borderSide: BorderSide.none,
                       ),
                       hintText: '안녕',
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Text(
+                    '펀딩 종료일',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    '수정이 불가합니다.',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: GestureDetector(
+                      onTap: () => _selectDate(context),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Color(0xffF4F4F4),
+                        ),
+                        height: 30,
+                        child: Text(dateStr),
+                      ),
                     ),
                   ),
                 ],
