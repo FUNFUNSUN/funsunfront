@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/editPage.dart';
 import 'package:funsunfront/screens/main_screen.dart';
 import 'package:funsunfront/screens/userPage.dart';
+import 'package:funsunfront/screens/viewPage.dart';
 import '../services/kakaoLoginButton.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -48,6 +49,15 @@ class HomeScreen extends StatelessWidget {
                 );
               },
               child: const Text('userPage로 이동 임시테스트'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ViewPage()),
+                );
+              },
+              child: const Text('viewPage로 이동 임시테스트'),
             ),
           ],
         ),

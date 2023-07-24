@@ -33,6 +33,7 @@ dependencies:
   # kakao_flutter_sdk_common: ^1.5.0
   flutter:
     sdk: flutter
+  percent_indicator:
   image_picker:
     ^0.8.4+4
 
