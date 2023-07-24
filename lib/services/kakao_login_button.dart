@@ -13,7 +13,9 @@ class KakaoLoginButton extends StatelessWidget {
       onTap: kakaoLogin,
       child: Center(
         heightFactor: 5,
-        child: Image.asset('assets/images/kakaologin.png'),
+        child: Image.asset(
+          'assets/images/kakaologin.png',
+        ),
       ),
     );
   }
