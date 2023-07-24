@@ -26,27 +26,30 @@ class ExlporeScreen extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(15)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(15)),
                   ),
                 ),
                 const SizedBox(
                   height: 60,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         '전체공개펀딩',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                             fontWeight: FontWeight.w400),
                       ),
-                      Icon(
-                        Icons.add,
-                        color: Colors.black,
-                      )
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.add),
+                      ),
                     ],
                   ),
                 ),
@@ -65,22 +68,22 @@ class ExlporeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         '참여한 펀딩',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                             fontWeight: FontWeight.w400),
                       ),
-                      Icon(
-                        Icons.add,
-                        color: Colors.black,
-                      )
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.add),
+                      ),
                     ],
                   ),
                 ),
