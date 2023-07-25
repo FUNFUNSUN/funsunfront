@@ -16,22 +16,33 @@ class ExlporeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                //TextField가 아니라... 그냥 컨테이너박스? 로 넣을 예정.
-                TextField(
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                    suffixIcon: const Icon(Icons.search_rounded),
-                    filled: true,
-                    fillColor: const Color(0xFFD9D9D9),
-                    hintText: '검색',
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(15)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(15)),
+                //기능없는 검색바
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  height: 48,
+                  width: 320,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '검색',
+                          style: TextStyle(
+                              color: Colors.grey.shade600, fontSize: 16),
+                        ),
+                        Icon(
+                          Icons.search_rounded,
+                          color: Colors.grey.shade600,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+
                 const SizedBox(
                   height: 60,
                 ),
