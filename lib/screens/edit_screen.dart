@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class EditPage extends StatefulWidget {
-  const EditPage({super.key});
+class EditScreen extends StatefulWidget {
+  const EditScreen({super.key});
 
   @override
-  State<EditPage> createState() => _EditPageState();
+  State<EditScreen> createState() => _EditScreenState();
 }
 
-class _EditPageState extends State<EditPage> {
+class _EditScreenState extends State<EditScreen> {
   File? _image;
   final picker = ImagePicker();
   String _selectedDate = "";
