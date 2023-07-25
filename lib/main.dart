@@ -19,16 +19,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  final bool isSignIn = false; // Todo : 추후 실제 상태에 따라 적용
+  final bool isSignIn = false;
 
+  // Todo : 추후 실제 상태에 따라 final 지우고 isSignIn에 대입
   @override
   Widget build(BuildContext context) {
     return isSignIn
-        ? const FirstScreen()
-        : const MaterialApp(
+        ? const MaterialApp(
             home: Scaffold(
               body: HomeScreen(),
             ),
-          );
+          )
+        : const FirstScreen();
   }
 }
