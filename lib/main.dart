@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
 import 'package:funsunfront/screens/first_screen.dart';
-import 'package:funsunfront/screens/home_screen.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 void main() {
@@ -27,15 +27,13 @@ void main() {
 class FunsunApp extends StatelessWidget {
   const FunsunApp({super.key});
 
-  final bool isSignIn = false;
+  final bool isSignIn = true;
   // Todo : 추후 실제 상태에 따라 final 지우고 isSignIn에 대입
   @override
   Widget build(BuildContext context) {
     return isSignIn
         ? const MaterialApp(
-            home: Scaffold(
-              body: HomeScreen(),
-            ),
+            home: BottomNavShortcuts(),
           )
         : const FirstScreen();
   }

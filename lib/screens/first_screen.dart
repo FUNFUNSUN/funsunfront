@@ -83,7 +83,7 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ExlporeScreen()),
+                          builder: (context) => const ExploreScreen()),
                     );
                   },
                   child: const Text('ExlporeScreen로 이동 임시테스트'),

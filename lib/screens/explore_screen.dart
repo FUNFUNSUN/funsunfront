@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ExlporeScreen extends StatelessWidget {
-  const ExlporeScreen({super.key});
+class ExploreScreen extends StatelessWidget {
+  const ExploreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
