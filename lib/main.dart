@@ -28,7 +28,7 @@ void main() {
 class FunsunApp extends StatelessWidget {
   const FunsunApp({super.key});
 
-  final bool isSignIn = true;
+  final bool isSignIn = false;
   // Todo : 추후 실제 상태에 따라 final 지우고 isSignIn에 대입
   @override
   Widget build(BuildContext context) {
