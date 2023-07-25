@@ -17,7 +17,7 @@ void main() {
     MaterialApp(
       title: 'FunSun',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
       home: const FunsunApp(),
     ),
@@ -31,10 +31,6 @@ class FunsunApp extends StatelessWidget {
   // Todo : 추후 실제 상태에 따라 final 지우고 isSignIn에 대입
   @override
   Widget build(BuildContext context) {
-    return isSignIn
-        ? const MaterialApp(
-            home: BottomNavShortcuts(),
-          )
-        : const FirstScreen();
+    return isSignIn ? const BottomNavShortcuts() : const FirstScreen();
   }
 }

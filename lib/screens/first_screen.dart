@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/edit_screen.dart';
-import 'package:funsunfront/screens/home_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
-import 'package:funsunfront/screens/user_screen.dart';
 import 'package:funsunfront/screens/view_screen.dart';
 import '../services/kakao_login_button.dart';
-import 'explore_screen.dart';
 import 'faq_screen.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -33,30 +30,10 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomeScreen()),
-                    );
-                  },
-                  child: const Text('메인화면으로 이동 임시테스트'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
                           builder: (context) => const EditScreen()),
                     );
                   },
                   child: const Text('editPage로 이동 임시테스트'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserScreen()),
-                    );
-                  },
-                  child: const Text('userPage로 이동 임시테스트'),
                 ),
                 TextButton(
                   onPressed: () {
@@ -77,16 +54,6 @@ class FirstScreen extends StatelessWidget {
                     );
                   },
                   child: const Text('FAQ로 이동 임시테스트'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ExploreScreen()),
-                    );
-                  },
-                  child: const Text('ExlporeScreen로 이동 임시테스트'),
                 ),
                 TextButton(
                   onPressed: () {

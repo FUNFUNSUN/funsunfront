@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/first_screen.dart';
+import 'package:funsunfront/screens/view_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -42,6 +44,25 @@ class HomeScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.lightBlue[100],
                     borderRadius: BorderRadius.circular(20)),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FirstScreen()),
+                  );
+                },
+                child: const Text('테스트용 FirstScreen 라우팅'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ViewScreen()),
+                  );
+                },
+                child: const Text('테스트용 ViewScreen 라우팅'),
               ),
             ],
           ),

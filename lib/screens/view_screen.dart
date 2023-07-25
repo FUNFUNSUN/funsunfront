@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/widgets/bottom_navigation_bar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class ViewScreen extends StatelessWidget {
@@ -15,6 +16,7 @@ class ViewScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: const BtmNavBarWidget(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

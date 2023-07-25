@@ -4,14 +4,24 @@ import 'package:funsunfront/screens/home_screen.dart';
 import 'package:funsunfront/screens/user_screen.dart';
 
 class BottomNavShortcuts extends StatefulWidget {
-  const BottomNavShortcuts({super.key});
+  final int initIndex;
+  const BottomNavShortcuts({
+    Key? key,
+    this.initIndex = 1,
+  }) : super(key: key);
 
   @override
   State<BottomNavShortcuts> createState() => _BottomNavShortcutsState();
 }
 
 class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
-  int _currentIndex = 1;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    _currentIndex = widget.initIndex;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
