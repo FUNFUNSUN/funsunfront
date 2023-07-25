@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/edit_screen.dart';
 import 'package:funsunfront/screens/main_screen.dart';
+import 'package:funsunfront/screens/testsearchpage.dart';
 import 'package:funsunfront/screens/user_screen.dart';
 import 'package:funsunfront/screens/view_screen.dart';
 import '../services/kakao_login_button.dart';
+import 'explore_screen.dart';
+import 'faq_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
