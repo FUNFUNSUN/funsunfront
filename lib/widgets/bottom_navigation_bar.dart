@@ -8,6 +8,7 @@ class BtmNavBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color? iconColorForNotSelected = Colors.grey[600];
     return SizedBox(
       height: 60,
       child: Row(
@@ -15,6 +16,7 @@ class BtmNavBarWidget extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.search),
+            color: iconColorForNotSelected,
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -28,6 +30,7 @@ class BtmNavBarWidget extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.home),
+            color: iconColorForNotSelected,
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -41,6 +44,7 @@ class BtmNavBarWidget extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.person),
+            color: iconColorForNotSelected,
             onPressed: () {
               Navigator.pushReplacement(
                 context,

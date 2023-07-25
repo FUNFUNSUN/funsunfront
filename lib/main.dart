@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
 import 'package:funsunfront/screens/first_screen.dart';
+import 'package:funsunfront/services/create_material_color.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 void main() {
@@ -17,7 +18,7 @@ void main() {
     MaterialApp(
       title: 'FunSun',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: createMaterialColor(const Color(0xffFF80C0)),
       ),
       home: const FunsunApp(),
     ),
