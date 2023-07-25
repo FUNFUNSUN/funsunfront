@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'kakaoLoginApi.dart';
+import 'kakao_login_api.dart';
 
 class KakaoLoginButton extends StatelessWidget {
   const KakaoLoginButton({

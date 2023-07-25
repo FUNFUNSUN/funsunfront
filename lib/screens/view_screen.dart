@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class ViewPage extends StatelessWidget {
-  const ViewPage({super.key});
+class ViewScreen extends StatelessWidget {
+  const ViewScreen({super.key});
   @override
   Widget build(BuildContext context) {
     double percent = 0.60;

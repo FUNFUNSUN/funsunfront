@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/widgets/profile.dart';
 
-class UserPage extends StatelessWidget {
-  const UserPage({super.key});
+class UserScreen extends StatelessWidget {
+  const UserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
