@@ -15,17 +15,17 @@ void main() {
 
   runApp(
     MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FunSun',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyApp(),
+      home: const FunsunApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FunsunApp extends StatelessWidget {
+  const FunsunApp({super.key});
 
   final bool isSignIn = false;
   // Todo : 추후 실제 상태에 따라 final 지우고 isSignIn에 대입
