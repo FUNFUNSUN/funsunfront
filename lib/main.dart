@@ -13,14 +13,21 @@ void main() {
     javaScriptAppKey: 'b68e9fa854b4cd621e3999bd34b46a85',
   );
 
-  runApp(const MyApp());
+  runApp(
+    MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   final bool isSignIn = false;
-
   // Todo : 추후 실제 상태에 따라 final 지우고 isSignIn에 대입
   @override
   Widget build(BuildContext context) {
