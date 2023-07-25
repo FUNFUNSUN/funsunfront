@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/first_screen.dart';
+import 'package:funsunfront/screens/home_screen.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 void main() {
@@ -11,18 +12,23 @@ void main() {
     nativeAppKey: '9ecb696dfb252954d4b0e25baa41d134',
     javaScriptAppKey: 'b68e9fa854b4cd621e3999bd34b46a85',
   );
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  final bool isSignIn = false; // Todo : 추후 실제 상태에 따라 적용
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: FirstScreen(),
-      ),
-    );
+    return isSignIn
+        ? const FirstScreen()
+        : const MaterialApp(
+            home: Scaffold(
+              body: HomeScreen(),
+            ),
+          );
   }
 }
