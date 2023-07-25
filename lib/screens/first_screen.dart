@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/editPage.dart';
+import 'package:funsunfront/screens/explore_screen.dart';
+import 'package:funsunfront/screens/faq_secreen.dart';
 import 'package:funsunfront/screens/main_screen.dart';
+import 'package:funsunfront/screens/testsearchpage.dart';
 import 'package:funsunfront/screens/userPage.dart';
 import 'package:funsunfront/screens/viewPage.dart';
 import '../services/kakao_login_button.dart';
@@ -59,6 +62,34 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
                 child: const Text('viewPage로 이동 임시테스트'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const FaqScreen()),
+                  );
+                },
+                child: const Text('FAQ로 이동 임시테스트'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ExlporeScreen()),
+                  );
+                },
+                child: const Text('ExlporeScreen로 이동 임시테스트'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => test()),
+                  );
+                },
+                child: const Text('SearchResultScreen 이동 임시테스트'),
               ),
             ],
           ),

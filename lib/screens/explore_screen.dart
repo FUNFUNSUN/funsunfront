@@ -16,6 +16,7 @@ class ExlporeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
+                //TextField가 아니라... 그냥 컨테이너박스? 로 넣을 예정.
                 TextField(
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15),
