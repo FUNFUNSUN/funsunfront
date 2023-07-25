@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/edit_screen.dart';
 import 'package:funsunfront/screens/home_screen.dart';
-import 'package:funsunfront/screens/testsearchpage.dart';
+import 'package:funsunfront/screens/searchresult_screen.dart';
 import 'package:funsunfront/screens/user_screen.dart';
 import 'package:funsunfront/screens/view_screen.dart';
 import '../services/kakao_login_button.dart';
@@ -92,7 +92,8 @@ class FirstScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => test()),
+                      MaterialPageRoute(
+                          builder: (context) => const SearchResultScreen()),
                     );
                   },
                   child: const Text('SearchResultScreen 이동 임시테스트'),
