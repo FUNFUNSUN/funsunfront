@@ -55,7 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 400,
                       height: 400,
                       decoration: BoxDecoration(
-                          color: Colors.lightBlue[100],
+                          color: Theme.of(context)
+                              .primaryColorLight
+                              .withOpacity(0.5),
                           borderRadius: BorderRadius.circular(20)),
                       child: RefreshIndicator(
                         onRefresh: refreshHomeScreen,
