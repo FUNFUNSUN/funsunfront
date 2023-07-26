@@ -25,7 +25,7 @@ class _TestTestState extends State<TestTest> {
   }
 
   Future<void> _onRefresh() async {
-    await Future.delayed(const Duration(seconds: 1)); // Simulate a delay
+    // await Future.delayed(const Duration(seconds: 1)); // Simulate a delay
     setState(() {
       imgUrls.add(img03);
     });
