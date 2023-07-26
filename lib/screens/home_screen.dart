@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/first_screen.dart';
+import 'package:funsunfront/screens/sun_chunjae.dart';
 import 'package:funsunfront/screens/view_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -90,6 +91,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       child: const Text('테스트용 ViewScreen 라우팅'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const TestTest()),
+                        );
+                      },
+                      child: const Text('원윤선 기죽지마 버튼'),
                     ),
                   ],
                 ),
