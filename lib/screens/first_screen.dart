@@ -3,7 +3,6 @@ import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
 import 'package:funsunfront/screens/edit_screen.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
-import 'package:funsunfront/screens/view_screen.dart';
 import '../services/kakao_login_button.dart';
 import 'faq_screen.dart';
 
@@ -42,7 +41,7 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ViewScreen()),
+                          builder: (context) => const FundingScreen()),
                     );
                   },
                   child: const Text('viewPage로 이동 임시테스트'),

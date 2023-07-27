@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/first_screen.dart';
+import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/sun_chunjae.dart';
-import 'package:funsunfront/screens/view_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ViewScreen()),
+                              builder: (context) => const FundingScreen()),
                         );
                       },
                       child: const Text('테스트용 ViewScreen 라우팅'),
