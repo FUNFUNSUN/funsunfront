@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
 import 'package:funsunfront/screens/edit_screen.dart';
-import 'package:funsunfront/screens/home_screen.dart';
-import 'package:funsunfront/screens/publicsupport_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
-import 'package:funsunfront/screens/user_screen.dart';
-import 'package:funsunfront/screens/view_screen.dart';
 import '../services/kakao_login_button.dart';
-import 'explore_screen.dart';
 import 'faq_screen.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -34,16 +30,6 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomeScreen()),
-                    );
-                  },
-                  child: const Text('메인화면으로 이동 임시테스트'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
                           builder: (context) => const EditScreen()),
                     );
                   },
@@ -54,17 +40,7 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const UserScreen()),
-                    );
-                  },
-                  child: const Text('userPage로 이동 임시테스트'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ViewScreen()),
+                          builder: (context) => const FundingScreen()),
                     );
                   },
                   child: const Text('viewPage로 이동 임시테스트'),
@@ -84,20 +60,45 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ExlporeScreen()),
+                          builder: (context) => const SearchResultScreen()),
                     );
                   },
-                  child: const Text('ExlporeScreen로 이동 임시테스트'),
+                  child: const Text('SearchResultScreen 이동 임시테스트'),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SearchResultScreen()),
+                          builder: (context) => const BottomNavShortcuts()),
                     );
                   },
-                  child: const Text('SearchResultScreen 이동 임시테스트'),
+                  child: const Text('메인화면 이동 임시테스트'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FundingScreen()),
+                    );
+                  },
+                  child: const Text('펀딩 게시글 테스트'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PublicSupportScreen(
+                                FundingExpireDate: '2023년7월27일',
+                                FundingTitle: '펀딩제목이~~머냐면~~~어쩌구',
+                                FundingImage:
+                                    'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FczFu0l%2FbtrqAb95DTz%2FEzH59ItsvNjSB8JEOEarkK%2Fimg.png',
+                              )),
+                    );
+                  },
+                  child: const Text('PublicSupportScreen 이동 임시테스트'),
                 ),
                 TextButton(
                   onPressed: () {

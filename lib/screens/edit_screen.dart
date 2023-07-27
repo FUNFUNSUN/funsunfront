@@ -55,9 +55,9 @@ class _EditScreenState extends State<EditScreen> {
   Widget build(BuildContext context) {
     String dateStr = _selectedDate.toString();
     return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          body: SingleChildScrollView(
+      home: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: Column(
