@@ -42,7 +42,7 @@ class FundingCard extends StatelessWidget {
               Expanded(
                 flex: 8,
                 child: SizedBox(
-                  width: sizeX / 2,
+                  width: sizeX,
                   child: FittedBox(
                     fit: BoxFit.cover,
                     child: Image.network(
