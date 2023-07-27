@@ -198,8 +198,8 @@ class _EditScreenState extends State<EditScreen> {
                   ),
                   TextField(
                     keyboardType: TextInputType.number,
-                    inputFormatters: const <TextInputFormatter>[
-                      // FilteringTextInputFormatter.digitsOnly
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
                     ],
                     decoration: InputDecoration(
                       filled: true,
