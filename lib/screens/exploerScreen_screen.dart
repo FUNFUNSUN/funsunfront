@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/searchresult_screen.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -7,23 +8,29 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                //기능없는 검색바
-                Container(
+        appBar: AppBar(
+          toolbarHeight: 150,
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SearchResultScreen()),
+                );
+              },
+              child: Hero(
+                tag: "searchBox",
+                child: Container(
                   decoration: BoxDecoration(
                     color: const Color(0xFFD9D9D9),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   height: 48,
-                  width: 320,
+                  // width: 320,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 10),
                     child: Row(
@@ -42,10 +49,16 @@ class ExploreScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                const SizedBox(
-                  height: 60,
-                ),
+              ),
+            ),
+          ),
+        ),
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/first_screen.dart';
-import 'package:funsunfront/screens/sun_chunjae.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
