@@ -7,45 +7,40 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          title: Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFFD9D9D9),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            height: 48,
+            // width: 320,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '검색',
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+                  ),
+                  Icon(
+                    Icons.search_rounded,
+                    color: Colors.grey.shade600,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                //기능없는 검색바
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFD9D9D9),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  height: 48,
-                  width: 320,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '검색',
-                          style: TextStyle(
-                              color: Colors.grey.shade600, fontSize: 16),
-                        ),
-                        Icon(
-                          Icons.search_rounded,
-                          color: Colors.grey.shade600,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 60,
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(

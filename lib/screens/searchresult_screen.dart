@@ -36,6 +36,7 @@ class _SearchBoxState extends State<SearchBox> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          elevation: 0.0,
           backgroundColor: Colors.white,
           title: TextField(
             controller: _searchController, // 컨트롤러를 할당합니다.
