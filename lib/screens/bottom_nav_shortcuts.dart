@@ -29,7 +29,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
       body: IndexedStack(
         index: _currentIndex,
         children: const [
-          ExploerScreen(),
+          ExploreScreen(),
           HomeScreen(),
           UserScreen(),
         ],

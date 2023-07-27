@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
 
-class ExploerScreen extends StatelessWidget {
-  const ExploerScreen({super.key});
+class ExploreScreen extends StatelessWidget {
+  const ExploreScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

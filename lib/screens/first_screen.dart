@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
 import 'package:funsunfront/screens/edit_screen.dart';
+import 'package:funsunfront/screens/exploerScreen_screen.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/mysupport_screen.dart';
 import 'package:funsunfront/screens/publicsupport_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
 import '../services/kakao_login_button.dart';
-import 'exploerScreen_screen.dart';
+
 import 'faq_screen.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -94,7 +95,7 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ExploerScreen()),
+                          builder: (context) => const ExploreScreen()),
                     );
                   },
                   child: const Text('ExploreScreen 테스트'),
