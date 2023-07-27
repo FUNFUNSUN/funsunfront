@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/searchresult_screen.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -8,29 +9,46 @@ class ExploreScreen extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 150,
           elevation: 0.0,
           backgroundColor: Colors.white,
-          title: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFFD9D9D9),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            height: 48,
-            // width: 320,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '검색',
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SearchResultScreen()),
+                );
+              },
+              child: Hero(
+                tag: "searchBox",
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  Icon(
-                    Icons.search_rounded,
-                    color: Colors.grey.shade600,
+                  height: 48,
+                  // width: 320,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '검색',
+                          style: TextStyle(
+                              color: Colors.grey.shade600, fontSize: 16),
+                        ),
+                        Icon(
+                          Icons.search_rounded,
+                          color: Colors.grey.shade600,
+                        ),
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
             ),
           ),

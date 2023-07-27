@@ -36,35 +36,39 @@ class _SearchBoxState extends State<SearchBox> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 150,
           elevation: 0.0,
           backgroundColor: Colors.white,
-          title: TextField(
-            controller: _searchController, // 컨트롤러를 할당합니다.
-            onChanged: (value) {
-              //검색어 변경 시 동작할 코드 추가, 검색어 입력할 때마다 호출되는부분
-            },
-            onSubmitted: (value) {
-              // 검색어 제출 시 동작할 코드 추가
-              // 검색어를 입력하고 검색 버튼(키보드의 검색/엔터 키)을 누르면 이 부분이 호출됩니다.
-              if (value.isNotEmpty) {
-                setState(() {
-                  searchHistory.add(value);
-                });
-                _searchController.clear();
-              }
-            },
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-              suffixIcon: const Icon(Icons.search_rounded),
-              filled: true,
-              fillColor: const Color(0xFFD9D9D9),
-              hintText: '검색',
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(15)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(15)),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: TextField(
+              controller: _searchController, // 컨트롤러를 할당합니다.
+              onChanged: (value) {
+                //검색어 변경 시 동작할 코드 추가, 검색어 입력할 때마다 호출되는부분
+              },
+              onSubmitted: (value) {
+                // 검색어 제출 시 동작할 코드 추가
+                // 검색어를 입력하고 검색 버튼(키보드의 검색/엔터 키)을 누르면 이 부분이 호출됩니다.
+                if (value.isNotEmpty) {
+                  setState(() {
+                    searchHistory.add(value);
+                  });
+                  _searchController.clear();
+                }
+              },
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                suffixIcon: const Icon(Icons.search_rounded),
+                filled: true,
+                fillColor: const Color(0xFFD9D9D9),
+                hintText: '검색',
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(15)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(15)),
+              ),
             ),
           ),
         ),
