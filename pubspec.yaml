@@ -38,12 +38,7 @@ dependencies:
   get: ^4.6.5
   intl: ^0.18.0
   percent_indicator:
-  image_picker:
-    ^0.8.4+4
-
-    # assets:
-    # - assets/images/kakaologin.png
-    # - assets/images/giftBox.png
+  image_picker: ^0.8.4+4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -52,7 +47,6 @@ dependencies:
   kakao_flutter_sdk_common: ^1.5.0
   kakao_flutter_sdk: ^1.5.0
   run_with_network_images: ^0.0.1
-
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +73,7 @@ flutter:
   assets:
     - assets/images/kakaologin.png
     - assets/images/giftBox.png
+    - assets/images/pinkCircles.png
     #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
