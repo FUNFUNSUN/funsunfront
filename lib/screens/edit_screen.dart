@@ -83,13 +83,17 @@ class _EditScreenState extends State<EditScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const TextField(
+                  TextField(
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Color(0xffF4F4F4),
+                      fillColor: const Color(0xffF4F4F4),
                       enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
                         borderSide: BorderSide.none,
                       ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(15)),
                       hintText: '안녕',
                     ),
                   ),
@@ -150,14 +154,22 @@ class _EditScreenState extends State<EditScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const TextField(
+                  TextField(
+                    textAlignVertical: TextAlignVertical.top,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(bottom: 100),
+                      contentPadding:
+                          const EdgeInsets.only(bottom: 100, top: 15, left: 10),
                       filled: true,
-                      fillColor: Color(0xffF4F4F4),
+                      fillColor: const Color(0xffF4F4F4),
                       enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
                         borderSide: BorderSide.none,
                       ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(15)),
                       hintText: '안녕',
                     ),
                   ),
@@ -184,17 +196,21 @@ class _EditScreenState extends State<EditScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const TextField(
+                  TextField(
                     keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
+                    inputFormatters: const <TextInputFormatter>[
                       // FilteringTextInputFormatter.digitsOnly
                     ],
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Color(0xffF4F4F4),
+                      fillColor: const Color(0xffF4F4F4),
                       enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
                         borderSide: BorderSide.none,
                       ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(15)),
                       hintText: '안녕',
                     ),
                   ),
@@ -226,8 +242,9 @@ class _EditScreenState extends State<EditScreen> {
                     child: GestureDetector(
                       onTap: () => _selectDate(context),
                       child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color(0xffF4F4F4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: const Color(0xffF4F4F4),
                         ),
                         height: 30,
                         child: Text(dateStr),
