@@ -42,10 +42,13 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const FundingScreen()),
+                          builder: (context) => const FundingScreen(
+                              // funding: testFunding01,
+                              // commentList: testCommentList,
+                              )),
                     );
                   },
-                  child: const Text('viewPage로 이동 임시테스트'),
+                  child: const Text('FundingPage로 이동 임시테스트'),
                 ),
                 TextButton(
                   onPressed: () {
@@ -76,16 +79,6 @@ class FirstScreen extends StatelessWidget {
                     );
                   },
                   child: const Text('메인화면 이동 임시테스트'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const FundingScreen()),
-                    );
-                  },
-                  child: const Text('펀딩 게시글 테스트'),
                 ),
                 TextButton(
                   onPressed: () {
