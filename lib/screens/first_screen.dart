@@ -6,7 +6,7 @@ import 'package:funsunfront/screens/mysupport_screen.dart';
 import 'package:funsunfront/screens/publicsupport_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
 import '../services/kakao_login_button.dart';
-import 'explore_screen.dart';
+import 'exploerScreen_screen.dart';
 import 'faq_screen.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -94,7 +94,7 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ExploreScreen()),
+                          builder: (context) => const ExploerScreen()),
                     );
                   },
                   child: const Text('ExploreScreen 테스트'),
