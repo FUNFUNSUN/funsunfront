@@ -32,7 +32,6 @@ class ApiTest extends StatelessWidget {
                   Text('생년월일: ${profile.birthday}'),
                   Text('사용자명: ${profile.username}'),
                   Text('성별: ${profile.gender}'),
-                  if (profile.image != null) Image.network(profile.image!),
                   Text('팔로워: ${profile.follower ?? 0}'),
                   Text('팔로잉: ${profile.followee ?? 0}'),
                 ],
