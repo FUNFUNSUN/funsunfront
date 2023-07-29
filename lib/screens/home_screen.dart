@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/apitest.dart';
 import 'package:funsunfront/screens/first_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -79,6 +80,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       child: const Text('테스트용 FirstScreen 라우팅'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ApiTest()),
+                        );
+                      },
+                      child: const Text('api테스트 버튼'),
                     ),
                   ],
                 ),
