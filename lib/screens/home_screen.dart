@@ -80,16 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       child: const Text('테스트용 FirstScreen 라우팅'),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const TestTest()),
-                        );
-                      },
-                      child: const Text('원윤선 기죽지마 버튼'),
-                    ),
                   ],
                 ),
               ),
