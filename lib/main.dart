@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:funsunfront/models/account_model.dart';
+import 'package:funsunfront/provider/provider.dart';
 import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
 import 'package:funsunfront/screens/first_screen.dart';
+import 'package:funsunfront/services/api_account.dart';
 import 'package:funsunfront/services/create_material_color.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   // 웹 환경에서 카카오 로그인을 정상적으로 완료하려면 runApp() 호출 전 아래 메서드 호출 필요
@@ -20,18 +25,57 @@ void main() {
       theme: ThemeData(
         primarySwatch: createMaterialColor(const Color(0xffFF80C0)),
       ),
-      home: const FunsunApp(),
+      home: ChangeNotifierProvider<SignInProvider>(
+        create: (context) => SignInProvider(),
+        child: const FunsunApp(),
+      ),
     ),
   );
 }
 
-class FunsunApp extends StatelessWidget {
+class FunsunApp extends StatefulWidget {
   const FunsunApp({super.key});
 
-  final bool isSignIn = false;
+  @override
+  State<FunsunApp> createState() => _FunsunAppState();
+}
+
+class _FunsunAppState extends State<FunsunApp> {
+  late SignInProvider _signInProvider;
+  late bool isSignIn;
+  late AccountModel user;
+
+  void initfuction() async {
+    const storage = FlutterSecureStorage();
+    String? value = await storage.read(key: 'accessToken');
+
+    if (value != null) {
+      setState(() {
+        _signInProvider.setTrue();
+      });
+      user = await Account.accessTokenLogin();
+    } else {
+      setState(() {
+        _signInProvider.setFalse();
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _signInProvider = Provider.of<SignInProvider>(context, listen: false);
+    initfuction();
+  }
+
   // Todo : 추후 실제 상태에 따라 final 지우고 isSignIn에 대입
   @override
   Widget build(BuildContext context) {
-    return isSignIn ? const BottomNavShortcuts() : const FirstScreen();
+    return Consumer<SignInProvider>(builder: (context, provider, child) {
+      isSignIn = provider.signIn;
+      return isSignIn ? const BottomNavShortcuts() : const FirstScreen();
+    });
+    // return isSignIn ? const BottomNavShortcuts() : const FirstScreen();
   }
 }

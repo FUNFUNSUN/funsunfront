@@ -28,7 +28,7 @@ class FirstScreen extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                const KakaoLoginButton(),
+                KakaoLoginButton(),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
