@@ -142,7 +142,7 @@ class ExploreScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PublicSupportScreen(
+                                builder: (context) => const PublicScreen(
                                       page: '1',
                                     )),
                           );

@@ -4,8 +4,8 @@ import 'package:funsunfront/models/funding_model.dart';
 import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
 
-class PublicSupportScreen extends StatelessWidget {
-  const PublicSupportScreen({super.key, required this.page});
+class PublicScreen extends StatelessWidget {
+  const PublicScreen({super.key, required this.page});
 
   final String page;
 
