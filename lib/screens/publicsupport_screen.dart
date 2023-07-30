@@ -90,11 +90,12 @@ class PublicSupportScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15)),
                   width: sizeX,
                   height: sizeY,
-                  child: FundingCard(
-                      imgUrls: imgUrls,
-                      sizeX: sizeX,
-                      FundingTitle: FundingTitle,
-                      FundingExpireDate: FundingExpireDate),
+                  child: const Text('여기예요여기'),
+                  // FundingCard(
+                  //     imgUrls: imgUrls,
+                  //     sizeX: sizeX,
+                  //     FundingTitle: FundingTitle,
+                  //     FundingExpireDate: FundingExpireDate),
                 ),
               ],
             ),
