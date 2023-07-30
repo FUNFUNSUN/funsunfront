@@ -111,10 +111,7 @@ class FirstScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const MySupportScreen(
-                                FundingExpireDate: '2023년7월27일',
-                                FundingTitle: '펀딩제목이~~머냐면~~~어쩌구',
-                                FundingImage:
-                                    'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FczFu0l%2FbtrqAb95DTz%2FEzH59ItsvNjSB8JEOEarkK%2Fimg.png',
+                                page: '1',
                               )),
                     );
                   },
