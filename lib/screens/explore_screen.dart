@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:funsunfront/screens/publicsupport_screen.dart';
+import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
 
 class ExploreScreen extends StatelessWidget {

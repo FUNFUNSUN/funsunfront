@@ -4,7 +4,7 @@ import 'package:funsunfront/screens/edit_screen.dart';
 import 'package:funsunfront/screens/explore_screen.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/mysupport_screen.dart';
-import 'package:funsunfront/screens/publicsupport_screen.dart';
+import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
 import 'package:funsunfront/screens/user_screen.dart';
 import '../services/kakao_login_button.dart';
