@@ -1,28 +1,15 @@
 class AccountModel {
-  String id = 'admin',
-      email = 'admin@admin.com',
-      birthday = 'why.',
-      username = 'thxkyu',
-      gender = 'male';
-  String? image;
+  String id, email, username;
+  String? image, birthday, gender;
   int? follower, followee;
 
-  AccountModel(
-      {required this.id,
-      required this.email,
-      required this.birthday,
-      required this.username,
-      this.image,
-      this.follower,
-      this.followee});
-
-  AccountModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    email = json['email'];
-    birthday = json['birthday'];
-    username = json['username'];
-    image = json['image'];
-    follower = json['follower'];
-    followee = json['followee'];
-  }
+  AccountModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        email = json['email'],
+        birthday = json['birthday'],
+        username = json['username'],
+        image = json['image'],
+        follower = json['follower'],
+        gender = json['gender'],
+        followee = json['followee'];
 }
