@@ -89,10 +89,9 @@ class MySupportScreen extends StatelessWidget {
                   height: sizeY,
                   width: sizeX,
                   child: FundingCard(
-                      imgUrls: imgUrls,
-                      sizeX: sizeX,
-                      FundingTitle: FundingTitle,
-                      FundingExpireDate: FundingExpireDate),
+                    sizeX: sizeX,
+                    fundings: const [],
+                  ),
                 ),
               ],
             ),

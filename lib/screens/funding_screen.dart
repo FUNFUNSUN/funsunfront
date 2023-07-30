@@ -89,7 +89,7 @@ class FundingScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              funding.content, // 펀딩내용
+                              funding.content!, // 펀딩내용
                               style: const TextStyle(
                                 fontSize: 16,
                               ),

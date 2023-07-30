@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:funsunfront/screens/exploerScreen_screen.dart';
+import 'package:funsunfront/screens/explore_screen.dart';
 import 'package:funsunfront/screens/home_screen.dart';
 import 'package:funsunfront/screens/user_screen.dart';
 

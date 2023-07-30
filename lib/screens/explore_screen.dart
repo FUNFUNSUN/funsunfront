@@ -4,7 +4,7 @@ import 'package:funsunfront/screens/searchresult_screen.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
-
+  //TODO : 하드코딩 바꾸깅~ 잇힝 (하트)
   @override
   Widget build(BuildContext context) {
     List<String> imgUrls = [];
@@ -142,8 +142,9 @@ class ExploreScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const PublicSupportScreen()),
+                                builder: (context) => const PublicSupportScreen(
+                                      page: '1',
+                                    )),
                           );
                         },
                         icon: const Icon(Icons.add),

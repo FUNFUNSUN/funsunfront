@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../models/funding_model.dart';
 
 class FundingCard extends StatelessWidget {
   const FundingCard({
     super.key,
-    required this.imgUrls,
     required this.sizeX,
-    required this.FundingTitle,
-    required this.FundingExpireDate,
+    required this.fundings,
   });
-
-  final List<String> imgUrls;
+  final List<FundingModel> fundings;
   final double sizeX;
-  final String FundingTitle;
-  final String FundingExpireDate;
+  final imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: imgUrls.length,
+      itemCount: fundings.length,
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
@@ -46,7 +45,9 @@ class FundingCard extends StatelessWidget {
                   child: FittedBox(
                     fit: BoxFit.cover,
                     child: Image.network(
-                      imgUrls[index], //펀딩이미지
+                      (fundings[index].image != null)
+                          ? '$imgBaseUrl${fundings[index].image}'
+                          : 'https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/298331605_2612622035555714_7716975555145679769_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=973b4a&_nc_ohc=LI675SDvZuoAX_k7rf0&_nc_oc=AQnS0gC1D7bqAQKCchCh3DXlmriJ6b2B7hs4Zq9b3-bPVnlHmrf0B1gcmwpxXR34n24&_nc_ht=scontent-ssn1-1.xx&oh=00_AfDWYObdFeP4J0VeYDLRoppDAv37mH7pbMkIS47u2MVB6g&oe=64CA8C86', //펀딩이미지
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -62,14 +63,16 @@ class FundingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(FundingTitle, overflow: TextOverflow.ellipsis),
+                        Text(fundings[index].title,
+                            overflow: TextOverflow.ellipsis),
                         Row(
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text('펀딩종료일'),
-                                Text(FundingExpireDate),
+                                Text(DateFormat.yMMMd('en_US').format(
+                                    DateTime.parse(fundings[index].expireOn))),
                               ],
                             ),
                           ],
