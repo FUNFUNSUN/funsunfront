@@ -44,10 +44,7 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const FundingScreen(
-                              // funding: testFunding01,
-                              // commentList: testCommentList,
-                              )),
+                          builder: (context) => const FundingScreen()),
                     );
                   },
                   child: const Text('FundingPage로 이동 임시테스트'),
