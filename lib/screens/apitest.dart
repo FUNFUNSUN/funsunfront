@@ -23,11 +23,11 @@ class ApiTest extends StatelessWidget {
             } else {
               // 로딩 끝났으면 표시가능
               final profile = snapshot.data;
-
+              profile!;
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('ID: ${profile!.id}'),
+                  Text('ID: ${profile.id}'),
                   Text('Email: ${profile.email}'),
                   Text('생년월일: ${profile.birthday}'),
                   Text('사용자명: ${profile.username}'),
