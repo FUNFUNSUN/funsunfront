@@ -1,68 +1,16 @@
 import 'package:flutter/material.dart';
+import '../models/funding_model.dart';
+import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
 
 class MySupportScreen extends StatelessWidget {
-  const MySupportScreen(
-      {super.key,
-      required this.FundingTitle,
-      required this.FundingExpireDate,
-      required this.FundingImage});
+  const MySupportScreen({super.key, required this.page});
 
-  final String FundingTitle;
-  final String FundingExpireDate;
-  final String FundingImage;
+  final String page;
 
   @override
   Widget build(BuildContext context) {
-    List<String> imgUrls = [];
-    imgUrls.add(
-        'https://flexible.img.hani.co.kr/flexible/normal/970/970/imgdb/original/2023/0619/20230619501341.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSNkiSUcQ1o4jzsNDFSNYE1Bt3xmRZK3joQ&usqp=CAU');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
+    final Future<List<FundingModel>> fundings = Funding.getJoinedFunding(page);
 
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
@@ -88,9 +36,22 @@ class MySupportScreen extends StatelessWidget {
                       BoxDecoration(borderRadius: BorderRadius.circular(15)),
                   height: sizeY,
                   width: sizeX,
-                  child: FundingCard(
-                    sizeX: sizeX,
-                    fundings: const [],
+                  child: FutureBuilder(
+                    future: fundings,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        // 데이터를 불러오는 동안 로딩 표시
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        // 오류 표시
+                        return Text('오류: ${snapshot.error}');
+                      } else {
+                        return FundingCard(
+                          sizeX: sizeX,
+                          fundings: snapshot.data!,
+                        );
+                      }
+                    },
                   ),
                 ),
               ],
