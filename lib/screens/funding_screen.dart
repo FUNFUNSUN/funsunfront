@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/models/remit_model.dart';
+import 'package:funsunfront/services/api_remit.dart';
 
 import 'package:funsunfront/widgets/achievement_rate.dart';
 import 'package:funsunfront/widgets/pink_btn.dart';
@@ -17,6 +19,7 @@ class FundingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Future<FundingModel> funding = Funding.getFunding(id);
+    final Future<List<RemitModel>> remits = Remit.getRemit(id, '1');
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
@@ -106,7 +109,7 @@ class FundingScreen extends StatelessWidget {
                               offset: const Offset(0, 15),
                               child: Container(
                                 width: screenWidth,
-                                height: screenHeight * 0.5,
+                                height: screenHeight,
                                 decoration: const BoxDecoration(
                                   color: Color.fromARGB(255, 255, 159, 208),
                                 ),
@@ -122,6 +125,74 @@ class FundingScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w600),
                               ),
                             ),
+                            FutureBuilder(
+                                future: remits,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    // 데이터를 불러오는 동안 로딩 표시
+                                    return const CircularProgressIndicator();
+                                  } else if (snapshot.hasError) {
+                                    // 오류 표시
+                                    return Text('오류: ${snapshot.error}');
+                                  } else {
+                                    // 로딩 끝났으면 표시가능
+                                    final remits = snapshot.data;
+                                    remits!;
+
+                                    return Transform.translate(
+                                      offset: const Offset(0, 100),
+                                      child: ListView.separated(
+                                        primary: false,
+                                        shrinkWrap: true,
+                                        itemCount: remits.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            child: Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: 30,
+                                                  backgroundImage: NetworkImage(
+                                                      // 여기선 image.network 못씀
+                                                      '$baseurl${remits[index].author.image}'),
+                                                ),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      remits[index]
+                                                          .author
+                                                          .username,
+                                                      style: const TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                    Text(remits[index].message),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                        separatorBuilder: (context, index) {
+                                          return const SizedBox(
+                                            height: 20,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+                                }),
                           ],
                         ),
                       ],
