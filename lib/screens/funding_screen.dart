@@ -86,10 +86,13 @@ class FundingScreen extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 50),
-                          child: Text(
-                            funding.content, // 펀딩내용
-                            style: const TextStyle(
-                              fontSize: 16,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              funding.content, // 펀딩내용
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ),
@@ -154,6 +157,7 @@ class FundingScreen extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 CircleAvatar(
+                                                  // TODO: 추후 inkwell로 프로필페이지 이동
                                                   radius: 30,
                                                   backgroundImage: NetworkImage(
                                                       // 여기선 image.network 못씀
