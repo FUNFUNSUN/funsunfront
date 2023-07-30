@@ -31,7 +31,7 @@ class FundingScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // 데이터를 불러오는 동안 로딩 표시
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 // 오류 표시
                 return Text('오류: ${snapshot.error}');
@@ -112,7 +112,7 @@ class FundingScreen extends StatelessWidget {
                               offset: const Offset(0, 15),
                               child: Container(
                                 width: screenWidth,
-                                height: screenHeight,
+                                height: screenHeight + 50,
                                 decoration: const BoxDecoration(
                                   color: Color.fromARGB(255, 255, 159, 208),
                                 ),
@@ -123,9 +123,9 @@ class FundingScreen extends StatelessWidget {
                               child: const Text(
                                 '축하메세지',
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 22,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w600),
+                                    fontWeight: FontWeight.w700),
                               ),
                             ),
                             FutureBuilder(
@@ -177,11 +177,17 @@ class FundingScreen extends StatelessWidget {
                                                           .author
                                                           .username,
                                                       style: const TextStyle(
+                                                          color: Colors.white,
                                                           fontSize: 18,
                                                           fontWeight:
                                                               FontWeight.w600),
                                                     ),
-                                                    Text(remits[index].message),
+                                                    Text(
+                                                      remits[index].message,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ],
@@ -189,16 +195,51 @@ class FundingScreen extends StatelessWidget {
                                           );
                                         },
                                         separatorBuilder: (context, index) {
-                                          return const SizedBox(
-                                            height: 20,
+                                          return const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 20, horizontal: 25),
+                                            child: Divider(
+                                                thickness: 1,
+                                                height: 1,
+                                                color: Colors.white),
                                           );
                                         },
                                       ),
                                     );
                                   }
                                 }),
+                            //여기까지가 댓글
                           ],
                         ),
+                        Column(
+                          children: [
+                            Transform.scale(
+                                scale: 1.5,
+                                child: Image.asset(
+                                    'assets/images/purpleCircles.png')),
+                            Transform.translate(
+                              offset: const Offset(0, -15),
+                              child: Container(
+                                width: screenWidth,
+                                height: screenHeight,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromARGB(255, 178, 159, 255),
+                                ),
+                              ),
+                            ),
+                            // 펀딩소식
+                            Transform.translate(
+                              offset: const Offset(20, 40),
+                              child: const Text(
+                                '펀딩소식',
+                                style: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
