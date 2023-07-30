@@ -37,6 +37,11 @@ class FundingScreen extends StatelessWidget {
                 final funding = snapshot.data;
                 funding!;
 
+                //날짜 계산
+                final leftDays = DateTime.parse(funding.expireOn)
+                    .difference(DateTime.now())
+                    .inDays;
+
                 return SingleChildScrollView(
                   child: Center(
                     child: Column(
@@ -58,14 +63,17 @@ class FundingScreen extends StatelessWidget {
                         const SizedBox(
                           height: 30,
                         ),
-                        const AchievementRate(percent: 0.6, date: 3),
+                        AchievementRate(
+                            percent: funding.currentAmount /
+                                funding.goalAmount, // 달성률
+                            date: leftDays > 0 ? leftDays : 0),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 50),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              funding.title,
+                              funding.title, // 펀딩제목
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w900,
@@ -76,7 +84,7 @@ class FundingScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 50),
                           child: Text(
-                            funding.content,
+                            funding.content, // 펀딩내용
                             style: const TextStyle(
                               fontSize: 16,
                             ),
