@@ -48,7 +48,7 @@ class AchievementRate extends StatelessWidget {
                         size: 15,
                       ),
                       Text(
-                        '$dateStr일 남음',
+                        (date > 0) ? '$dateStr일 남음' : '만료됨',
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w900,
