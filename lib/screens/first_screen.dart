@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
 import 'package:funsunfront/screens/edit_screen.dart';
+import 'package:funsunfront/screens/exploerScreen_screen.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/mysupport_screen.dart';
 import 'package:funsunfront/screens/publicsupport_screen.dart';
@@ -30,6 +31,16 @@ class FirstScreen extends StatelessWidget {
                   ),
                 ),
                 KakaoLoginButton(),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ExploreScreen()),
+                    );
+                  },
+                  child: const Text('ExploreScreen 이동 임시테스트'),
+                ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
