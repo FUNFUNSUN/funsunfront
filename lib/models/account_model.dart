@@ -1,7 +1,7 @@
 class AccountModel {
   String id = 'admin',
       email = 'admin@admin.com',
-      birthday = '0404',
+      birthday = 'why.',
       username = 'thxkyu',
       gender = 'male';
   String? image;

@@ -34,6 +34,8 @@ class ApiTest extends StatelessWidget {
                   Text('성별: ${profile.gender}'),
                   Text('팔로워: ${profile.follower ?? 0}'),
                   Text('팔로잉: ${profile.followee ?? 0}'),
+                  Image.network(
+                      'http://projectsekai.kro.kr:5000${profile.image}'),
                 ],
               );
             }

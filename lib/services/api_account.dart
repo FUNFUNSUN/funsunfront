@@ -8,7 +8,7 @@ class Account {
   static Future<AccountModel> getProfile(String uid) async {
     // 토큰 테스트
     const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwNzIzMjQ4LCJpYXQiOjE2OTA2MzY4NDgsImp0aSI6IjdkNjAwZWYxMjM0ZDRhZGZhZDYxZjA3NTJmMWY3ZjQ4IiwiaWQiOiJhZG1pbiIsImlzX2FjdGl2ZSI6dHJ1ZX0.AvJLZmw2eiv7XQFkCxuyUQD7_5CM8wIBAMuJ0qkMFEI";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwNzI1MjUzLCJpYXQiOjE2OTA2Mzg4NTMsImp0aSI6IjNlODliMGFlOTA3NjRlNWRiNjI3ZTlhMDgwZmY3ZDkzIiwiaWQiOiJhZG1pbiIsImlzX2FjdGl2ZSI6dHJ1ZX0.CpHtzLxaTO0S_KNgEV-3VVL0wBZzaq7gqEDZ_Y9yawE";
     final url = Uri.parse('$baseUrl/?id=$uid');
     final headers = {
       'Authorization': 'Bearer $token',
