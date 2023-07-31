@@ -9,7 +9,7 @@ class ApiTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Future<AccountModel> testProfile = Account.getProfile('admin');
+    final Future<AccountModel> testProfile = Account.getProfile('admin', false);
     final Future<FundingModel> testFunding = Funding.getFunding('1');
     return Scaffold(
       body: Center(

@@ -63,10 +63,13 @@ class Account {
     throw Error();
   }
 
-  static Future<AccountModel> getProfile(String uid) async {
+  static Future<AccountModel> getProfile(String uid, bool trigger) async {
+    if (trigger) {
+      throw Error();
+    }
+    trigger = true;
     // 토큰 테스트
-    const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwODY4MTAwLCJpYXQiOjE2OTA3ODE3MDAsImp0aSI6ImVlMjVlNzRkNDU4YjRjN2E5OGFjMDRlZmRjZTZhNzM3IiwiaWQiOiJhZG1pbiIsImlzX2FjdGl2ZSI6dHJ1ZX0.1Nl5hagpBn7FkqJorMFSK-XItE1rNICqX8J0co2MSK0";
+    String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('$baseUrl?id=$uid');
     final headers = {
       'Authorization': 'Bearer $token',
@@ -75,6 +78,9 @@ class Account {
     if (response.statusCode == 200) {
       final profile = jsonDecode(response.body);
       return AccountModel.fromJson(profile);
+    } else if (response.statusCode == 401) {
+      await refreshToken();
+      return accessTokenLogin(trigger);
     }
     throw Error();
   }
