@@ -53,7 +53,7 @@ class _FunsunAppState extends State<FunsunApp> {
       setState(() {
         _signInProvider.setTrue();
       });
-      user = await Account.accessTokenLogin();
+      user = await Account.accessTokenLogin(false);
     } else {
       setState(() {
         _signInProvider.setFalse();

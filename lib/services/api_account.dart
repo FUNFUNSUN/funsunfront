@@ -9,7 +9,12 @@ class Account {
   static const String baseUrl = "http://projectsekai.kro.kr:5000/account/";
   static const storage = FlutterSecureStorage();
 
-  static Future<AccountModel> accessTokenLogin() async {
+  static Future<AccountModel> accessTokenLogin(bool trigger) async {
+    if (trigger) {
+      throw Error();
+    }
+    trigger = true;
+
     String? value = await storage.read(key: 'accessToken');
     if (value != null) {
       final header = {"Authorization": 'Bearer $value'};
@@ -18,55 +23,53 @@ class Account {
         final profile = jsonDecode(response.body);
         return AccountModel.fromJson(profile);
       } else if (response.statusCode == 401) {
-        return refreshTokenLogin();
+        await refreshToken();
+        return accessTokenLogin(trigger);
       }
       throw Error();
     } else {
-      String kakaotoken = await getKakaoToken();
-      return kakaoLogin(kakaotoken);
+      final token = await getKakaoToken();
+      await getAllToken(token);
+      return accessTokenLogin(trigger);
     }
   }
 
-  static Future<AccountModel> refreshTokenLogin() async {
+  static Future<void> refreshToken() async {
     String? refreshToken = await storage.read(key: 'refreshToken');
     final response = await http.post(Uri.parse('${baseUrl}token/refresh'),
         body: refreshToken);
     if (response.statusCode == 200) {
       final token = jsonDecode(response.body)['access'];
       await storage.write(key: 'accessToken', value: token);
-      final header = {"Authorization": 'Bearer $token'};
-      final accountres = await http.post(Uri.parse(baseUrl), headers: header);
-      if (accountres.statusCode == 200) {
-        final profile = jsonDecode(response.body);
-        return AccountModel.fromJson(profile);
-      }
+      return;
     } else if (response.statusCode == 401) {
-      String kakaotoken = await getKakaoToken();
-      return kakaoLogin(kakaotoken);
+      final token = await getKakaoToken();
+      await getAllToken(token);
+      return;
     }
     throw Error();
   }
 
-  static Future<AccountModel> kakaoLogin(String kakaotoken) async {
+  static Future<void> getAllToken(String kakaotoken) async {
     final url = Uri.parse('${baseUrl}kakaologin');
     final body = {"accessToken": kakaotoken};
     final response = await http.post(url, body: body);
     if (response.statusCode == 200) {
-      final user = jsonDecode(response.body)['user'];
       final accesstoken = jsonDecode(response.body)['token']['access_token'];
       final refreshtoken = jsonDecode(response.body)['token']['refresh_token'];
       await storage.write(key: 'accessToken', value: accesstoken);
       await storage.write(key: 'refreshToken', value: refreshtoken);
-      final profile = AccountModel.fromJson(user);
-      return profile;
     }
     throw Error();
   }
 
-  static Future<AccountModel> getProfile(String uid) async {
+  static Future<AccountModel> getProfile(String uid, bool trigger) async {
+    if (trigger) {
+      throw Error();
+    }
+    trigger = true;
     // 토큰 테스트
-    const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwODY4MTAwLCJpYXQiOjE2OTA3ODE3MDAsImp0aSI6ImVlMjVlNzRkNDU4YjRjN2E5OGFjMDRlZmRjZTZhNzM3IiwiaWQiOiJhZG1pbiIsImlzX2FjdGl2ZSI6dHJ1ZX0.1Nl5hagpBn7FkqJorMFSK-XItE1rNICqX8J0co2MSK0";
+    String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('$baseUrl?id=$uid');
     final headers = {
       'Authorization': 'Bearer $token',
@@ -75,6 +78,9 @@ class Account {
     if (response.statusCode == 200) {
       final profile = jsonDecode(response.body);
       return AccountModel.fromJson(profile);
+    } else if (response.statusCode == 401) {
+      await refreshToken();
+      return accessTokenLogin(trigger);
     }
     throw Error();
   }
