@@ -54,6 +54,7 @@ class _FunsunAppState extends State<FunsunApp> {
         _signInProvider.setTrue();
       });
       user = await Account.accessTokenLogin(false);
+      print(user);
     } else {
       setState(() {
         _signInProvider.setFalse();
@@ -63,19 +64,16 @@ class _FunsunAppState extends State<FunsunApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _signInProvider = Provider.of<SignInProvider>(context, listen: false);
     initfuction();
   }
 
-  // Todo : 추후 실제 상태에 따라 final 지우고 isSignIn에 대입
   @override
   Widget build(BuildContext context) {
     return Consumer<SignInProvider>(builder: (context, provider, child) {
       isSignIn = provider.signIn;
       return isSignIn ? const BottomNavShortcuts() : const FirstScreen();
     });
-    // return isSignIn ? const BottomNavShortcuts() : const FirstScreen();
   }
 }

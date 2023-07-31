@@ -2,7 +2,7 @@ class FundingModel {
   final int id, goalAmount, currentAmount;
   final bool? public;
   final String title, expireOn;
-  final String? createdOn, content, image;
+  final String? createdOn, content, image, review, reviewImage;
   final Map<String, dynamic>? author;
 
   FundingModel.fromJson(Map<String, dynamic> json)
@@ -15,5 +15,7 @@ class FundingModel {
         createdOn = json['created_on'],
         public = json['public'],
         image = json['image'],
-        author = json['author'];
+        author = json['author'],
+        review = json['review'],
+        reviewImage = json['review_image'];
 }

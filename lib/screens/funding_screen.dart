@@ -3,6 +3,7 @@ import 'package:funsunfront/models/remit_model.dart';
 import 'package:funsunfront/services/api_remit.dart';
 
 import 'package:funsunfront/widgets/achievement_rate.dart';
+import 'package:funsunfront/widgets/loading_circle.dart';
 import 'package:funsunfront/widgets/pink_btn.dart';
 
 import '../models/funding_model.dart';
@@ -22,6 +23,7 @@ class FundingScreen extends StatelessWidget {
     final Future<List<RemitModel>> remits = Remit.getRemit(id, '1');
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    double remitHeight = screenHeight;
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     return Scaffold(
       bottomNavigationBar: const BtmNavBarWidget(),
@@ -31,7 +33,7 @@ class FundingScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // 데이터를 불러오는 동안 로딩 표시
-                return const Center(child: CircularProgressIndicator());
+                return const LoadingCircle();
               } else if (snapshot.hasError) {
                 // 오류 표시
                 return Text('오류: ${snapshot.error}');
@@ -61,7 +63,9 @@ class FundingScreen extends StatelessWidget {
                                   .primaryColorDark
                                   .withOpacity(0.6)),
                           clipBehavior: Clip.hardEdge,
-                          child: Image.network('$baseurl${funding.image}'),
+                          child: Image.network(funding.image != null
+                              ? '$baseurl${funding.image}'
+                              : 'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png'),
                         ),
                         const SizedBox(
                           height: 30,
@@ -134,7 +138,7 @@ class FundingScreen extends StatelessWidget {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
                                     // 데이터를 불러오는 동안 로딩 표시
-                                    return const CircularProgressIndicator();
+                                    return const LoadingCircle();
                                   } else if (snapshot.hasError) {
                                     // 오류 표시
                                     return Text('오류: ${snapshot.error}');
@@ -142,6 +146,8 @@ class FundingScreen extends StatelessWidget {
                                     // 로딩 끝났으면 표시가능
                                     final remits = snapshot.data;
                                     remits!;
+                                    // remitHeight 설정
+                                    remitHeight = remits.length * 100;
 
                                     return Transform.translate(
                                       offset: const Offset(0, 100),
@@ -208,38 +214,37 @@ class FundingScreen extends StatelessWidget {
                                     );
                                   }
                                 }),
-                            //여기까지가 댓글
+                            // 여기까지가 댓글
+                            (funding.review != null)
+                                ? Column(
+                                    children: [
+                                      Transform.translate(
+                                        offset: Offset(0, remitHeight),
+                                        child: Transform.scale(
+                                            scale: 1.5,
+                                            child: Image.asset(
+                                                'assets/images/purpleCircles.png')),
+                                      ),
+                                      Transform.translate(
+                                        offset: Offset(0, remitHeight),
+                                        child: Container(
+                                          width: screenWidth,
+                                          height: screenHeight,
+                                          decoration: const BoxDecoration(
+                                            color: Color.fromARGB(
+                                                255, 178, 159, 255),
+                                          ),
+                                        ),
+                                      ),
+                                      Transform.translate(
+                                          offset: const Offset(-30, -30),
+                                          child: Text(funding.review!)),
+                                      Text(funding.reviewImage!)
+                                    ],
+                                  )
+                                : const SizedBox(), //펀딩리뷰없으면
                           ],
                         ),
-                        Column(
-                          children: [
-                            Transform.scale(
-                                scale: 1.5,
-                                child: Image.asset(
-                                    'assets/images/purpleCircles.png')),
-                            Transform.translate(
-                              offset: const Offset(0, -15),
-                              child: Container(
-                                width: screenWidth,
-                                height: screenHeight,
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 178, 159, 255),
-                                ),
-                              ),
-                            ),
-                            // 펀딩소식
-                            Transform.translate(
-                              offset: const Offset(20, 40),
-                              child: const Text(
-                                '펀딩소식',
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                          ],
-                        )
                       ],
                     ),
                   ),
