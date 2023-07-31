@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/widgets/loading_circle.dart';
 import '../models/funding_model.dart';
 import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
@@ -41,7 +42,7 @@ class MySupportScreen extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         // 데이터를 불러오는 동안 로딩 표시
-                        return const Center(child: CircularProgressIndicator());
+                        return const LoadingCircle();
                       } else if (snapshot.hasError) {
                         // 오류 표시
                         return Text('오류: ${snapshot.error}');

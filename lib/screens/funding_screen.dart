@@ -3,11 +3,13 @@ import 'package:funsunfront/models/remit_model.dart';
 import 'package:funsunfront/services/api_remit.dart';
 
 import 'package:funsunfront/widgets/achievement_rate.dart';
+import 'package:funsunfront/widgets/loading_circle.dart';
 import 'package:funsunfront/widgets/pink_btn.dart';
 
 import '../models/funding_model.dart';
 import '../services/api_funding.dart';
 import '../widgets/bottom_navigation_bar.dart';
+import '../widgets/loading_circle.dart';
 
 class FundingScreen extends StatelessWidget {
   final String id;
@@ -31,7 +33,7 @@ class FundingScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // 데이터를 불러오는 동안 로딩 표시
-                return const Center(child: CircularProgressIndicator());
+                return const LoadingCircle();
               } else if (snapshot.hasError) {
                 // 오류 표시
                 return Text('오류: ${snapshot.error}');
@@ -134,7 +136,7 @@ class FundingScreen extends StatelessWidget {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
                                     // 데이터를 불러오는 동안 로딩 표시
-                                    return const CircularProgressIndicator();
+                                    return const LoadingCircle();
                                   } else if (snapshot.hasError) {
                                     // 오류 표시
                                     return Text('오류: ${snapshot.error}');
