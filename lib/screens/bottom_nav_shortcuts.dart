@@ -7,7 +7,7 @@ import 'package:funsunfront/screens/user_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../models/account_model.dart';
-import '../provider/provider.dart';
+import '../provider/user_provider.dart';
 import '../services/api_account.dart';
 
 class BottomNavShortcuts extends StatefulWidget {
@@ -23,8 +23,7 @@ class BottomNavShortcuts extends StatefulWidget {
 
 class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
   late int _currentIndex;
-  late SignInProvider _signInProvider;
-  late String? uid;
+  late UserProvider _userProvider;
   late AccountModel user;
 
   void initfuction() async {
@@ -33,9 +32,10 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
 
     if (value != null) {
       user = await Account.accessTokenLogin(2);
-      _signInProvider.setCurrentUser(user.id);
+      _userProvider.setLogin("logged");
+      _userProvider.setUser(user);
     } else {
-      _signInProvider.setCurrentUser("");
+      _userProvider.setLogin("");
     }
   }
 
@@ -48,8 +48,8 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
 
   @override
   Widget build(BuildContext context) {
-    _signInProvider = Provider.of<SignInProvider>(context, listen: true);
-    switch (_signInProvider.currentUser) {
+    _userProvider = Provider.of<UserProvider>(context, listen: true);
+    switch (_userProvider.logged) {
       case 'loading':
         return const Center(child: CircularProgressIndicator());
       case '':
@@ -58,9 +58,9 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
         return Scaffold(
           body: IndexedStack(
             index: _currentIndex,
-            children: const [
-              ExploreScreen(),
-              HomeScreen(),
+            children: [
+              const ExploreScreen(),
+              const HomeScreen(),
               UserScreen(),
             ],
           ),

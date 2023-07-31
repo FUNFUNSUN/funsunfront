@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
 import 'package:funsunfront/widgets/profile.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/user_provider.dart';
 import '../widgets/fundingcard_horizon.dart';
 
 class UserScreen extends StatelessWidget {
-  const UserScreen({super.key});
+  UserScreen({
+    super.key,
+  });
+  late UserProvider _userProvider;
 
   @override
   Widget build(BuildContext context) {
+    _userProvider = Provider.of<UserProvider>(context, listen: true);
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
     List<String> imgUrls = [];
@@ -36,10 +42,10 @@ class UserScreen extends StatelessWidget {
               padding: const EdgeInsets.all(30.0),
               child: Column(
                 children: [
-                  const Profile(
-                    userName: '안녕',
-                    following: 12,
-                    follower: 10,
+                  Profile(
+                    userName: _userProvider.user!.username,
+                    following: _userProvider.user!.followee!,
+                    follower: _userProvider.user!.follower!,
                     //이렇게 하는게 맞는지 정확히는 모르겠음
                   ),
                   const SizedBox(

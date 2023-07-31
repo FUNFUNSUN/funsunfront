@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:funsunfront/provider/provider.dart';
+import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
 import 'package:funsunfront/services/create_material_color.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
@@ -25,7 +25,7 @@ class FunsunApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SignInProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       child: MaterialApp(
         title: 'FunSun',
