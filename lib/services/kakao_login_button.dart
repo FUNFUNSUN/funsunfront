@@ -14,14 +14,14 @@ class KakaoLoginButton extends StatelessWidget {
   void kakaobtn() async {
     String kakaotoken = await getKakaoToken();
     if (kakaotoken != 'error') {
-      await Account.getAllToken(kakaotoken);
-      _signInProvider.setTrue();
+      final user = await Account.accessTokenLogin(2);
+      _signInProvider.setCurrentUser(user.id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _signInProvider = Provider.of<SignInProvider>(context, listen: false);
+    _signInProvider = Provider.of<SignInProvider>(context, listen: true);
     return GestureDetector(
       onTap: kakaobtn,
       child: Center(

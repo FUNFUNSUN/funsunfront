@@ -11,13 +11,16 @@ class FundingCard extends StatelessWidget {
   });
   final List<FundingModel> fundings;
   final double sizeX;
+
   final imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
       itemCount: fundings.length,
-      shrinkWrap: true,
+      physics: const AlwaysScrollableScrollPhysics(),
+      // shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
         childAspectRatio: 1 / 1.6, //item 의 가로 1, 세로 1 의 비율

@@ -9,11 +9,11 @@ class Account {
   static const String baseUrl = "http://projectsekai.kro.kr:5000/account/";
   static const storage = FlutterSecureStorage();
 
-  static Future<AccountModel> accessTokenLogin(bool trigger) async {
-    if (trigger) {
+  static Future<AccountModel> accessTokenLogin(int trigger) async {
+    if (trigger == 0) {
       throw Error();
     }
-    trigger = true;
+    trigger -= 1;
 
     String? value = await storage.read(key: 'accessToken');
     if (value != null) {
@@ -36,10 +36,12 @@ class Account {
 
   static Future<void> refreshToken() async {
     String? refreshToken = await storage.read(key: 'refreshToken');
-    final response = await http.post(Uri.parse('${baseUrl}token/refresh'),
-        body: refreshToken);
+    Map<String, String> body = {"refresh": refreshToken!};
+    final response =
+        await http.post(Uri.parse('${baseUrl}token/refresh'), body: body);
+    print(response.body);
     if (response.statusCode == 200) {
-      final token = jsonDecode(response.body)['access'];
+      final token = jsonDecode(response.body)['access_token'];
       await storage.write(key: 'accessToken', value: token);
       return;
     } else if (response.statusCode == 401) {
@@ -47,7 +49,6 @@ class Account {
       await getAllToken(token);
       return;
     }
-    throw Error();
   }
 
   static Future<void> getAllToken(String kakaotoken) async {
@@ -63,12 +64,11 @@ class Account {
     throw Error();
   }
 
-  static Future<AccountModel> getProfile(String uid, bool trigger) async {
-    if (trigger) {
+  static Future<AccountModel> getProfile(String uid, int trigger) async {
+    if (trigger == 0) {
       throw Error();
     }
-    trigger = true;
-    // 토큰 테스트
+    trigger -= 1;
     String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('$baseUrl?id=$uid');
     final headers = {
