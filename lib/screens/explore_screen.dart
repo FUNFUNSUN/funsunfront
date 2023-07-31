@@ -5,8 +5,11 @@ import 'package:funsunfront/screens/searchresult_screen.dart';
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
   //TODO : 하드코딩 바꾸깅~ 잇힝 (하트)
+
   @override
   Widget build(BuildContext context) {
+    final sizeX = MediaQuery.of(context).size.width;
+    final sizeY = MediaQuery.of(context).size.height;
     List<String> imgUrls = [];
     imgUrls.add(
         'https://flexible.img.hani.co.kr/flexible/normal/970/970/imgdb/original/2023/0619/20230619501341.jpg');
@@ -20,6 +23,7 @@ class ExploreScreen extends StatelessWidget {
     List<String> joined = [];
     joined.add('값이 있을 때 테스트');
     joined.add('값이 있을 때 테스트');
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -94,13 +98,14 @@ class ExploreScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        width: 160,
-                        height: 160,
+                        width: 145,
+                        height: 145,
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10)),
@@ -111,8 +116,8 @@ class ExploreScreen extends StatelessWidget {
                         width: 10,
                       ),
                       Container(
-                        width: 160,
-                        height: 160,
+                        width: 145,
+                        height: 145,
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10)),
@@ -161,16 +166,17 @@ class ExploreScreen extends StatelessWidget {
                   child: joined.isEmpty
                       ? Container(
                           alignment: Alignment.center,
-                          height: 150,
+                          height: 145,
                           child: const Text('서포트한 펀딩이 없습니다.'))
                       : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Container(
-                                width: 160,
-                                height: 160,
+                                width: 145,
+                                height: 145,
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10)),
@@ -182,11 +188,11 @@ class ExploreScreen extends StatelessWidget {
                               ),
                               joined.length < 2
                                   ? const SizedBox(
-                                      width: 20,
+                                      width: 10,
                                     )
                                   : Container(
-                                      width: 160,
-                                      height: 160,
+                                      width: 145,
+                                      height: 145,
                                       clipBehavior: Clip.hardEdge,
                                       decoration: BoxDecoration(
                                           borderRadius:
