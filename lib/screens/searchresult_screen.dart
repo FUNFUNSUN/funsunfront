@@ -23,7 +23,7 @@ class _SearchBoxState extends State<SearchBox> {
   final TextEditingController _searchController =
       TextEditingController(); // 검색어 입력을 제어하는 컨트롤러
 
-  bool isUserExist = true; //유저 검색 시 테스트용 변수입니다.
+  bool isUserExist = false; //유저 검색 시 테스트용 변수입니다.
 
   @override
   void dispose() {
