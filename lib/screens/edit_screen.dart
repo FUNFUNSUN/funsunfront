@@ -354,15 +354,17 @@ class _EditScreenState extends State<EditScreen> {
                           Map<String, dynamic> temp = {
                             'title': _titleTextEditController.text,
                             'content': _contentTextEditController.text,
-                            'goal_amount': tempAmount,
+                            'goal_amount':
+                                _goalAmountTextEditController.value.text,
                             'expire_on': _selectedDate,
-                            'public': tempPublicBool
+                            'public': tempPublicBool.toString()
                           };
-
+                          print('아직 호출안됨');
                           bool postResult = await Funding.postFunding(temp);
-
-                          (postResult) ? print('성공') : print('쉬벌~');
-
+                          print('API 호출은 됐음');
+                          (postResult)
+                              ? const Dialog(child: Text('됐다!'))
+                              : const Dialog(child: Text('넌 좆됐어'));
                           // var url = Uri.parse('uri');
                           // final response = await http.post(url);
                         }
