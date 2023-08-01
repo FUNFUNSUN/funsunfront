@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/remit_model.dart';
+import 'package:funsunfront/screens/remit_screen.dart';
 import 'package:funsunfront/services/api_remit.dart';
 
 import 'package:funsunfront/widgets/achievement_rate.dart';
 import 'package:funsunfront/widgets/loading_circle.dart';
 import 'package:funsunfront/widgets/pink_btn.dart';
+import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
+import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
 
 class FundingScreen extends StatelessWidget {
   final String id;
-  const FundingScreen({
+  FundingScreen({
     Key? key,
     required this.id,
   }) : super(key: key);
-
+  late UserProvider _userProvider;
   @override
   Widget build(BuildContext context) {
+    _userProvider = Provider.of<UserProvider>(context, listen: true);
     final Future<FundingModel> funding = Funding.getFunding(id: id);
     final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
     final screenWidth = MediaQuery.of(context).size.width;
@@ -102,11 +106,26 @@ class FundingScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 40),
-                        child: PinkBtn(
-                          btnTxt: '펀딩하기',
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        child: (funding.author!['id'] != _userProvider.user!.id)
+                            ? GestureDetector(
+                                onTap: () {
+                                  String id = funding.id!.toString();
+                                  // snapshot.data!.id.toString();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => RemitScreen(
+                                              targetFunding: funding,
+                                            )),
+                                  );
+                                },
+                                child: const PinkBtn(
+                                  btnTxt: '펀딩하기',
+                                ),
+                              )
+                            : const SizedBox(),
                       ),
                       Column(
                         children: [

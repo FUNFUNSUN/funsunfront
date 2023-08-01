@@ -65,7 +65,7 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const FundingScreen(
+                          builder: (context) => FundingScreen(
                                 id: '1',
                               )),
                     );

@@ -91,8 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const FundingScreen(id: '41')),
+                                builder: (context) => FundingScreen(id: '41')),
                           );
                         },
                         child: const Text(' 펀딩 임시 이동버튼')),
