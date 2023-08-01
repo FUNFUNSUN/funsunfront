@@ -25,6 +25,14 @@ class Account {
       } else if (response.statusCode == 401) {
         await refreshToken();
         return accessTokenLogin(trigger);
+      } else if (response.statusCode == 500) {
+        try {
+          final token = await getKakaoToken();
+          await getAllToken(token);
+          return accessTokenLogin(trigger);
+        } catch (e) {
+          rethrow;
+        }
       }
       throw Error();
     } else {
