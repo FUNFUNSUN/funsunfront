@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/userscreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -80,6 +81,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: const Text('유저페이지 임시 이동버튼')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const FundingScreen(id: '41')),
+                          );
+                        },
+                        child: const Text(' 펀딩 임시 이동버튼')),
                   ],
                 ),
               ),
