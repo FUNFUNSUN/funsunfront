@@ -10,11 +10,11 @@ class Remit {
   static const storage = FlutterSecureStorage();
 
   static Future<List<RemitModel>> getRemit(
-      {required String id, required String page, int trigger = 2}) async {
-    if (trigger == 0) {
+      {required String id, required String page, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
       throw Error();
     }
-    trigger -= 1;
+    apiCounter -= 1;
     final url = Uri.parse('$baseUrl?id=$id&page=$page');
 
     final response = await http.get(url);
@@ -22,8 +22,8 @@ class Remit {
       final List<dynamic> remitList = jsonDecode(response.body);
       return remitList.map((remit) => RemitModel.fromJson(remit)).toList();
     } else if (response.statusCode == 401) {
-      await Account.refreshToken();
-      getRemit(id: id, page: page, trigger: trigger);
+      await User.refreshToken();
+      getRemit(id: id, page: page, apiCounter: apiCounter);
     }
     throw Error();
   }
@@ -46,7 +46,7 @@ class Remit {
       final remit = jsonDecode(response.body);
       return RemitModel.fromJson(remit);
     } else if (response.statusCode == 401) {
-      await Account.refreshToken();
+      await User.refreshToken();
       return postRemit(remitData: remitData);
     }
     throw Error();

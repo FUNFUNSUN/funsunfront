@@ -12,11 +12,11 @@ class Funding {
   static const storage = FlutterSecureStorage();
 
   static Future<FundingModel> getFunding(
-      {required String id, int trigger = 2}) async {
-    if (trigger == 0) {
+      {required String id, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
       throw Error();
     }
-    trigger -= 1;
+    apiCounter -= 1;
     String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('$baseUrl?id=$id');
     final headers = {
@@ -27,18 +27,18 @@ class Funding {
       final funding = jsonDecode(response.body);
       return FundingModel.fromJson(funding);
     } else if (response.statusCode == 401) {
-      await Account.refreshToken();
-      getFunding(id: id, trigger: trigger);
+      await User.refreshToken();
+      getFunding(id: id, apiCounter: apiCounter);
     }
     throw Error();
   }
 
   static Future<List<FundingModel>> getPublicFunding(
-      {required String page, int trigger = 2}) async {
-    if (trigger == 0) {
+      {required String page, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
       throw Error();
     }
-    trigger -= 1;
+    apiCounter -= 1;
     String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('${baseUrl}public?page=$page');
     final headers = {
@@ -51,18 +51,18 @@ class Funding {
           .map((funding) => FundingModel.fromJson(funding))
           .toList();
     } else if (response.statusCode == 401) {
-      await Account.refreshToken();
-      getPublicFunding(page: page, trigger: trigger);
+      await User.refreshToken();
+      getPublicFunding(page: page, apiCounter: apiCounter);
     }
     throw Error();
   }
 
   static Future<List<FundingModel>> getUserFunding(
-      {required String page, required String id, int trigger = 2}) async {
-    if (trigger == 0) {
+      {required String page, required String id, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
       throw Error();
     }
-    trigger -= 1;
+    apiCounter -= 1;
 
     String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('${baseUrl}user?page=$page&id=$id');
@@ -76,18 +76,18 @@ class Funding {
           .map((funding) => FundingModel.fromJson(funding))
           .toList();
     } else if (response.statusCode == 401) {
-      await Account.refreshToken();
-      getUserFunding(page: page, id: id, trigger: trigger);
+      await User.refreshToken();
+      getUserFunding(page: page, id: id, apiCounter: apiCounter);
     }
     throw Error();
   }
 
   static Future<List<FundingModel>> getJoinedFunding(
-      {required String page, int trigger = 2}) async {
-    if (trigger == 0) {
+      {required String page, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
       throw Error();
     }
-    trigger -= 1;
+    apiCounter -= 1;
     String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('${baseUrl}joined?page=$page');
     final headers = {
@@ -100,8 +100,8 @@ class Funding {
           .map((funding) => FundingModel.fromJson(funding))
           .toList();
     } else if (response.statusCode == 401) {
-      await Account.refreshToken();
-      getJoinedFunding(page: page, trigger: trigger);
+      await User.refreshToken();
+      getJoinedFunding(page: page, apiCounter: apiCounter);
     }
     throw Error();
   }
@@ -109,11 +109,11 @@ class Funding {
   static Future<Map<String, dynamic>> postFunding(
       {required Map<String, dynamic> fundingData,
       File? image,
-      int trigger = 2}) async {
-    if (trigger == 0) {
+      int apiCounter = 2}) async {
+    if (apiCounter == 0) {
       throw Error();
     }
-    trigger -= 1;
+    apiCounter -= 1;
     String? token = await storage.read(key: 'accessToken');
     final headers = {'Authorization': 'Bearer $token'};
     final url = Uri.parse(baseUrl);
@@ -139,8 +139,9 @@ class Funding {
 
       return resBodyJson;
     } else if (response.statusCode == 401) {
-      await Account.refreshToken();
-      postFunding(fundingData: fundingData, image: image, trigger: trigger);
+      await User.refreshToken();
+      postFunding(
+          fundingData: fundingData, image: image, apiCounter: apiCounter);
     }
     print(response.body);
     throw Error();

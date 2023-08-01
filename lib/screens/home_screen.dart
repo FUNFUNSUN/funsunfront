@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/userscreen.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/profile_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ProfileProvider profileProvider = Provider.of(context, listen: true);
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: refreshHomeScreen,
@@ -72,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     TextButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          profileProvider.updateProfile('admin');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
