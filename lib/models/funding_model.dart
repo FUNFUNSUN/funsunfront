@@ -17,7 +17,9 @@ class FundingModel {
         createdOn = json['created_on'],
         public = json['public'],
         image = json['image'],
-        author = json['author'];
+        author = json['author'],
+        review = json['review'],
+        reviewImage = json['review_image'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

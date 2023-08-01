@@ -72,7 +72,7 @@ class FundingScreen extends StatelessWidget {
                         height: 30,
                       ),
                       AchievementRate(
-                        percent: funding.currentAmount / funding.goalAmount,
+                        percent: funding.currentAmount! / funding.goalAmount,
                         date: leftDays > 0 ? leftDays : 0,
                       ),
                       Padding(
