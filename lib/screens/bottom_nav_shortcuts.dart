@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/screens/explore_screen.dart';
+import 'package:funsunfront/screens/first_screen.dart';
 import 'package:funsunfront/screens/home_screen.dart';
 import 'package:funsunfront/screens/user_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../models/account_model.dart';
+import '../provider/user_provider.dart';
+import '../services/api_account.dart';
 
 class BottomNavShortcuts extends StatefulWidget {
   final int initIndex;
@@ -16,48 +23,72 @@ class BottomNavShortcuts extends StatefulWidget {
 
 class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
   late int _currentIndex;
+  late UserProvider _userProvider;
+  late AccountModel user;
+
+  void initfuction() async {
+    const storage = FlutterSecureStorage();
+    String? value = await storage.read(key: 'accessToken');
+
+    if (value != null) {
+      user = await Account.accessTokenLogin(2);
+      _userProvider.setLogin("logged");
+      _userProvider.setUser(user);
+    } else {
+      _userProvider.setLogin("");
+    }
+  }
 
   @override
   void initState() {
     _currentIndex = widget.initIndex;
     super.initState();
+    initfuction();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: const [
-          ExploreScreen(),
-          HomeScreen(),
-          UserScreen(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+    _userProvider = Provider.of<UserProvider>(context, listen: true);
+    switch (_userProvider.logged) {
+      case 'loading':
+        return const Center(child: CircularProgressIndicator());
+      case '':
+        return const FirstScreen();
+      default:
+        return Scaffold(
+          body: IndexedStack(
+            index: _currentIndex,
+            children: [
+              const ExploreScreen(),
+              const HomeScreen(),
+              UserScreen(),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+          bottomNavigationBar: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'User',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'User',
-          ),
-        ],
-      ),
-    );
+        );
+    }
   }
 }

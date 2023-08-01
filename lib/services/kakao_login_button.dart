@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:funsunfront/provider/provider.dart';
+import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/services/api_account.dart';
 import 'package:funsunfront/services/kakao_login_api.dart';
 import 'package:provider/provider.dart';
@@ -9,19 +9,19 @@ class KakaoLoginButton extends StatelessWidget {
     super.key,
   });
 
-  late SignInProvider _signInProvider;
+  late UserProvider _userProvider;
 
   void kakaobtn() async {
     String kakaotoken = await getKakaoToken();
     if (kakaotoken != 'error') {
-      await Account.getAllToken(kakaotoken);
-      _signInProvider.setTrue();
+      final user = await Account.accessTokenLogin(2);
+      _userProvider.setLogin(user.id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _signInProvider = Provider.of<SignInProvider>(context, listen: false);
+    _userProvider = Provider.of<UserProvider>(context, listen: true);
     return GestureDetector(
       onTap: kakaobtn,
       child: Center(

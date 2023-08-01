@@ -6,7 +6,6 @@ import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/mysupport_screen.dart';
 import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
-import 'package:funsunfront/screens/user_screen.dart';
 import '../services/kakao_login_button.dart';
 
 import 'faq_screen.dart';
@@ -117,16 +116,16 @@ class FirstScreen extends StatelessWidget {
                   },
                   child: const Text('MySupportScreen 이동 임시테스트'),
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserScreen()),
-                    );
-                  },
-                  child: const Text('UserScreen 이동 임시테스트'),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => const UserScreen()),
+                //     );
+                //   },
+                //   child: const Text('UserScreen 이동 임시테스트'),
+                // ),
               ],
             ),
           ),
