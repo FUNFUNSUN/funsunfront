@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/services/api_account.dart';
 import 'package:funsunfront/services/kakao_login_api.dart';
@@ -12,10 +13,16 @@ class KakaoLoginButton extends StatelessWidget {
   late UserProvider _userProvider;
 
   void kakaobtn() async {
+    const storage = FlutterSecureStorage();
+    String? value = await storage.read(key: 'accessToken');
     String kakaotoken = await getKakaoToken();
     if (kakaotoken != 'error') {
+      if (value == null) {
+        await Account.getAllToken(kakaotoken);
+      }
       final user = await Account.accessTokenLogin(2);
       _userProvider.setLogin(user.id);
+      _userProvider.setUser(user);
     }
   }
 
