@@ -25,6 +25,7 @@ class Funding {
       return FundingModel.fromJson(funding);
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      getFunding(id, trigger);
     }
     throw Error();
   }
@@ -48,6 +49,7 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      getPublicFunding(page, trigger);
     }
     throw Error();
   }
@@ -60,7 +62,7 @@ class Funding {
     trigger -= 1;
 
     String? token = await storage.read(key: 'accessToken');
-    final url = Uri.parse('${baseUrl}public?page=$page');
+    final url = Uri.parse('${baseUrl}user?page=$page&id=$id');
     final headers = {
       'Authorization': 'Bearer $token',
     };
@@ -72,6 +74,7 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      getUserFunding(page, id, trigger);
     }
     throw Error();
   }
@@ -95,6 +98,7 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      getJoinedFunding(page, trigger);
     }
     throw Error();
   }
@@ -120,6 +124,7 @@ class Funding {
       return resBodyJson;
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      postFunding(fundingData, trigger);
     }
     throw Error();
   }

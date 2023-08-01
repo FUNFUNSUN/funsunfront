@@ -3,26 +3,31 @@ import 'package:flutter/material.dart';
 class Profile extends StatelessWidget {
   final String userName;
   final int following, follower;
+  final String? userimg;
 
   const Profile(
       {super.key,
       required this.userName,
       required this.following,
-      required this.follower});
+      required this.follower,
+      this.userimg});
 
   @override
   Widget build(BuildContext context) {
     String followingStr = following.toString();
     String followerStr = follower.toString();
+
+    const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     return Row(
       children: [
-        const Icon(
-          Icons.circle,
-          color: Colors.black,
-          size: 125,
+        CircleAvatar(
+          radius: 60,
+          backgroundImage: NetworkImage((userimg != null)
+              ? '$baseUrl$userimg'
+              : 'https://i.pinimg.com/564x/fb/93/2f/fb932f45c78085b110c60695111cbdc3.jpg'),
         ),
         const SizedBox(
-          width: 15,
+          width: 20,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

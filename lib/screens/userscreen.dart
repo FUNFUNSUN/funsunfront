@@ -48,6 +48,7 @@ class UserScreen extends StatelessWidget {
                       user!;
                       return Column(children: [
                         Profile(
+                            userimg: user.image,
                             userName: user.username,
                             following: user.followee!,
                             follower: user.follower!),
