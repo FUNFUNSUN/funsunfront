@@ -1,12 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:funsunfront/models/funding_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../services/api_funding.dart';
 import '../widgets/image_upload.dart';
 
 class EditScreen extends StatefulWidget {
@@ -30,10 +29,6 @@ class _EditScreenState extends State<EditScreen> {
   final _titleTextEditController = TextEditingController();
   final _contentTextEditController = TextEditingController();
   final _goalAmountTextEditController = TextEditingController();
-
-  Future _fundingData(Map<String, dynamic> data) async {
-    final FundingModel fundingdata;
-  }
 
   Future _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
@@ -363,8 +358,10 @@ class _EditScreenState extends State<EditScreen> {
                             'expire_on': _selectedDate,
                             'public': tempPublicBool
                           };
-                          var json = jsonEncode(temp);
-                          print(json);
+
+                          bool postResult = await Funding.postFunding(temp);
+
+                          (postResult) ? print('성공') : print('쉬벌~');
 
                           // var url = Uri.parse('uri');
                           // final response = await http.post(url);

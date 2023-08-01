@@ -53,4 +53,20 @@ class Funding {
     }
     throw Error();
   }
+
+  static Future<bool> postFunding(Map<String, dynamic> fundingData) async {
+    const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwOTA0Mjk0LCJpYXQiOjE2OTA4MTc4OTQsImp0aSI6IjFiN2I4MWJjY2E0YzQzYzY4MTFiMTkzN2VmMzRjY2ZhIiwiaWQiOiJhZG1pbiIsImlzX2FjdGl2ZSI6dHJ1ZX0.oeqBA5CucXfkjr2LEp1qO4OjRhDU4Ir0h_Jee29Od3o";
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final url = Uri.parse(baseUrl);
+    final response = await http.post(url, body: fundingData, headers: headers);
+    if (response.statusCode == 201) {
+      return true;
+    } else if (response.statusCode == 400) {
+      return false;
+    }
+    throw Error();
+  }
 }
