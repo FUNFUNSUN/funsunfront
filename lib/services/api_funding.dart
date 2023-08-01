@@ -11,7 +11,8 @@ class Funding {
   static const String baseUrl = "http://projectsekai.kro.kr:5000/funding/";
   static const storage = FlutterSecureStorage();
 
-  static Future<FundingModel> getFunding(String id, int trigger) async {
+  static Future<FundingModel> getFunding(
+      {required String id, int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
@@ -27,13 +28,13 @@ class Funding {
       return FundingModel.fromJson(funding);
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
-      getFunding(id, trigger);
+      getFunding(id: id, trigger: trigger);
     }
     throw Error();
   }
 
   static Future<List<FundingModel>> getPublicFunding(
-      String page, int trigger) async {
+      {required String page, int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
@@ -51,13 +52,13 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
-      getPublicFunding(page, trigger);
+      getPublicFunding(page: page, trigger: trigger);
     }
     throw Error();
   }
 
   static Future<List<FundingModel>> getUserFunding(
-      String page, String id, int trigger) async {
+      {required String page, required String id, int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
@@ -76,13 +77,13 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
-      getUserFunding(page, id, trigger);
+      getUserFunding(page: page, id: id, trigger: trigger);
     }
     throw Error();
   }
 
   static Future<List<FundingModel>> getJoinedFunding(
-      String page, int trigger) async {
+      {required String page, int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
@@ -100,13 +101,15 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
-      getJoinedFunding(page, trigger);
+      getJoinedFunding(page: page, trigger: trigger);
     }
     throw Error();
   }
 
   static Future<Map<String, dynamic>> postFunding(
-      Map<String, dynamic> fundingData, File? image, int trigger) async {
+      {required Map<String, dynamic> fundingData,
+      File? image,
+      int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
@@ -137,7 +140,7 @@ class Funding {
       return resBodyJson;
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
-      postFunding(fundingData, image, trigger);
+      postFunding(fundingData: fundingData, image: image, trigger: trigger);
     }
     print(response.body);
     throw Error();

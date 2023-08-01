@@ -18,8 +18,8 @@ class FundingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Future<FundingModel> funding = Funding.getFunding(id, 2);
-    final Future<List<RemitModel>> remits = Remit.getRemit(id, '1', 2);
+    final Future<FundingModel> funding = Funding.getFunding(id: id);
+    final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 

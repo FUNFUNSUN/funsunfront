@@ -21,7 +21,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   void updateUser() async {
-    _user = await Account.accessTokenLogin(2);
+    _user = await Account.accessTokenLogin();
     notifyListeners();
   }
 }

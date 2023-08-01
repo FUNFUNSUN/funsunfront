@@ -18,9 +18,9 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
     final Future<List<FundingModel>> publicfunding =
-        Funding.getPublicFunding('1', 2);
+        Funding.getPublicFunding(page: '1');
     final Future<List<FundingModel>> mysupportfunding =
-        Funding.getJoinedFunding('1', 2);
+        Funding.getJoinedFunding(page: '1');
     final sizeX = MediaQuery.of(context).size.width;
     //TODO : 정렬수정필요
     return MaterialApp(

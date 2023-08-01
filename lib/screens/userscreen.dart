@@ -17,9 +17,9 @@ class UserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Future<AccountModel> account = Account.getProfile(id, 2);
+    final Future<AccountModel> account = Account.getProfile(uid: id);
     final Future<List<FundingModel>> userfundings =
-        Funding.getUserFunding('1', id, 2);
+        Funding.getUserFunding(page: '1', id: id);
 
     final sizeX = MediaQuery.of(context).size.width;
     // final sizeY = MediaQuery.of(context).size.height;

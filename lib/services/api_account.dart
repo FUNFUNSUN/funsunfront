@@ -9,7 +9,7 @@ class Account {
   static const String baseUrl = "http://projectsekai.kro.kr:5000/account/";
   static const storage = FlutterSecureStorage();
 
-  static Future<AccountModel> accessTokenLogin(int trigger) async {
+  static Future<AccountModel> accessTokenLogin({int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
@@ -24,12 +24,12 @@ class Account {
         return AccountModel.fromJson(profile);
       } else if (response.statusCode == 401) {
         await refreshToken();
-        return accessTokenLogin(trigger);
+        return accessTokenLogin(trigger: trigger);
       } else if (response.statusCode == 500) {
         try {
           final token = await getKakaoToken();
           await getAllToken(token);
-          return accessTokenLogin(trigger);
+          return accessTokenLogin(trigger: trigger);
         } catch (e) {
           rethrow;
         }
@@ -38,7 +38,7 @@ class Account {
     } else {
       final token = await getKakaoToken();
       await getAllToken(token);
-      return accessTokenLogin(trigger);
+      return accessTokenLogin(trigger: trigger);
     }
   }
 
@@ -72,7 +72,8 @@ class Account {
     }
   }
 
-  static Future<AccountModel> getProfile(String uid, int trigger) async {
+  static Future<AccountModel> getProfile(
+      {required String uid, int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
@@ -88,7 +89,7 @@ class Account {
       return AccountModel.fromJson(profile);
     } else if (response.statusCode == 401) {
       await refreshToken();
-      return getProfile(uid, trigger);
+      return getProfile(uid: uid, trigger: trigger);
     }
     throw Error();
   }
