@@ -62,7 +62,7 @@ class Funding {
     trigger -= 1;
 
     String? token = await storage.read(key: 'accessToken');
-    final url = Uri.parse('${baseUrl}public?page=$page');
+    final url = Uri.parse('${baseUrl}user?page=$page&id=$id');
     final headers = {
       'Authorization': 'Bearer $token',
     };

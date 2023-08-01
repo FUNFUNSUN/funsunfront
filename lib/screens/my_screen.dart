@@ -13,12 +13,17 @@ class MyScreen extends StatelessWidget {
   MyScreen({
     super.key,
   });
+
   late UserProvider _userProvider;
 
   @override
   Widget build(BuildContext context) {
+    _userProvider = Provider.of<UserProvider>(context, listen: true);
     final Future<List<FundingModel>> fundings =
         Funding.getJoinedFunding('1', 2);
+
+    final Future<List<FundingModel>> myfundings =
+        Funding.getUserFunding('1', _userProvider.user!.id, 2);
 
     _userProvider = Provider.of<UserProvider>(context, listen: true);
 
@@ -45,6 +50,7 @@ class MyScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Profile(
+                    userimg: _userProvider.user!.image,
                     userName: _userProvider.user!.username,
                     following: _userProvider.user!.followee!,
                     follower: _userProvider.user!.follower!,
@@ -86,7 +92,7 @@ class MyScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30.0),
                   child: FundingCardHorizon(
                     sizeX: sizeX,
-                    fundings: fundings,
+                    fundings: myfundings,
                     title: '내 펀딩',
                   ),
                 ),
