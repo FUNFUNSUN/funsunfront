@@ -1,18 +1,29 @@
-import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:funsunfront/services/api_funding.dart';
 
 import '../widgets/achievement_rate.dart';
+import 'funding_screen.dart';
 
-class PreviewScreen extends StatelessWidget {
-  final Map<String, dynamic> temp;
-  const PreviewScreen({super.key, required this.temp});
+class PreviewScreen extends StatefulWidget {
+  Map<String, dynamic> temp;
+  File? image;
+  PreviewScreen(this.temp, this.image, {Key? key}) : super(key: key);
 
+  @override
+  State<PreviewScreen> createState() => _PreviewScreenState();
+}
+
+class _PreviewScreenState extends State<PreviewScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final leftDays =
-        DateTime.parse(temp['expire_on']).difference(DateTime.now()).inDays + 1;
+    final leftDays = DateTime.parse(widget.temp['expire_on'])
+            .difference(DateTime.now())
+            .inDays +
+        1;
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     return Scaffold(
@@ -23,6 +34,20 @@ class PreviewScreen extends StatelessWidget {
               const SizedBox(
                 height: 60,
               ),
+              const Text(
+                '펀딩 내용을 확인해주세요',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                '업로드 전 미리 확인하는 페이지입니다.',
+                style: TextStyle(color: Color(0xff7D7D7D)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
                 width: screenWidth * 0.8,
                 height: screenWidth * 0.8,
@@ -31,11 +56,11 @@ class PreviewScreen extends StatelessWidget {
                   color: Theme.of(context).primaryColorDark.withOpacity(0.6),
                 ),
                 clipBehavior: Clip.hardEdge,
-                child: Image.network(
-                  temp['image'] != null
-                      ? '$baseurl${temp['image']}'
-                      : 'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
-                ),
+                child: widget.image != null
+                    ? Image(image: FileImage(widget.image!))
+                    : Image.network(
+                        'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
+                      ),
               ),
               const SizedBox(
                 height: 30,
@@ -50,7 +75,7 @@ class PreviewScreen extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    temp['title'],
+                    widget.temp['title'],
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w900,
@@ -63,7 +88,7 @@ class PreviewScreen extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    temp['content'],
+                    widget.temp['content'],
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -75,19 +100,23 @@ class PreviewScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () async {
-                    var json = jsonEncode(temp);
-                    // FundingModel postResult = await Funding.postFunding(json);
+                    // var json = jsonEncode(temp);
 
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => FundingScreen(
-                    //       id: postResult.id.toString(),
-                    //     ),
-                    //   ),
-                    // );
+                    Map<String, dynamic> postResult =
+                        await Funding.postFunding(widget.temp, widget.image, 2);
+
+                    if (!mounted) return;
+
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              FundingScreen(id: postResult['id'].toString())),
+                    );
                   },
                   child: Container(
                       decoration: BoxDecoration(

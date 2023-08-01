@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:funsunfront/models/funding_model.dart';
+import 'package:intl/intl.dart';
 
 import 'api_account.dart';
 
@@ -103,28 +105,41 @@ class Funding {
     throw Error();
   }
 
-  static Future<bool> postFunding(
-      Map<String, dynamic> fundingData, int trigger) async {
+  static Future<Map<String, dynamic>> postFunding(
+      Map<String, dynamic> fundingData, File? image, int trigger) async {
     if (trigger == 0) {
       throw Error();
     }
     trigger -= 1;
     String? token = await storage.read(key: 'accessToken');
-    final headers = {
-      'Authorization': 'Bearer $token',
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
+    final headers = {'Authorization': 'Bearer $token'};
     final url = Uri.parse(baseUrl);
-    final response = await http.post(url, body: fundingData, headers: headers);
-    if (response.statusCode == 201) {
-      // Map<String, dynamic> resBodyJson = jsonDecode(response.body);
+    final req = http.MultipartRequest('POST', url);
+    req.headers.addAll(headers);
+    req.fields['title'] = fundingData['title'];
+    req.fields['content'] = fundingData['content'];
+    req.fields['goal_amount'] = fundingData['goal_amount'];
 
-      return jsonDecode(response.body);
+    req.fields['public'] = jsonEncode(fundingData['public']);
+    if (fundingData['expire_on'].runtimeType == DateTime) {
+      req.fields['expire_on'] =
+          DateFormat('yyyy-MM-dd').format(fundingData['expire_on']);
+    }
+    if (image != null) {
+      req.files.add(await http.MultipartFile.fromPath('image', image.path));
+    }
+
+    final response0 = await req.send();
+    final response = await http.Response.fromStream(response0);
+    if (response.statusCode == 201) {
+      Map<String, dynamic> resBodyJson = jsonDecode(response.body);
+
+      return resBodyJson;
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
-      postFunding(fundingData, trigger);
+      postFunding(fundingData, image, trigger);
     }
+    print(response.body);
     throw Error();
   }
 }

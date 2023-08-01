@@ -338,8 +338,6 @@ class _EditScreenState extends State<EditScreen> {
                     width: double.infinity,
                     child: GestureDetector(
                       onTap: () async {
-                        print(_selectedDate);
-
                         DateTime tempDate = DateTime.parse(_selectedDate);
                         String strDate = tempDate.toString();
 
@@ -404,7 +402,8 @@ class _EditScreenState extends State<EditScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TermsScreen(temp)),
+                                builder: (context) =>
+                                    TermsScreen(temp, _image)),
                           );
                         }
                       },

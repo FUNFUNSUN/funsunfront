@@ -19,7 +19,7 @@ class FundingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Future<FundingModel> funding = Funding.getFunding(id, 2);
-    final Future<List<RemitModel>> remits = Remit.getRemit(id, '1');
+    final Future<List<RemitModel>> remits = Remit.getRemit(id, '1', 2);
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -42,8 +42,9 @@ class FundingScreen extends StatelessWidget {
 
               //날짜 계산
               final leftDays = DateTime.parse(funding.expireOn)
-                  .difference(DateTime.now())
-                  .inDays;
+                      .difference(DateTime.now())
+                      .inDays +
+                  1;
 
               return SingleChildScrollView(
                 child: Center(
@@ -165,10 +166,15 @@ class FundingScreen extends StatelessWidget {
                                                   CircleAvatar(
                                                     // TODO: 추후 inkwell로 프로필페이지 이동
                                                     radius: 30,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                      '$baseurl${remit.author.image}',
-                                                    ),
+                                                    backgroundImage: remit
+                                                                .author.image !=
+                                                            null
+                                                        ? NetworkImage(
+                                                            '$baseurl${remit.author.image}',
+                                                          )
+                                                        : Image.asset(
+                                                                'assets/images/giftBox.png')
+                                                            .image,
                                                   ),
                                                   const SizedBox(
                                                     width: 20,

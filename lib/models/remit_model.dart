@@ -17,7 +17,8 @@ class RemitModel {
 }
 
 class Author {
-  String id, username, image;
+  String id, username;
+  String? image;
 
   Author({required this.id, required this.username, required this.image});
 
