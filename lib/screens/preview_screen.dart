@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:funsunfront/models/funding_model.dart';
-import 'package:funsunfront/screens/funding_screen.dart';
 
-import '../services/api_funding.dart';
 import '../widgets/achievement_rate.dart';
 
 class PreviewScreen extends StatelessWidget {
@@ -81,16 +78,16 @@ class PreviewScreen extends StatelessWidget {
                 child: InkWell(
                   onTap: () async {
                     var json = jsonEncode(temp);
-                    FundingModel postResult = await Funding.postFunding(json);
+                    // FundingModel postResult = await Funding.postFunding(json);
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FundingScreen(
-                          id: postResult.id.toString(),
-                        ),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => FundingScreen(
+                    //       id: postResult.id.toString(),
+                    //     ),
+                    //   ),
+                    // );
                   },
                   child: Container(
                       decoration: BoxDecoration(

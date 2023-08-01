@@ -25,6 +25,7 @@ class Funding {
       return FundingModel.fromJson(funding);
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      getFunding(id, trigger);
     }
     throw Error();
   }
@@ -48,6 +49,7 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      getPublicFunding(page, trigger);
     }
     throw Error();
   }
@@ -72,6 +74,7 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      getUserFunding(page, id, trigger);
     }
     throw Error();
   }
@@ -95,6 +98,7 @@ class Funding {
           .toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      getJoinedFunding(page, trigger);
     }
     throw Error();
   }
@@ -119,6 +123,7 @@ class Funding {
       return jsonDecode(response.body);
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
+      postFunding(fundingData, trigger);
     }
     throw Error();
   }
