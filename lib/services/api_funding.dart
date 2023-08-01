@@ -114,11 +114,12 @@ class Funding {
     final url = Uri.parse(baseUrl);
     final response = await http.post(url, body: fundingData, headers: headers);
     if (response.statusCode == 201) {
-      return true;
+      // Map<String, dynamic> resBodyJson = jsonDecode(response.body);
+
+      return jsonDecode(response.body);
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
-      return false;
     }
-    return false;
+    throw Error();
   }
 }

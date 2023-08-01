@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:funsunfront/models/funding_model.dart';
+import 'package:funsunfront/screens/funding_screen.dart';
 
+import '../services/api_funding.dart';
 import '../widgets/achievement_rate.dart';
 
 class PreviewScreen extends StatelessWidget {
@@ -11,7 +15,7 @@ class PreviewScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final leftDays =
-        DateTime.parse(temp['expire_on']).difference(DateTime.now()).inDays;
+        DateTime.parse(temp['expire_on']).difference(DateTime.now()).inDays + 1;
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     return Scaffold(
@@ -68,7 +72,41 @@ class PreviewScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: InkWell(
+                  onTap: () async {
+                    var json = jsonEncode(temp);
+                    FundingModel postResult = await Funding.postFunding(json);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FundingScreen(
+                          id: postResult.id.toString(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: const Color(0xffD9D9D9),
+                          borderRadius: BorderRadius.circular(15)),
+                      width: 400,
+                      height: 50,
+                      child: const Center(
+                        child: Text(
+                          '등록하기',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 15),
+                        ),
+                      )),
+                ),
+              ),
             ]),
           ),
         ),
