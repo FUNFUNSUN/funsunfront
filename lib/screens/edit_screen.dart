@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:funsunfront/models/funding_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -12,10 +14,24 @@ class EditScreen extends StatefulWidget {
   State<EditScreen> createState() => _EditScreenState();
 }
 
+const List<Widget> _publics = <Widget>[
+  Text('Public'),
+  Text('Private'),
+];
+
 class _EditScreenState extends State<EditScreen> {
   File? _image;
   final picker = ImagePicker();
+  final List<bool> _selectedPublic = <bool>[true, false];
+  int tempPublic = 0;
   String _selectedDate = "";
+  final _titleTextEditController = TextEditingController();
+  final _contentTextEditController = TextEditingController();
+  final _goalAmountTextEditController = TextEditingController();
+
+  Future _fundingData(Map<String, dynamic> data) async {
+    final FundingModel fundingdata;
+  }
 
   Future _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
@@ -96,6 +112,7 @@ class _EditScreenState extends State<EditScreen> {
                           borderRadius: BorderRadius.circular(15)),
                       hintText: '안녕',
                     ),
+                    controller: _titleTextEditController,
                   ),
                   const SizedBox(height: 30),
                   const Text(
@@ -172,6 +189,45 @@ class _EditScreenState extends State<EditScreen> {
                           borderRadius: BorderRadius.circular(15)),
                       hintText: '안녕',
                     ),
+                    controller: _contentTextEditController,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Text(
+                    '펀딩 공개여부',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Text(
+                    '수정이 불가합니다.',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: 13,
+                    ),
+                  ),
+                  ToggleButtons(
+                    direction: Axis.horizontal,
+                    onPressed: (int index) {
+                      setState(() {
+                        for (int i = 0; i < _selectedPublic.length; i++) {
+                          _selectedPublic[i] = i == index;
+                        }
+                        tempPublic = index;
+                      });
+                    },
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    selectedColor: Colors.white,
+                    selectedBorderColor: Colors.blue[200],
+                    fillColor: Colors.blue[400],
+                    constraints: const BoxConstraints(
+                      minHeight: 40.0,
+                      minWidth: 80.0,
+                    ),
+                    isSelected: _selectedPublic,
+                    children: _publics,
                   ),
                   const SizedBox(
                     height: 30,
@@ -213,6 +269,7 @@ class _EditScreenState extends State<EditScreen> {
                           borderRadius: BorderRadius.circular(15)),
                       hintText: '안녕',
                     ),
+                    controller: _goalAmountTextEditController,
                   ),
                   const SizedBox(
                     height: 30,
@@ -248,6 +305,51 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                         height: 30,
                         child: Text(dateStr),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: GestureDetector(
+                      onTap: () async {
+                        int tempAmount =
+                            int.parse(_goalAmountTextEditController.value.text);
+                        bool tempPublicBool = tempPublic == 0 ? true : false;
+
+                        if (_titleTextEditController.text.length < 2 ||
+                            _titleTextEditController.text.length > 20 ||
+                            _titleTextEditController.text.isEmpty) {
+                          print('펀딩 제목을 확인해주세요.');
+                        } else if (_contentTextEditController.text.length < 2 ||
+                            _contentTextEditController.text.length > 255 ||
+                            _contentTextEditController.text.isEmpty) {
+                          print('펀딩 목적을 확인해주세요.');
+                        } else if (tempAmount < 1000 || tempAmount > 10000000) {
+                          print('펀딩 금액은 1,000원 이상, 10,000,000원 이하입니다.');
+                        } else {
+                          Map<String, dynamic> temp = {
+                            'title': _titleTextEditController.text,
+                            'content': _contentTextEditController.text,
+                            'goal_amount': tempAmount,
+                            'expire_on': _selectedDate,
+                            'public': tempPublicBool
+                          };
+                          var json = jsonEncode(temp);
+                          print(json);
+
+                          // var url = Uri.parse('uri');
+                          // final response = await http.post(url);
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.blue,
+                        ),
+                        height: 30,
                       ),
                     ),
                   ),

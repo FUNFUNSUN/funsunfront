@@ -43,7 +43,7 @@ class PublicScreen extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         // 데이터를 불러오는 동안 로딩 표시
-                        return const CircularProgressIndicator();
+                        return const Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
                         // 오류 표시
                         return Text('오류: ${snapshot.error}');
