@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/screens/explore_screen.dart';
 import 'package:funsunfront/screens/first_screen.dart';
 import 'package:funsunfront/screens/home_screen.dart';
-import 'package:funsunfront/screens/user_screen.dart';
+import 'package:funsunfront/screens/my_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../models/account_model.dart';
@@ -61,7 +61,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
             children: [
               const ExploreScreen(),
               const HomeScreen(),
-              UserScreen(),
+              MyScreen(),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

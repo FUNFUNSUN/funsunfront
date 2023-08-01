@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/userscreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -69,6 +70,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const UserScreen(id: 'admin')),
+                          );
+                        },
+                        child: const Text('유저페이지 임시 이동버튼')),
                   ],
                 ),
               ),

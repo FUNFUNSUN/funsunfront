@@ -1,51 +1,70 @@
 import 'package:flutter/cupertino.dart';
+import 'package:funsunfront/models/funding_model.dart';
+import 'package:funsunfront/widgets/loading_circle.dart';
 
 class FundingCardHorizon extends StatelessWidget {
-  final String title;
   const FundingCardHorizon({
     super.key,
     required this.sizeX,
-    required this.imgUrls,
+    required this.fundings,
     required this.title,
   });
-
+  final String title;
   final double sizeX;
-  final List<String> imgUrls;
+  final Future<List<FundingModel>> fundings;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title),
-        const SizedBox(
-          height: 15,
-        ),
-        SizedBox(
-          width: sizeX,
-          height: 150,
-          child: ListView.separated(
-            padding: const EdgeInsets.only(right: 20),
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: imgUrls.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                width: 150,
-                height: 150,
-                clipBehavior: Clip.hardEdge,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                child: Image.network(imgUrls[index], //펀딩이미지
-                    fit: BoxFit.cover),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return const SizedBox(width: 10);
-            },
-          ),
-        ),
-      ],
-    );
+    const String baseurl = 'http://projectsekai.kro.kr:5000/';
+    return FutureBuilder(
+        future: fundings,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // 데이터를 불러오는 동안 로딩 표시
+            return const LoadingCircle();
+          } else if (snapshot.hasError) {
+            // 오류 표시
+            return Text('오류: ${snapshot.error}');
+          } else {
+            final userfundings = snapshot.data;
+            userfundings!;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title),
+                const SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  width: sizeX,
+                  height: 150,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.only(right: 20),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: userfundings.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        width: 150,
+                        height: 150,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Image.network(
+                            (userfundings[index].image != null)
+                                ? '$baseurl${userfundings[index].image}'
+                                : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg', //펀딩이미지
+                            fit: BoxFit.cover),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(width: 10);
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+        });
   }
 }

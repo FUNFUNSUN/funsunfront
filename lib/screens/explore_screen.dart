@@ -14,9 +14,9 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Future<List<FundingModel>> publicfunding =
-        Funding.getPublicFunding('1');
+        Funding.getPublicFunding('1', 2);
     final Future<List<FundingModel>> mysupportfunding =
-        Funding.getJoinedFunding('1');
+        Funding.getJoinedFunding('1', 2);
     //TODO : 정렬수정필요
     return MaterialApp(
       home: Scaffold(

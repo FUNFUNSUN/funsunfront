@@ -1,6 +1,8 @@
 class FundingModel {
-  final int id, goalAmount, currentAmount;
+  final int goalAmount;
+  final int? id, currentAmount;
   final bool? public;
+  // true 전체공개
   final String title, expireOn;
   final String? createdOn, content, image, review, reviewImage;
   final Map<String, dynamic>? author;
@@ -18,4 +20,14 @@ class FundingModel {
         author = json['author'],
         review = json['review'],
         reviewImage = json['review_image'];
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['content'] = content;
+    data['goal_amount'] = goalAmount;
+    data['expire_on'] = expireOn;
+    data['public'] = public;
+    return data;
+  }
 }

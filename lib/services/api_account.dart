@@ -36,6 +36,7 @@ class Account {
 
   static Future<void> refreshToken() async {
     String? refreshToken = await storage.read(key: 'refreshToken');
+    print(refreshToken);
     Map<String, String> body = {"refresh": refreshToken!};
     final response =
         await http.post(Uri.parse('${baseUrl}token/refresh'), body: body);
@@ -79,7 +80,7 @@ class Account {
       return AccountModel.fromJson(profile);
     } else if (response.statusCode == 401) {
       await refreshToken();
-      return accessTokenLogin(trigger);
+      return getProfile(uid, trigger);
     }
     throw Error();
   }
