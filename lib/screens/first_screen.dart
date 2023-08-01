@@ -36,7 +36,7 @@ class FirstScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => UserScreen(id: 'admin')),
+                          builder: (context) => const UserScreen(id: 'admin')),
                     );
                   },
                   child: const Text('UserScreen 이동 임시테스트'),
@@ -45,8 +45,7 @@ class FirstScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const ExploreScreen()),
+                      MaterialPageRoute(builder: (context) => ExploreScreen()),
                     );
                   },
                   child: const Text('ExploreScreen 이동 임시테스트'),

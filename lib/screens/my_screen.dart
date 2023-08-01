@@ -99,7 +99,7 @@ class MyScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 30.0, top: 35),
                   child: FundingCardHorizon(
-                      sizeX: sizeX, fundings: fundings, title: '서포트한 펀딩'),
+                      sizeX: sizeX, fundings: myfundings, title: '서포트한 펀딩'),
                 ),
               ],
             ),

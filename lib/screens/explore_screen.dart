@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
+import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
+import '../widgets/fundingcard_horizon.dart';
 import 'mysupport_screen.dart';
 
 class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({super.key});
-
+  ExploreScreen({super.key});
+  late UserProvider _userProvider;
   final imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
 
   @override
   Widget build(BuildContext context) {
+    _userProvider = Provider.of<UserProvider>(context, listen: true);
     final Future<List<FundingModel>> publicfunding =
         Funding.getPublicFunding('1', 2);
     final Future<List<FundingModel>> mysupportfunding =
         Funding.getJoinedFunding('1', 2);
+    final sizeX = MediaQuery.of(context).size.width;
     //TODO : 정렬수정필요
     return MaterialApp(
       home: Scaffold(
@@ -74,13 +79,13 @@ class ExploreScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        '전체공개펀딩',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400),
-                      ),
+                      // const Text(
+                      //   '전체공개펀딩',
+                      //   style: TextStyle(
+                      //       color: Colors.black,
+                      //       fontSize: 15,
+                      //       fontWeight: FontWeight.w400),
+                      // ),
                       IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -113,37 +118,44 @@ class ExploreScreen extends StatelessWidget {
                       } else {
                         final publicfundings = snapshot.data;
                         publicfundings!;
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 145,
-                              height: 145,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Image.network(
-                                  (publicfundings[0].image != null)
-                                      ? '$imgBaseUrl${publicfundings[0].image}'
-                                      : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
-                                  fit: BoxFit.cover),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              width: 145,
-                              height: 145,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Image.network(
-                                  (publicfundings[1].image != null)
-                                      ? '$imgBaseUrl${publicfundings[1].image}'
-                                      : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
-                                  fit: BoxFit.cover),
-                            ),
-                          ],
+                        return SingleChildScrollView(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FundingCardHorizon(
+                                sizeX: sizeX,
+                                fundings: publicfunding,
+                                title: '전체 펀딩',
+                              ),
+                              Container(
+                                width: 145,
+                                height: 145,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Image.network(
+                                    (publicfundings[0].image != null)
+                                        ? '$imgBaseUrl${publicfundings[0].image}'
+                                        : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
+                                    fit: BoxFit.cover),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                width: 145,
+                                height: 145,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Image.network(
+                                    (publicfundings[1].image != null)
+                                        ? '$imgBaseUrl${publicfundings[1].image}'
+                                        : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
+                                    fit: BoxFit.cover),
+                              ),
+                            ],
+                          ),
                         );
                       }
                     },

@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:funsunfront/models/funding_model.dart';
+import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/widgets/loading_circle.dart';
 
 class FundingCardHorizon extends StatelessWidget {
@@ -51,18 +52,31 @@ class FundingCardHorizon extends StatelessWidget {
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: userfundings.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                width: 150,
-                                height: 150,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Image.network(
-                                    (userfundings[index].image != null)
-                                        ? '$baseurl${userfundings[index].image}'
-                                        : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg', //펀딩이미지
-                                    fit: BoxFit.cover),
+                            itemBuilder: (context, index) {
+                              String postid =
+                                  snapshot.data![index].id.toString();
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FundingScreen(
+                                              id: postid,
+                                            )),
+                                  );
+                                },
+                                child: Container(
+                                  width: 150,
+                                  height: 150,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Image.network(
+                                      (userfundings[index].image != null)
+                                          ? '$baseurl${userfundings[index].image}'
+                                          : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg', //펀딩이미지
+                                      fit: BoxFit.cover),
+                                ),
                               );
                             },
                             separatorBuilder: (context, index) {
