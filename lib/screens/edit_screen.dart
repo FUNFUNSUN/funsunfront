@@ -1,12 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:funsunfront/models/funding_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../services/api_funding.dart';
 import '../widgets/image_upload.dart';
 
 class EditScreen extends StatefulWidget {
@@ -30,10 +29,6 @@ class _EditScreenState extends State<EditScreen> {
   final _titleTextEditController = TextEditingController();
   final _contentTextEditController = TextEditingController();
   final _goalAmountTextEditController = TextEditingController();
-
-  Future _fundingData(Map<String, dynamic> data) async {
-    final FundingModel fundingdata;
-  }
 
   Future _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
@@ -359,13 +354,17 @@ class _EditScreenState extends State<EditScreen> {
                           Map<String, dynamic> temp = {
                             'title': _titleTextEditController.text,
                             'content': _contentTextEditController.text,
-                            'goal_amount': tempAmount,
+                            'goal_amount':
+                                _goalAmountTextEditController.value.text,
                             'expire_on': _selectedDate,
-                            'public': tempPublicBool
+                            'public': tempPublicBool.toString()
                           };
-                          var json = jsonEncode(temp);
-                          print(json);
-
+                          print('아직 호출안됨');
+                          bool postResult = await Funding.postFunding(temp);
+                          print('API 호출은 됐음');
+                          (postResult)
+                              ? const Dialog(child: Text('됐다!'))
+                              : const Dialog(child: Text('넌 좆됐어'));
                           // var url = Uri.parse('uri');
                           // final response = await http.post(url);
                         }
