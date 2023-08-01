@@ -5,15 +5,15 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'kakao_login_api.dart';
 
-class Account {
+class User {
   static const String baseUrl = "http://projectsekai.kro.kr:5000/account/";
   static const storage = FlutterSecureStorage();
 
-  static Future<AccountModel> accessTokenLogin({int trigger = 2}) async {
-    if (trigger == 0) {
+  static Future<AccountModel> accessTokenLogin({int apiCounter = 2}) async {
+    if (apiCounter == 0) {
       throw Error();
     }
-    trigger -= 1;
+    apiCounter -= 1;
 
     String? value = await storage.read(key: 'accessToken');
     if (value != null) {
@@ -24,12 +24,12 @@ class Account {
         return AccountModel.fromJson(profile);
       } else if (response.statusCode == 401) {
         await refreshToken();
-        return accessTokenLogin(trigger: trigger);
+        return accessTokenLogin(apiCounter: apiCounter);
       } else if (response.statusCode == 500) {
         try {
           final token = await getKakaoToken();
           await getAllToken(token);
-          return accessTokenLogin(trigger: trigger);
+          return accessTokenLogin(apiCounter: apiCounter);
         } catch (e) {
           rethrow;
         }
@@ -38,7 +38,7 @@ class Account {
     } else {
       final token = await getKakaoToken();
       await getAllToken(token);
-      return accessTokenLogin(trigger: trigger);
+      return accessTokenLogin(apiCounter: apiCounter);
     }
   }
 
@@ -73,11 +73,11 @@ class Account {
   }
 
   static Future<AccountModel> getProfile(
-      {required String uid, int trigger = 2}) async {
-    if (trigger == 0) {
+      {required String uid, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
       throw Error();
     }
-    trigger -= 1;
+    apiCounter -= 1;
     String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('$baseUrl?id=$uid');
     final headers = {
@@ -89,7 +89,7 @@ class Account {
       return AccountModel.fromJson(profile);
     } else if (response.statusCode == 401) {
       await refreshToken();
-      return getProfile(uid: uid, trigger: trigger);
+      return getProfile(uid: uid, apiCounter: apiCounter);
     }
     throw Error();
   }
