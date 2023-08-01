@@ -104,8 +104,8 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   onTap: () async {
                     // var json = jsonEncode(temp);
 
-                    Map<String, dynamic> postResult =
-                        await Funding.postFunding(widget.temp, widget.image, 2);
+                    Map<String, dynamic> postResult = await Funding.postFunding(
+                        fundingData: widget.temp, image: widget.image);
 
                     if (!mounted) return;
 

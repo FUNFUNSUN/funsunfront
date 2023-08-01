@@ -21,10 +21,10 @@ class MyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
     final Future<List<FundingModel>> fundings =
-        Funding.getJoinedFunding('1', 2);
+        Funding.getJoinedFunding(page: '1');
 
     final Future<List<FundingModel>> myfundings =
-        Funding.getUserFunding('1', _userProvider.user!.id, 2);
+        Funding.getUserFunding(page: '1', id: _userProvider.user!.id);
 
     _userProvider = Provider.of<UserProvider>(context, listen: true);
 

@@ -13,7 +13,7 @@ class PublicScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Future<List<FundingModel>> fundings =
-        Funding.getPublicFunding(page, 2);
+        Funding.getPublicFunding(page: page);
 
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;

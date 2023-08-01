@@ -20,7 +20,7 @@ class KakaoLoginButton extends StatelessWidget {
       if (value == null) {
         await Account.getAllToken(kakaotoken);
       }
-      final user = await Account.accessTokenLogin(2);
+      final user = await Account.accessTokenLogin();
       _userProvider.setLogin(user.id);
       _userProvider.setUser(user);
     }

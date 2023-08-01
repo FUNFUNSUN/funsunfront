@@ -10,7 +10,7 @@ class Remit {
   static const storage = FlutterSecureStorage();
 
   static Future<List<RemitModel>> getRemit(
-      String id, String page, int trigger) async {
+      {required String id, required String page, int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
@@ -23,7 +23,7 @@ class Remit {
       return remitList.map((remit) => RemitModel.fromJson(remit)).toList();
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
-      getRemit(id, page, trigger);
+      getRemit(id: id, page: page, trigger: trigger);
     }
     throw Error();
   }
