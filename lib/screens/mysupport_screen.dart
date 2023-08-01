@@ -11,7 +11,8 @@ class MySupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Future<List<FundingModel>> fundings = Funding.getJoinedFunding(page);
+    final Future<List<FundingModel>> fundings =
+        Funding.getJoinedFunding(page, 2);
 
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
