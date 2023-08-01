@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 import '../provider/user_provider.dart';
 import '../widgets/fundingcard_horizon.dart';
 
-class UserScreen extends StatelessWidget {
-  UserScreen({
+class MyScreen extends StatelessWidget {
+  MyScreen({
     super.key,
   });
   late UserProvider _userProvider;

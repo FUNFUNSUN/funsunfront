@@ -36,6 +36,7 @@ class Account {
 
   static Future<void> refreshToken() async {
     String? refreshToken = await storage.read(key: 'refreshToken');
+    print(refreshToken);
     Map<String, String> body = {"refresh": refreshToken!};
     final response =
         await http.post(Uri.parse('${baseUrl}token/refresh'), body: body);
