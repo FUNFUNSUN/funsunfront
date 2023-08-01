@@ -7,6 +7,8 @@ import 'package:funsunfront/models/funding_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/image_upload.dart';
+
 class EditScreen extends StatefulWidget {
   const EditScreen({super.key});
 
@@ -48,11 +50,16 @@ class _EditScreenState extends State<EditScreen> {
     }
   }
 
-  Future getImage(ImageSource imageSource) async {
-    final image = await picker.pickImage(source: imageSource);
+  // Future getImage(ImageSource imageSource) async {
+  //   final image = await picker.pickImage(source: imageSource);
 
+  //   setState(() {
+  //     _image = File(image!.path);
+  //   });
+  // }
+  void setImage(File uploadedImage) {
     setState(() {
-      _image = File(image!.path);
+      _image = uploadedImage;
     });
   }
 
@@ -135,19 +142,34 @@ class _EditScreenState extends State<EditScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  SizedBox(
-                    child: Column(children: [
-                      FloatingActionButton(
-                        child: const Icon(
-                          Icons.add,
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => ImageUpload(
+                            setImage: setImage,
+                          ),
                         ),
-                        onPressed: () {
-                          print('눌림');
-                          getImage(ImageSource.gallery);
-                        },
-                      ),
-                    ]),
+                      ).then((res) => setState(() {}));
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                    ),
                   ),
+                  // SizedBox(
+                  //   child: Column(children: [
+                  //     FloatingActionButton(
+                  //       child: const Icon(
+                  //         Icons.add,
+                  //       ),
+                  //       onPressed: () {
+                  //         print('눌림');
+                  //         getImage(ImageSource.gallery);
+                  //       },
+                  //     ),
+                  //   ]),
+                  // ),
                   const SizedBox(
                     height: 30,
                   ),
