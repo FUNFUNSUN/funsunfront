@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:funsunfront/screens/edit_screen.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
 import 'package:funsunfront/widgets/profile.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/user_provider.dart';
@@ -68,6 +70,10 @@ class UserScreen extends StatelessWidget {
                       ? InkWell(
                           onTap: () {
                             print('펀딩작성페이지라우팅');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const EditScreen()));
                           },
                           child: Container(
                             alignment: Alignment.center,
