@@ -38,9 +38,10 @@ class TermsScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PreviewScreen(
-                                  temp: temp,
-                                )),
+                          builder: (context) => PreviewScreen(
+                            temp: temp,
+                          ),
+                        ),
                       );
                     },
                     child: Container(
@@ -49,15 +50,12 @@ class TermsScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15)),
                         width: 400,
                         height: 50,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '다음',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 15),
-                            )
-                          ],
+                        child: const Center(
+                          child: Text(
+                            '다음',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
                         )),
                   )
                 ],

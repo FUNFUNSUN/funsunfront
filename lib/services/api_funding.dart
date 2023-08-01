@@ -64,7 +64,7 @@ class Funding {
     throw Error();
   }
 
-  static Future<bool> postFunding(var fundingData) async {
+  static Future<FundingModel> postFunding(var fundingData) async {
     String? token = await storage.read(key: 'accessToken');
     final headers = {
       'Authorization': 'Bearer $token',
@@ -74,10 +74,14 @@ class Funding {
     final url = Uri.parse(baseUrl);
     final response = await http.post(url, body: fundingData, headers: headers);
     if (response.statusCode == 201) {
-      return true;
-    } else if (response.statusCode == 400) {
-      return false;
+      // Map<String, dynamic> resBodyJson = jsonDecode(response.body);
+
+      return jsonDecode(response.body);
+      // } else if (response.statusCode == 400) {
+      //   return ;
+      // }
+      // return false;
     }
-    return false;
+    throw Error();
   }
 }

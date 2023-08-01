@@ -1,4 +1,3 @@
-// import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -342,24 +341,52 @@ class _EditScreenState extends State<EditScreen> {
                         print(_selectedDate);
 
                         DateTime tempDate = DateTime.parse(_selectedDate);
-                        // print(tempDate);
+                        String strDate = tempDate.toString();
+
                         int tempAmount =
                             int.parse(_goalAmountTextEditController.value.text);
                         bool tempPublicBool = tempPublic == 0 ? true : false;
-                        String strDate = tempDate.toString();
 
                         if (_titleTextEditController.text.length < 2 ||
                             _titleTextEditController.text.length > 20 ||
                             _titleTextEditController.text.isEmpty) {
-                          print('펀딩 제목을 확인해주세요.');
+                          showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return const AlertDialog(
+                                title: Text('제목확인'),
+                              );
+                            }),
+                          );
                         } else if (_contentTextEditController.text.length < 2 ||
                             _contentTextEditController.text.length > 255 ||
                             _contentTextEditController.text.isEmpty) {
-                          print('펀딩 목적을 확인해주세요.');
+                          showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return const AlertDialog(
+                                title: Text('내용확인'),
+                              );
+                            }),
+                          );
                         } else if (tempAmount < 1000 || tempAmount > 10000000) {
-                          print('펀딩 금액은 1,000원 이상, 10,000,000원 이하입니다.');
+                          showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return const AlertDialog(
+                                title: Text('가격확인'),
+                              );
+                            }),
+                          );
                         } else if (strDate.isEmpty) {
-                          print('날짜를 고르세요.');
+                          showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return const AlertDialog(
+                                title: Text('날짜골라'),
+                              );
+                            }),
+                          );
                         } else {
                           temp = {
                             'title': _titleTextEditController.text,
@@ -369,9 +396,8 @@ class _EditScreenState extends State<EditScreen> {
                             'expire_on': tempDate.toIso8601String(),
                             'public': tempPublicBool
                           };
-                          // var json = jsonEncode(temp);
                           print('아직 호출안됨');
-                          // bool postResult = await Funding.postFunding(json);
+
                           print('API 호출은 됐음');
                           // print(postResult);
 
@@ -380,17 +406,6 @@ class _EditScreenState extends State<EditScreen> {
                             MaterialPageRoute(
                                 builder: (context) => TermsScreen(temp)),
                           );
-                          // showDialog(
-                          //   context: context,
-                          //   builder: ((context) {
-                          //     return AlertDialog(
-                          //       title: Text(postResult.toString()),
-                          //     );
-                          //   }),
-                          // );
-
-                          // var url = Uri.parse('uri');
-                          // final response = await http.post(url);
                         }
                       },
                       child: Container(
