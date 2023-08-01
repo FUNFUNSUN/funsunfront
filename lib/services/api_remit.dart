@@ -46,7 +46,7 @@ class Remit {
       final remit = jsonDecode(response.body);
       return RemitModel.fromJson(remit);
     } else if (response.statusCode == 401) {
-      await Account.refreshToken();
+      await User.refreshToken();
       return postRemit(remitData: remitData);
     }
     throw Error();
