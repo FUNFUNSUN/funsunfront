@@ -15,7 +15,6 @@ class Remit {
       throw Error();
     }
     trigger -= 1;
-    String? token = await storage.read(key: 'accessToken');
     final url = Uri.parse('$baseUrl?id=$id&page=$page');
 
     final response = await http.get(url);

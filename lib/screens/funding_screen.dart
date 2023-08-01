@@ -166,10 +166,15 @@ class FundingScreen extends StatelessWidget {
                                                   CircleAvatar(
                                                     // TODO: 추후 inkwell로 프로필페이지 이동
                                                     radius: 30,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                      '$baseurl${remit.author.image}',
-                                                    ),
+                                                    backgroundImage: remit
+                                                                .author.image !=
+                                                            null
+                                                        ? NetworkImage(
+                                                            '$baseurl${remit.author.image}',
+                                                          )
+                                                        : Image.asset(
+                                                                'assets/images/giftBox.png')
+                                                            .image,
                                                   ),
                                                   const SizedBox(
                                                     width: 20,
