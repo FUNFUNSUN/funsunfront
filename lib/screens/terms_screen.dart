@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/preview_screen.dart';
 
 class TermsScreen extends StatelessWidget {
   Map<String, dynamic> temp;
-  TermsScreen(this.temp, {Key? key}) : super(key: key);
+  File? image;
+  TermsScreen(this.temp, this.image, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,7 @@ class TermsScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PreviewScreen(temp)),
+                            builder: (context) => PreviewScreen(temp, image)),
                       );
                     },
                     child: Container(

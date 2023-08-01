@@ -402,7 +402,8 @@ class _EditScreenState extends State<EditScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TermsScreen(temp)),
+                                builder: (context) =>
+                                    TermsScreen(temp, _image)),
                           );
                         }
                       },

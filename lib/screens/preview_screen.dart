@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:funsunfront/services/api_funding.dart';
 
@@ -6,7 +8,8 @@ import 'funding_screen.dart';
 
 class PreviewScreen extends StatefulWidget {
   Map<String, dynamic> temp;
-  PreviewScreen(this.temp, {Key? key}) : super(key: key);
+  File? image;
+  PreviewScreen(this.temp, this.image, {Key? key}) : super(key: key);
 
   @override
   State<PreviewScreen> createState() => _PreviewScreenState();
@@ -53,11 +56,11 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   color: Theme.of(context).primaryColorDark.withOpacity(0.6),
                 ),
                 clipBehavior: Clip.hardEdge,
-                child: Image.network(
-                  widget.temp['image'] != null
-                      ? '$baseurl${widget.temp['image']}'
-                      : 'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
-                ),
+                child: widget.image != null
+                    ? Image(image: FileImage(widget.image!))
+                    : Image.network(
+                        'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
+                      ),
               ),
               const SizedBox(
                 height: 30,
@@ -100,16 +103,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: GestureDetector(
                   onTap: () async {
                     // var json = jsonEncode(temp);
-                    print('여기되냐1');
 
                     Map<String, dynamic> postResult =
-                        await Funding.postFunding(widget.temp, 2);
-
-                    print('템프2');
-                    print(widget.temp);
-
-                    print('postResult3');
-                    print(postResult['id']);
+                        await Funding.postFunding(widget.temp, widget.image, 2);
 
                     if (!mounted) return;
 
