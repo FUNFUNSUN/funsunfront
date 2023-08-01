@@ -103,7 +103,7 @@ class Funding {
     throw Error();
   }
 
-  static Future<bool> postFunding(
+  static Future<Map<String, dynamic>> postFunding(
       Map<String, dynamic> fundingData, int trigger) async {
     if (trigger == 0) {
       throw Error();
@@ -116,11 +116,12 @@ class Funding {
       'Accept': 'application/json',
     };
     final url = Uri.parse(baseUrl);
-    final response = await http.post(url, body: fundingData, headers: headers);
+    var json = jsonEncode(fundingData);
+    final response = await http.post(url, body: json, headers: headers);
     if (response.statusCode == 201) {
-      // Map<String, dynamic> resBodyJson = jsonDecode(response.body);
+      Map<String, dynamic> resBodyJson = jsonDecode(response.body);
 
-      return jsonDecode(response.body);
+      return resBodyJson;
     } else if (response.statusCode == 401) {
       await Account.refreshToken();
       postFunding(fundingData, trigger);
