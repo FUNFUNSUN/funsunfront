@@ -35,13 +35,11 @@ class TermsScreen extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
+                      print(temp);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PreviewScreen(
-                            temp: temp,
-                          ),
-                        ),
+                            builder: (context) => PreviewScreen(temp)),
                       );
                     },
                     child: Container(

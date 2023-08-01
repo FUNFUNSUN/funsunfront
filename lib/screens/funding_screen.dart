@@ -42,8 +42,9 @@ class FundingScreen extends StatelessWidget {
 
               //날짜 계산
               final leftDays = DateTime.parse(funding.expireOn)
-                  .difference(DateTime.now())
-                  .inDays;
+                      .difference(DateTime.now())
+                      .inDays +
+                  1;
 
               return SingleChildScrollView(
                 child: Center(

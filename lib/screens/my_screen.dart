@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:funsunfront/screens/edit_screen.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
 import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +58,11 @@ class MyScreen extends StatelessWidget {
                   /////////////////////////내펀딩만들기 | 팔로우 버튼
                   InkWell(
                     onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditScreen()),
+                      );
                       print('펀딩작성페이지라우팅');
                     },
                     child: Container(
