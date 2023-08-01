@@ -9,8 +9,11 @@ class UserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sizeX = MediaQuery.of(context).size.width;
-    final sizeY = MediaQuery.of(context).size.height;
+    final double sizeX = MediaQuery.of(context).size.width;
+    final double sizeY = MediaQuery.of(context).size.height;
+
+    const bool isUser = true;
+
     List<String> imgUrls = [];
     imgUrls.add(
         'https://flexible.img.hani.co.kr/flexible/normal/970/970/imgdb/original/2023/0619/20230619501341.jpg');
@@ -32,6 +35,7 @@ class UserScreen extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
+            ///////////////////////유저 프로필
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: Column(
@@ -40,132 +44,185 @@ class UserScreen extends StatelessWidget {
                     userName: '안녕',
                     following: 12,
                     follower: 10,
-                    //이렇게 하는게 맞는지 정확히는 모르겠음
                   ),
+                  ////////////////////////유저 프로필 END
                   const SizedBox(
                     height: 10,
                   ),
-                  InkWell(
-                    onTap: () {
-                      print('말랑버튼 누르지마세요...버튼이아파해요');
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: sizeX,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xffFF80C0),
-                      ),
-                      child: const Text(
-                        '내 펀딩 만들기',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
+                  /////////////////////////내펀딩만들기 | 팔로우 버튼
+                  (isUser == true)
+                      ? InkWell(
+                          onTap: () {
+                            print('펀딩작성페이지라우팅');
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: sizeX,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            child: const Text(
+                              '내 펀딩 만들기',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            print('팔로우버튼');
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: sizeX,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Theme.of(context)
+                                  .primaryColorLight
+                                  .withOpacity(0.4),
+                            ),
+                            child: const Text(
+                              '팔로우하기',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0),
-              child: FundingCardHorizon(
-                sizeX: sizeX,
-                imgUrls: imgUrls,
-                title: '내 펀딩',
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0, top: 35),
-              child: FundingCardHorizon(
-                sizeX: sizeX,
-                imgUrls: imgUrls,
-                title: '서포트한 펀딩',
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const FaqScreen()),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.only(left: 30),
-                child: const Row(
-                  children: [
-                    Icon(Icons.help_outline_rounded),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'FAQ',
-                      style: TextStyle(fontSize: 15),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 30),
-              height: .5,
-              width: sizeX,
-              color: Colors.grey,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 30),
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.exit_to_app_rounded,
-                          color: Colors.grey,
+            //////////////////////// 버튼 END
+
+            //////////////////////// 펀딩 리스트
+            (isUser == true)
+                ? Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30.0),
+                        child: FundingCardHorizon(
+                          sizeX: sizeX,
+                          imgUrls: imgUrls,
+                          title: '내 펀딩',
                         ),
-                        SizedBox(
-                          width: 5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30.0, top: 35),
+                        child: FundingCardHorizon(
+                          sizeX: sizeX,
+                          imgUrls: imgUrls,
+                          title: '서포트한 펀딩',
                         ),
-                        Text(
-                          '로그아웃',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
+                      ),
+                    ],
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(left: 30.0),
+                    child: FundingCardHorizon(
+                      sizeX: sizeX,
+                      imgUrls: imgUrls,
+                      title: '내 펀딩',
                     ),
                   ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.only(right: 30),
-                    child: const Row(
-                      children: [
-                        Text(
-                          '회원탈퇴',
-                          style: TextStyle(color: Colors.grey),
+            /////////////////////////// 펀딩리스트END
+            /////////////////////////// FAQ, 로그아웃, 회원탈퇴
+            (isUser == true)
+                ? Column(
+                    children: [
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FaqScreen()),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: const Row(
+                            children: [
+                              Icon(Icons.help_outline_rounded),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'FAQ',
+                                style: TextStyle(fontSize: 15),
+                              )
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 30),
+                        height: .5,
+                        width: sizeX,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.exit_to_app_rounded,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '로그아웃',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: const EdgeInsets.only(right: 30),
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    '회원탈퇴',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  )
+                : const SizedBox(
+                    height: 40,
+                  )
           ],
         ),
+        /////////////////////////// FAQ, 로그아웃, 회원탈퇴 END
       ),
     );
   }
