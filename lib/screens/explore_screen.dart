@@ -2,24 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
 
+import '../models/funding_model.dart';
+import '../services/api_funding.dart';
+import 'mysupport_screen.dart';
+
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
-  //TODO : 하드코딩 바꾸깅~ 잇힝 (하트)
+
+  final imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
+
   @override
   Widget build(BuildContext context) {
-    List<String> imgUrls = [];
-    imgUrls.add(
-        'https://flexible.img.hani.co.kr/flexible/normal/970/970/imgdb/original/2023/0619/20230619501341.jpg');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSNkiSUcQ1o4jzsNDFSNYE1Bt3xmRZK3joQ&usqp=CAU');
-    imgUrls.add(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtviSR-KwPyKiV_mJTGqtjgzzVV8r3Z5tRmXTjoypCsKLpVZPa4OuENBO5xcJ6mva1Sxc&usqp=CAU');
-    imgUrls.add(
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg');
-
-    List<String> joined = [];
-    joined.add('값이 있을 때 테스트');
-    joined.add('값이 있을 때 테스트');
+    final Future<List<FundingModel>> publicfunding =
+        Funding.getPublicFunding('1');
+    final Future<List<FundingModel>> mysupportfunding =
+        Funding.getJoinedFunding('1');
+    //TODO : 정렬수정필요
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -84,7 +82,15 @@ class ExploreScreen extends StatelessWidget {
                             fontWeight: FontWeight.w400),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PublicScreen(
+                                      page: '1',
+                                    )),
+                          );
+                        },
                         icon: const Icon(Icons.add),
                       ),
                     ],
@@ -93,33 +99,54 @@ class ExploreScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+                /////////////////////////카드
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        width: 160,
-                        height: 160,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Image.network(imgUrls[0], //펀딩이미지
-                            fit: BoxFit.cover),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: 160,
-                        height: 160,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Image.network(imgUrls[1], //펀딩이미지
-                            fit: BoxFit.cover),
-                      ),
-                    ],
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: FutureBuilder(
+                    future: publicfunding,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        // 오류 표시
+                        return Text('오류: ${snapshot.error}');
+                      } else {
+                        final publicfundings = snapshot.data;
+                        publicfundings!;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 145,
+                              height: 145,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Image.network(
+                                  (publicfundings[0].image != null)
+                                      ? '$imgBaseUrl${publicfundings[0].image}'
+                                      : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
+                                  fit: BoxFit.cover),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: 145,
+                              height: 145,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Image.network(
+                                  (publicfundings[1].image != null)
+                                      ? '$imgBaseUrl${publicfundings[1].image}'
+                                      : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
+                                  fit: BoxFit.cover),
+                            ),
+                          ],
+                        );
+                      }
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -142,7 +169,7 @@ class ExploreScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PublicScreen(
+                                builder: (context) => const MySupportScreen(
                                       page: '1',
                                     )),
                           );
@@ -158,45 +185,80 @@ class ExploreScreen extends StatelessWidget {
                 SizedBox(
                   // margin: const EdgeInsets.symmetric(horizontal: 15),
                   width: 400,
-                  child: joined.isEmpty
-                      ? Container(
-                          alignment: Alignment.center,
-                          height: 150,
-                          child: const Text('서포트한 펀딩이 없습니다.'))
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                width: 160,
-                                height: 160,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Image.network(imgUrls[0], //펀딩이미지
-                                    fit: BoxFit.cover),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              joined.length < 2
-                                  ? const SizedBox(
-                                      width: 20,
-                                    )
-                                  : Container(
-                                      width: 160,
-                                      height: 160,
-                                      clipBehavior: Clip.hardEdge,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Image.network(imgUrls[1], //펀딩이미지
-                                          fit: BoxFit.cover),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: FutureBuilder(
+                        future: mysupportfunding,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            // 오류 표시
+                            return Text('오류: ${snapshot.error}');
+                          } else {
+                            // 펀딩게시글이 있으면
+                            final mysupportfundings = snapshot.data;
+                            bool isSupportExist = false;
+                            if (mysupportfundings!.isNotEmpty) {
+                              isSupportExist = true;
+                            }
+
+                            return (isSupportExist)
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 25),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 145,
+                                          height: 145,
+                                          clipBehavior: Clip.hardEdge,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Image.network(
+                                              (mysupportfundings[0].image !=
+                                                      null)
+                                                  ? '$imgBaseUrl${mysupportfundings[0].image}'
+                                                  : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
+                                              fit: BoxFit.cover),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        mysupportfundings.length < 2
+                                            ? const SizedBox(
+                                                width: 10,
+                                              )
+                                            : Container(
+                                                width: 145,
+                                                height: 145,
+                                                clipBehavior: Clip.hardEdge,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Image.network(
+                                                    (mysupportfundings[1]
+                                                                .image !=
+                                                            null)
+                                                        ? '$imgBaseUrl${mysupportfundings[1].image}'
+                                                        : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
+                                                    fit: BoxFit.cover),
+                                              ),
+                                      ],
                                     ),
-                            ],
-                          ),
-                        ),
+                                  )
+                                : Container(
+                                    alignment: Alignment.center,
+                                    height: 145,
+                                    child: const Text('서포트한 펀딩이 없습니다.'));
+                          }
+                        }),
+                  ),
                 ),
                 const SizedBox(
                   height: 50,

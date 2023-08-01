@@ -25,6 +25,7 @@ class FundingCardHorizon extends StatelessWidget {
           width: sizeX,
           height: 150,
           child: ListView.separated(
+            padding: const EdgeInsets.only(right: 20),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: imgUrls.length,

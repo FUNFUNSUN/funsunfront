@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/account_model.dart';
 import 'package:funsunfront/models/funding_model.dart';
+import 'package:funsunfront/widgets/loading_circle.dart';
 import '../services/api_account.dart';
 import '../services/api_funding.dart';
 
@@ -9,7 +10,7 @@ class ApiTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Future<AccountModel> testProfile = Account.getProfile('admin');
+    final Future<AccountModel> testProfile = Account.getProfile('admin', 2);
     final Future<FundingModel> testFunding = Funding.getFunding('1');
     return Scaffold(
       body: Center(
@@ -20,7 +21,7 @@ class ApiTest extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   // 데이터를 불러오는 동안 로딩 표시
-                  return const CircularProgressIndicator();
+                  return const LoadingCircle();
                 } else if (snapshot.hasError) {
                   // 오류 표시
                   return Text('오류: ${snapshot.error}');
@@ -53,7 +54,7 @@ class ApiTest extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   // 데이터를 불러오는 동안 로딩 표시
-                  return const CircularProgressIndicator();
+                  return const LoadingCircle();
                 } else if (snapshot.hasError) {
                   // 오류 표시
                   return Text('오류: ${snapshot.error}');

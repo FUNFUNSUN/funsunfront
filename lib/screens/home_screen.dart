@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:funsunfront/screens/apitest.dart';
-import 'package:funsunfront/screens/first_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,7 +8,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> _list = ['노이', '예쁜언니', '큰언니'];
+  List<String> _list = ['a', 'b', 'c'];
   //TODO : Fix hardcoding
 
   @override
@@ -71,26 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FirstScreen()),
-                        );
-                      },
-                      child: const Text('테스트용 FirstScreen 라우팅'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ApiTest()),
-                        );
-                      },
-                      child: const Text('api테스트 버튼'),
-                    ),
                   ],
                 ),
               ),
@@ -102,8 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> refreshHomeScreen() async {
-    // 추후 여기서 API이용 메소드 작성
-    final newList = ['원윤선', '정대만', '두송'];
+    // TODO: 여기서 API이용 메소드 작성
+    final newList = ['d', 'e', 'f'];
     setState(() {
       _list = [..._list, ...newList];
     });
