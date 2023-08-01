@@ -1,11 +1,12 @@
+// import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:funsunfront/screens/terms_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../services/api_funding.dart';
 import '../widgets/image_upload.dart';
 
 class EditScreen extends StatefulWidget {
@@ -26,10 +27,11 @@ class _EditScreenState extends State<EditScreen> {
   final List<bool> _selectedPublic = <bool>[true, false];
   int tempPublic = 0;
   String _selectedDate = "";
+  DateTime? selDate;
   final _titleTextEditController = TextEditingController();
   final _contentTextEditController = TextEditingController();
   final _goalAmountTextEditController = TextEditingController();
-
+  late Map<String, dynamic> temp;
   Future _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
@@ -40,7 +42,8 @@ class _EditScreenState extends State<EditScreen> {
     );
     if (selected != null) {
       setState(() {
-        _selectedDate = (DateFormat.yMMMd()).format(selected);
+        _selectedDate = DateFormat('yyyy-MM-dd').format(selected);
+        // selDate = (DateFormat.YEAR_NUM_MONTH_DAY)
       });
     }
   }
@@ -336,9 +339,14 @@ class _EditScreenState extends State<EditScreen> {
                     width: double.infinity,
                     child: GestureDetector(
                       onTap: () async {
+                        print(_selectedDate);
+
+                        DateTime tempDate = DateTime.parse(_selectedDate);
+                        // print(tempDate);
                         int tempAmount =
                             int.parse(_goalAmountTextEditController.value.text);
                         bool tempPublicBool = tempPublic == 0 ? true : false;
+                        String strDate = tempDate.toString();
 
                         if (_titleTextEditController.text.length < 2 ||
                             _titleTextEditController.text.length > 20 ||
@@ -350,21 +358,37 @@ class _EditScreenState extends State<EditScreen> {
                           print('펀딩 목적을 확인해주세요.');
                         } else if (tempAmount < 1000 || tempAmount > 10000000) {
                           print('펀딩 금액은 1,000원 이상, 10,000,000원 이하입니다.');
+                        } else if (strDate.isEmpty) {
+                          print('날짜를 고르세요.');
                         } else {
-                          Map<String, dynamic> temp = {
+                          temp = {
                             'title': _titleTextEditController.text,
                             'content': _contentTextEditController.text,
                             'goal_amount':
                                 _goalAmountTextEditController.value.text,
-                            'expire_on': _selectedDate,
-                            'public': tempPublicBool.toString()
+                            'expire_on': tempDate.toIso8601String(),
+                            'public': tempPublicBool
                           };
+                          // var json = jsonEncode(temp);
                           print('아직 호출안됨');
-                          bool postResult = await Funding.postFunding(temp, 2);
+                          // bool postResult = await Funding.postFunding(json);
                           print('API 호출은 됐음');
-                          (postResult)
-                              ? const Dialog(child: Text('됐다!'))
-                              : const Dialog(child: Text('넌 좆됐어'));
+                          // print(postResult);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TermsScreen(temp)),
+                          );
+                          // showDialog(
+                          //   context: context,
+                          //   builder: ((context) {
+                          //     return AlertDialog(
+                          //       title: Text(postResult.toString()),
+                          //     );
+                          //   }),
+                          // );
+
                           // var url = Uri.parse('uri');
                           // final response = await http.post(url);
                         }

@@ -108,6 +108,8 @@ class Funding {
     String? token = await storage.read(key: 'accessToken');
     final headers = {
       'Authorization': 'Bearer $token',
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
     };
     final url = Uri.parse(baseUrl);
     final response = await http.post(url, body: fundingData, headers: headers);
@@ -117,6 +119,6 @@ class Funding {
       await Account.refreshToken();
       return false;
     }
-    throw Error();
+    return false;
   }
 }
