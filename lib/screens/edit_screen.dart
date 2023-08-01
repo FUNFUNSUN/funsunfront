@@ -142,34 +142,38 @@ class _EditScreenState extends State<EditScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => ImageUpload(
-                            setImage: setImage,
+                  Row(
+                    children: [
+                      if (_image != null)
+                        Container(
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          width: 100,
+                          height: 100,
+                          child: Image.file(
+                            _image!,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ).then((res) => setState(() {}));
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                    ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => ImageUpload(
+                                setImage: setImage,
+                              ),
+                            ),
+                          ).then((res) => setState(() {}));
+                        },
+                        icon: Icon(
+                          (_image != null) ? Icons.delete : Icons.add,
+                        ),
+                      ),
+                    ],
                   ),
-                  // SizedBox(
-                  //   child: Column(children: [
-                  //     FloatingActionButton(
-                  //       child: const Icon(
-                  //         Icons.add,
-                  //       ),
-                  //       onPressed: () {
-                  //         print('눌림');
-                  //         getImage(ImageSource.gallery);
-                  //       },
-                  //     ),
-                  //   ]),
-                  // ),
                   const SizedBox(
                     height: 30,
                   ),
