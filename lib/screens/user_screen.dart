@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
 import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,14 @@ class UserScreen extends StatelessWidget {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
+    bool isUser = true;
+
+    void logout() async {
+      const storage = FlutterSecureStorage();
+      await storage.delete(key: 'accessToken');
+      await storage.delete(key: 'refreshToken');
+      _userProvider.setLogin("");
+    }
 
     List<String> imgUrls = [];
     imgUrls.add(
@@ -181,7 +190,9 @@ class UserScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              logout();
+                            },
                             child: Container(
                               padding: const EdgeInsets.only(left: 30),
                               child: const Row(

@@ -55,13 +55,12 @@ class Account {
     final url = Uri.parse('${baseUrl}kakaologin');
     final body = {"accessToken": kakaotoken};
     final response = await http.post(url, body: body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final accesstoken = jsonDecode(response.body)['token']['access_token'];
       final refreshtoken = jsonDecode(response.body)['token']['refresh_token'];
       await storage.write(key: 'accessToken', value: accesstoken);
       await storage.write(key: 'refreshToken', value: refreshtoken);
     }
-    throw Error();
   }
 
   static Future<AccountModel> getProfile(String uid, int trigger) async {
@@ -80,7 +79,7 @@ class Account {
       return AccountModel.fromJson(profile);
     } else if (response.statusCode == 401) {
       await refreshToken();
-      return accessTokenLogin(trigger);
+      return getProfile(uid, trigger);
     }
     throw Error();
   }
