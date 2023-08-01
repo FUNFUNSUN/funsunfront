@@ -27,4 +27,28 @@ class Remit {
     }
     throw Error();
   }
+
+  static Future<RemitModel> postRemit(
+      {required String remitData, int trigger = 2}) async {
+    if (trigger == 0) {
+      throw Error();
+    }
+    trigger -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final url = Uri.parse(baseUrl);
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    final response = await http.post(url, headers: headers, body: remitData);
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      final remit = jsonDecode(response.body);
+      return RemitModel.fromJson(remit);
+    } else if (response.statusCode == 401) {
+      await Account.refreshToken();
+      return postRemit(remitData: remitData);
+    }
+    throw Error();
+  }
 }

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class AchievementRate extends StatelessWidget {
-  final double percent;
+  late double percent;
   final int date;
 
-  const AchievementRate({
+  AchievementRate({
     required this.percent,
     required this.date,
     Key? key,
@@ -13,6 +13,9 @@ class AchievementRate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (percent >= 1.0) {
+      percent = 1.0;
+    }
     final String percentStr = (percent * 100).toStringAsFixed(0);
     final String dateStr = date.toString();
     final double screenWidth = MediaQuery.of(context).size.width;
