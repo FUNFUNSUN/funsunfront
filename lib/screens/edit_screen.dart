@@ -360,7 +360,7 @@ class _EditScreenState extends State<EditScreen> {
                             'public': tempPublicBool.toString()
                           };
                           print('아직 호출안됨');
-                          bool postResult = await Funding.postFunding(temp);
+                          bool postResult = await Funding.postFunding(temp, 2);
                           print('API 호출은 됐음');
                           (postResult)
                               ? const Dialog(child: Text('됐다!'))
