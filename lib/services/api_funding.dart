@@ -117,10 +117,8 @@ class Funding {
       // Map<String, dynamic> resBodyJson = jsonDecode(response.body);
 
       return jsonDecode(response.body);
-      // } else if (response.statusCode == 400) {
-      //   return ;
-      // }
-      // return false;
+    } else if (response.statusCode == 401) {
+      await Account.refreshToken();
     }
     throw Error();
   }
