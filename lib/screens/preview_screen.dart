@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/funding_model.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
@@ -80,8 +79,9 @@ class PreviewScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: InkWell(
                   onTap: () async {
-                    var json = jsonEncode(temp);
-                    FundingModel postResult = await Funding.postFunding(json);
+                    // var json = jsonEncode(temp);
+                    FundingModel postResult =
+                        await Funding.postFunding(temp, 2);
 
                     Navigator.push(
                       context,

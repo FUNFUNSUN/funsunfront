@@ -99,7 +99,7 @@ class Funding {
     throw Error();
   }
 
-  static Future<bool> postFunding(
+  static Future<FundingModel> postFunding(
       Map<String, dynamic> fundingData, int trigger) async {
     if (trigger == 0) {
       throw Error();
