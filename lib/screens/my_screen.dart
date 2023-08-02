@@ -76,7 +76,7 @@ class MyScreen extends StatelessWidget {
 
                   ////////////////////////유저 프로필 END
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   /////////////////////////내펀딩만들기 | 팔로우 버튼
                   InkWell(
