@@ -39,31 +39,43 @@ class Profile extends StatelessWidget {
               '$userName님',
               style: const TextStyle(fontSize: 20),
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const FollowTest()),
-                );
-              },
-              child: Row(
-                children: [
-                  Text('팔로워 $followerStr명'),
-                  const SizedBox(
-                    width: 20,
+            Row(
+              children: [
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FollowTest(
+                                  initIndex: 0,
+                                )),
+                      );
+                    },
+                    child: Text('팔로워 $followerStr명')),
+                const SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  '|',
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.6),
                   ),
-                  Text(
-                    '|',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.6),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text('팔로잉 $followingStr명'),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FollowTest(
+                                  initIndex: 1,
+                                )),
+                      );
+                    },
+                    child: Text('팔로잉 $followingStr명')),
+              ],
             ),
           ],
         ),
