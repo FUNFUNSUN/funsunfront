@@ -14,9 +14,22 @@ class PreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    // final screenHeight = MediaQuery.of(context).size.height;
-    final leftDays =
-        DateTime.parse(temp['expire_on']).difference(DateTime.now()).inDays + 1;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    DateTime KoreaDateTime = DateTime.now().add(const Duration(hours: 9));
+    print('한국 시간 $KoreaDateTime');
+    print('펀딩시간 ${DateTime.parse(temp['expire_on'])}');
+
+    final ex =
+        DateTime.parse(temp['expire_on']).difference(KoreaDateTime).toString();
+
+    int tempDifference = int.parse((ex.substring(0, ex.indexOf(':'))));
+
+    final leftDays = tempDifference ~/ 24;
+    print('차이나는 날짜만 출력 : $leftDays');
+
+    final leftHours = tempDifference - leftDays * 24;
+    print('차이나는 시간만 출력 : $leftHours');
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     return Scaffold(
@@ -59,7 +72,8 @@ class PreviewScreen extends StatelessWidget {
               ),
               AchievementRate(
                 percent: 0,
-                date: leftDays > 0 ? leftDays : 0,
+                date: leftDays,
+                hour: leftHours,
               ),
               Padding(
                 padding:
