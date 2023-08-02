@@ -7,8 +7,18 @@ class ProfileProvider extends ChangeNotifier {
   AccountModel? _profile;
   AccountModel? get profile => _profile;
 
-  void updateProfile(String uid) async {
+  Future<void> updateProfile(String uid) async {
     _profile = await User.getProfile(uid: uid);
+    notifyListeners();
+  }
+
+  void increaseFollow() {
+    _profile!.follower++;
+    notifyListeners();
+  }
+
+  void decreaseFollow() {
+    _profile!.follower--;
     notifyListeners();
   }
 }

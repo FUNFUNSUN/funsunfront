@@ -50,13 +50,32 @@ class MyScreen extends StatelessWidget {
               padding: const EdgeInsets.all(30.0),
               child: Column(
                 children: [
-                  Profile(
-                    userimg: _userProvider.user!.image,
-                    userName: _userProvider.user!.username,
-                    following: _userProvider.user!.followee!,
-                    follower: _userProvider.user!.follower!,
-                    //이렇게 하는게 맞는지 정확히는 모르겠음
-                  ),
+                  Stack(children: [
+                    Profile(
+                      userimg: _userProvider.user!.image,
+                      userName: _userProvider.user!.username,
+                      following: _userProvider.user!.followee!,
+                      follower: _userProvider.user!.follower!,
+                      //이렇게 하는게 맞는지 정확히는 모르겠음
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      left: 100,
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.red[100],
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          size: 15,
+                        ),
+                      ),
+                    ),
+                  ]),
+
                   ////////////////////////유저 프로필 END
                   const SizedBox(
                     height: 10,

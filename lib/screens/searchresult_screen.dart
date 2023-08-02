@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/models/account_model.dart';
+import 'package:funsunfront/services/api_account.dart';
 
 class SearchResultScreen extends StatelessWidget {
   const SearchResultScreen({super.key});
@@ -25,6 +27,8 @@ class _SearchBoxState extends State<SearchBox> {
 
   bool isUserExist = false; //유저 검색 시 테스트용 변수입니다.
 
+  List<AccountModel>? searchedUsers;
+
   @override
   void dispose() {
     _searchController.dispose(); // 메모리 누수를 방지하기 위해 컨트롤러를 dispose합니다.
@@ -46,9 +50,10 @@ class _SearchBoxState extends State<SearchBox> {
               onChanged: (value) {
                 //검색어 변경 시 동작할 코드 추가, 검색어 입력할 때마다 호출되는부분
               },
-              onSubmitted: (value) {
+              onSubmitted: (value) async {
                 // 검색어 제출 시 동작할 코드 추가
                 // 검색어를 입력하고 검색 버튼(키보드의 검색/엔터 키)을 누르면 이 부분이 호출됩니다.
+                searchedUsers = await User.userSearch(username: value);
                 if (value.isNotEmpty) {
                   setState(() {
                     searchHistory.add(value);

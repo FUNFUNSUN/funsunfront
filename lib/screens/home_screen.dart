@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
-import 'package:funsunfront/screens/userscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/profile_provider.dart';
@@ -18,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ProfileProvider profileProvider = Provider.of(context, listen: true);
+    ProfileProvider profileProvider = Provider.of(context, listen: false);
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: refreshHomeScreen,
@@ -75,17 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    TextButton(
-                        onPressed: () async {
-                          profileProvider.updateProfile('admin');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const UserScreen(id: 'admin')),
-                          );
-                        },
-                        child: const Text('유저페이지 임시 이동버튼')),
                     TextButton(
                         onPressed: () {
                           Navigator.push(

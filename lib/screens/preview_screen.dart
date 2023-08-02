@@ -6,16 +6,11 @@ import 'package:funsunfront/services/api_funding.dart';
 import '../widgets/achievement_rate.dart';
 import 'funding_screen.dart';
 
-class PreviewScreen extends StatefulWidget {
+class PreviewScreen extends StatelessWidget {
   Map<String, dynamic> temp;
   File? image;
   PreviewScreen(this.temp, this.image, {Key? key}) : super(key: key);
 
-  @override
-  State<PreviewScreen> createState() => _PreviewScreenState();
-}
-
-class _PreviewScreenState extends State<PreviewScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -56,8 +51,8 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   color: Theme.of(context).primaryColorDark.withOpacity(0.6),
                 ),
                 clipBehavior: Clip.hardEdge,
-                child: widget.image != null
-                    ? Image(image: FileImage(widget.image!))
+                child: image != null
+                    ? Image(image: FileImage(image!))
                     : Image.network(
                         'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
                       ),
@@ -75,7 +70,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.temp['title'],
+                    temp['title'],
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w900,
@@ -88,7 +83,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.temp['content'],
+                    temp['content'],
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -105,18 +100,18 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     // var json = jsonEncode(temp);
 
                     Map<String, dynamic> postResult = await Funding.postFunding(
-                        fundingData: widget.temp, image: widget.image);
+                        fundingData: temp, image: image);
 
-                    if (!mounted) return;
+                    if (context.mounted) {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
 
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              FundingScreen(id: postResult['id'].toString())),
-                    );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                FundingScreen(id: postResult['id'].toString())),
+                      );
+                    }
                   },
                   child: Container(
                       decoration: BoxDecoration(

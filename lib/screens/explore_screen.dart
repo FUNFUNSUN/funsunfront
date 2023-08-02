@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../models/funding_model.dart';
 import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
-import '../widgets/fundingcard_horizon.dart';
 import 'mysupport_screen.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -79,13 +78,13 @@ class ExploreScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // const Text(
-                      //   '전체공개펀딩',
-                      //   style: TextStyle(
-                      //       color: Colors.black,
-                      //       fontSize: 15,
-                      //       fontWeight: FontWeight.w400),
-                      // ),
+                      const Text(
+                        '전체공개펀딩',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400),
+                      ),
                       IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -122,11 +121,6 @@ class ExploreScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              FundingCardHorizon(
-                                sizeX: sizeX,
-                                fundings: publicfunding,
-                                title: '전체 펀딩',
-                              ),
                               Container(
                                 width: 145,
                                 height: 145,
