@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
+import '../services/api_report.dart';
 
 //타입 : 펀딩이냐 유저냐 댓글이냐를 String으로 보내세용
 //타겟: 타입의 아이디
@@ -74,7 +78,7 @@ class ReportScreen extends StatelessWidget {
               ),
 
               InkWell(
-                onTap: () {
+                onTap: () async {
                   if (reportMessage.text.length > 255 ||
                       reportMessage.text.length < 2) {
                     showDialog(
@@ -90,6 +94,48 @@ class ReportScreen extends StatelessWidget {
                     print(report['type']);
                     print(report['target']);
                     print(report['message']);
+
+                    var json = jsonEncode(report);
+
+                    bool reportResult =
+                        await Report.postReport(reportData: json);
+
+                    if (context.mounted) {
+                      if (reportResult) {
+                        showDialog(
+                          context: context,
+                          builder: ((context) {
+                            return AlertDialog(
+                              title: const Text('정상등록되었습니다'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('닫기'))
+                              ],
+                            );
+                          }),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: ((context) {
+                            return AlertDialog(
+                              title: const Text('신고에 실패하였습니다.'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('닫기'))
+                              ],
+                            );
+                          }),
+                        );
+                      }
+                    }
 
                     // Navigator.push(
                     //   context,
