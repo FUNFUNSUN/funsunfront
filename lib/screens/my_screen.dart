@@ -174,7 +174,7 @@ class MyScreen extends StatelessWidget {
                   height: 30,
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  margin: const EdgeInsets.symmetric(horizontal: 40),
                   height: .5,
                   width: sizeX,
                   color: Colors.grey,
@@ -182,47 +182,48 @@ class MyScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        logout();
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: const Row(
-                          children: [
-                            Icon(
-                              Icons.exit_to_app_rounded,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '로그아웃',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          logout();
+                        },
+                        child: Container(
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.exit_to_app_rounded,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '로그아웃',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        padding: const EdgeInsets.only(right: 30),
-                        child: const Row(
-                          children: [
-                            Text(
-                              '회원탈퇴',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
+                      Container(
+                        child: InkWell(
+                          onTap: () {},
+                          child: const Row(
+                            children: [
+                              Text(
+                                '회원탈퇴',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 30,

@@ -51,6 +51,9 @@ class Profile extends StatelessWidget {
               '$userName님',
               style: const TextStyle(fontSize: 20),
             ),
+            const SizedBox(
+              height: 5,
+            ),
             InkWell(
               onTap: () {
                 Navigator.push(
