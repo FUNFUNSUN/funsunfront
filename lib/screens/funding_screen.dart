@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/remit_model.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
-import 'package:funsunfront/screens/remit_screen.dart';
 import 'package:funsunfront/screens/userscreen.dart';
 import 'package:funsunfront/services/api_remit.dart';
 
@@ -13,9 +12,11 @@ import 'package:provider/provider.dart';
 import '../models/funding_model.dart';
 import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
+import '../widgets/report_icon.dart';
 
 class FundingScreen extends StatelessWidget {
   final String id;
+  late final fundingId;
   FundingScreen({
     Key? key,
     required this.id,
@@ -32,6 +33,7 @@ class FundingScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
+    fundingId = id;
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
@@ -126,24 +128,35 @@ class FundingScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40),
+                          padding: const EdgeInsets.symmetric(horizontal: 40),
                           child: GestureDetector(
                             onTap: () {
                               String id = funding.id!.toString();
+
                               // snapshot.data!.id.toString();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RemitScreen(
-                                          targetFunding: funding,
-                                        )),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => RemitScreen(
+                              //             targetFunding: funding,
+                              //           )),
+                              // );
                             },
                             child: const PinkBtn(
                               btnTxt: '펀딩하기',
                             ),
                           )),
+                      /////////////////////////////////////////////////
+                      ////////////////////////////////////////////////////
+                      ////////////////////////////////////////////////////
+                      ReportIcon(fundingId, 'funding', ''),
+                      /////////////////////////////////////////////////
+                      ////////////////////////////////////////////////////
+                      ////////////////////////////////////////////////////
                       Column(
                         children: [
                           Transform.translate(
