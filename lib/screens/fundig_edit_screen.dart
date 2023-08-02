@@ -8,11 +8,11 @@ import 'package:intl/intl.dart';
 
 import '../widgets/image_upload.dart';
 
-class EditScreen extends StatefulWidget {
-  const EditScreen({super.key});
+class FundingCreateScreen extends StatefulWidget {
+  const FundingCreateScreen({super.key});
 
   @override
-  State<EditScreen> createState() => _EditScreenState();
+  State<FundingCreateScreen> createState() => _FundingCreateScreenState();
 }
 
 const List<Widget> _publics = <Widget>[
@@ -20,7 +20,7 @@ const List<Widget> _publics = <Widget>[
   Text('Private'),
 ];
 
-class _EditScreenState extends State<EditScreen> {
+class _FundingCreateScreenState extends State<FundingCreateScreen> {
   File? _image;
   final picker = ImagePicker();
   final List<bool> _selectedPublic = <bool>[true, false];
@@ -32,7 +32,7 @@ class _EditScreenState extends State<EditScreen> {
   final _goalAmountTextEditController = TextEditingController();
   late Map<String, dynamic> temp;
 
-  DateTime tommorow = DateTime.now().add(const Duration(days: 1));
+  DateTime tommorow = DateTime.now().add(const Duration(days: 1, hours: 9));
   DateTime today = DateTime.now().add(const Duration(hours: 9));
 
   late DateTime FD =
@@ -47,8 +47,8 @@ class _EditScreenState extends State<EditScreen> {
 
     final DateTime? selected = await showDatePicker(
       context: context,
-      initialDate: FD,
-      firstDate: FD,
+      initialDate: tommorow,
+      firstDate: tommorow,
       lastDate: DateTime(
           DateTime.now().year + 1, DateTime.now().month, DateTime.now().day),
     );
@@ -332,7 +332,10 @@ class _EditScreenState extends State<EditScreen> {
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: () => _selectDate(context),
+                      onTap: () {
+                        print(tommorow.toString());
+                        _selectDate(context);
+                      },
                       child: _selectedDate.isEmpty
                           ? const Icon(
                               Icons.calendar_month_outlined,
