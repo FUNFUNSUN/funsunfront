@@ -8,8 +8,8 @@ import '../services/api_follow.dart';
 import '../widgets/loading_circle.dart';
 
 class FollowTest extends StatefulWidget {
-  const FollowTest({super.key});
-
+  const FollowTest({super.key, required this.initIndex});
+  final int initIndex;
   @override
   _FollowTestState createState() => _FollowTestState();
 }
@@ -20,12 +20,14 @@ late ProfileProvider _profileProvider;
 class _FollowTestState extends State<FollowTest>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int currentPageIndex = 0;
+  late int currentPageIndex;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.index = widget.initIndex;
+    currentPageIndex = widget.initIndex;
     _tabController.addListener(() {
       setState(() {
         currentPageIndex = _tabController.index;

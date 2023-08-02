@@ -59,7 +59,7 @@ class Profile extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const FollowTest(
-                                // initIndex: 0, //여기서 오류남
+                                  initIndex: 0,
                                 )),
                       );
                     },
@@ -82,7 +82,7 @@ class Profile extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const FollowTest(
-                                // initIndex: 1, //여기서 오류남
+                                  initIndex: 1,
                                 )),
                       );
                     },
