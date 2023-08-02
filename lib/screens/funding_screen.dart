@@ -41,14 +41,25 @@ class FundingScreen extends StatelessWidget {
               return Text('오류: ${snapshot.error}');
             } else {
               // 로딩 끝났으면 표시가능
+
               final funding = snapshot.data;
               funding!;
 
+              ////////////////////////날짜 수정해야함
+              // print(funding.expireOn);
+              // print(DateTime.now());
+
+              // DateTime now = DateTime.now();
+              // final difference =
+              //     now.difference(DateTime.parse(funding.expireOn));
+
+              // print(difference.inHours);
+              // print(funding.expireOn);
+
               //날짜 계산
               final leftDays = DateTime.parse(funding.expireOn)
-                      .difference(DateTime.now())
-                      .inDays +
-                  1;
+                  .difference(DateTime.now())
+                  .inDays;
 
               return SingleChildScrollView(
                 child: Center(
@@ -207,7 +218,7 @@ class FundingScreen extends StatelessWidget {
                                                         MainAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        remit.author.username,
+                                                        'From. ${remit.author.username}',
                                                         style: const TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 18,
@@ -219,7 +230,7 @@ class FundingScreen extends StatelessWidget {
                                                         width:
                                                             screenWidth * 0.7,
                                                         child: Text(
-                                                          '${remit.message} ${remit.id}',
+                                                          remit.message,
                                                           style:
                                                               const TextStyle(
                                                             color: Colors.white,

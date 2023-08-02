@@ -26,7 +26,7 @@ class _EditScreenState extends State<EditScreen> {
   final List<bool> _selectedPublic = <bool>[true, false];
   int tempPublic = 0;
   String _selectedDate = "";
-  DateTime? selDate;
+  final finalDate = "";
   final _titleTextEditController = TextEditingController();
   final _contentTextEditController = TextEditingController();
   final _goalAmountTextEditController = TextEditingController();
@@ -42,7 +42,6 @@ class _EditScreenState extends State<EditScreen> {
     if (selected != null) {
       setState(() {
         _selectedDate = DateFormat('yyyy-MM-dd').format(selected);
-        // selDate = (DateFormat.YEAR_NUM_MONTH_DAY)
       });
     }
   }
@@ -338,13 +337,6 @@ class _EditScreenState extends State<EditScreen> {
                     width: double.infinity,
                     child: GestureDetector(
                       onTap: () async {
-                        DateTime tempDate = DateTime.parse(_selectedDate);
-                        String strDate = tempDate.toString();
-
-                        int tempAmount =
-                            int.parse(_goalAmountTextEditController.value.text);
-                        bool tempPublicBool = tempPublic == 0 ? true : false;
-
                         if (_titleTextEditController.text.length < 2 ||
                             _titleTextEditController.text.length > 20 ||
                             _titleTextEditController.text.isEmpty) {
@@ -367,7 +359,11 @@ class _EditScreenState extends State<EditScreen> {
                               );
                             }),
                           );
-                        } else if (tempAmount < 1000 || tempAmount > 10000000) {
+                        } else if (_goalAmountTextEditController.text.isEmpty ||
+                            int.parse(_goalAmountTextEditController.text) <
+                                1000 ||
+                            int.parse(_goalAmountTextEditController.text) >
+                                10000000) {
                           showDialog(
                             context: context,
                             builder: ((context) {
@@ -376,7 +372,7 @@ class _EditScreenState extends State<EditScreen> {
                               );
                             }),
                           );
-                        } else if (strDate.isEmpty) {
+                        } else if (_selectedDate.isEmpty) {
                           showDialog(
                             context: context,
                             builder: ((context) {
@@ -386,6 +382,14 @@ class _EditScreenState extends State<EditScreen> {
                             }),
                           );
                         } else {
+                          bool tempPublicBool = tempPublic == 0 ? true : false;
+
+                          //17시 들어가라.
+                          String tmpDate = _selectedDate.toString();
+                          String time = ' 17:00:00';
+                          final finalDate = tmpDate + time;
+                          DateTime tempDate = DateTime.parse(finalDate);
+
                           temp = {
                             'title': _titleTextEditController.text,
                             'content': _contentTextEditController.text,
@@ -394,7 +398,7 @@ class _EditScreenState extends State<EditScreen> {
                             'expire_on': tempDate.toIso8601String(),
                             'public': tempPublicBool
                           };
-                          print('아직 호출안됨');
+                          print(tempDate);
 
                           print('API 호출은 됐음');
                           // print(postResult);
