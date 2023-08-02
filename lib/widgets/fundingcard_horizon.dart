@@ -66,17 +66,21 @@ class FundingCardHorizon extends StatelessWidget {
                                   );
                                 },
                                 child: Container(
-                                  width: 150,
-                                  height: 150,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Image.network(
-                                      (userfundings[index].image != null)
-                                          ? '$baseurl${userfundings[index].image}'
-                                          : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg', //펀딩이미지
-                                      fit: BoxFit.cover),
-                                ),
+                                    width: 150,
+                                    height: 150,
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: (userfundings[index].image != null)
+                                        ? Image.network(
+                                            '$baseurl${userfundings[index].image}',
+                                            fit: BoxFit.cover)
+                                        : Image.asset(
+                                            'assets/images/default_funding.jpg',
+                                            fit: BoxFit.cover,
+                                          ) //펀딩이미지
+                                    ),
                               );
                             },
                             separatorBuilder: (context, index) {
