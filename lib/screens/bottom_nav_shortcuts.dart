@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../models/account_model.dart';
 import '../provider/fundings_provider.dart';
+import '../provider/profile_provider.dart';
 import '../provider/user_provider.dart';
 import '../services/api_account.dart';
 
@@ -26,6 +27,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
   late int _currentIndex;
   late UserProvider _userProvider;
   late FundingsProvider _fundingsProvider;
+  late ProfileProvider _profileProvider;
   late AccountModel user;
 
   void initfuction() async {
@@ -39,6 +41,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
       _fundingsProvider.getMyfundings(_userProvider.user!.id);
       _fundingsProvider.getJoinedfundings();
       _fundingsProvider.getPublicFundings();
+      _profileProvider.updateProfile(_userProvider.user!.id);
     } else {
       _userProvider.setLogin("");
     }
@@ -54,6 +57,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
+    _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
     _fundingsProvider = Provider.of<FundingsProvider>(context, listen: false);
 
     switch (_userProvider.logged) {
@@ -75,10 +79,13 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
             showSelectedLabels: false,
             showUnselectedLabels: false,
             currentIndex: _currentIndex,
-            onTap: (index) {
+            onTap: (index) async {
               setState(() {
                 _currentIndex = index;
               });
+              if (index == 2) {
+                await _profileProvider.updateProfile(_userProvider.user!.id);
+              }
             },
             items: const [
               BottomNavigationBarItem(

@@ -15,7 +15,6 @@ class MyScreen extends StatelessWidget {
   });
 
   late UserProvider _userProvider;
-
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);

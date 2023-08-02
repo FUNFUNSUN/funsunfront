@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../screens/followTest.dart';
-import '../screens/followlist_screen.dart';
 
 class Profile extends StatelessWidget {
   final String userName;
