@@ -82,12 +82,15 @@ class FundingScreen extends StatelessWidget {
                               .withOpacity(0.6),
                         ),
                         clipBehavior: Clip.hardEdge,
-                        child: Image.network(
-                          (funding.image != null)
-                              ? '$baseurl${funding.image}'
-                              : 'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
-                          fit: BoxFit.cover,
-                        ),
+                        child: (funding.image != null)
+                            ? Image.network(
+                                '$baseurl${funding.image}',
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/images/default_profile.jpg',
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       const SizedBox(
                         height: 30,

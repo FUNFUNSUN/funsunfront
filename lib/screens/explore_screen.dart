@@ -128,11 +128,14 @@ class ExploreScreen extends StatelessWidget {
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10)),
-                                child: Image.network(
-                                    (publicfundings[0].image != null)
-                                        ? '$imgBaseUrl${publicfundings[0].image}'
-                                        : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
-                                    fit: BoxFit.cover),
+                                child: (publicfundings[0].image != null)
+                                    ? Image.network(
+                                        '$imgBaseUrl${publicfundings[0].image}',
+                                        fit: BoxFit.cover)
+                                    : Image.asset(
+                                        'assets/images/default_funding.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
                               const SizedBox(
                                 width: 10,
@@ -143,11 +146,14 @@ class ExploreScreen extends StatelessWidget {
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10)),
-                                child: Image.network(
-                                    (publicfundings[1].image != null)
-                                        ? '$imgBaseUrl${publicfundings[1].image}'
-                                        : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
-                                    fit: BoxFit.cover),
+                                child: (publicfundings[1].image != null)
+                                    ? Image.network(
+                                        '$imgBaseUrl${publicfundings[0].image}',
+                                        fit: BoxFit.cover)
+                                    : Image.asset(
+                                        'assets/images/default_funding.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
                             ],
                           ),
@@ -226,12 +232,15 @@ class ExploreScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10)),
-                                          child: Image.network(
-                                              (mysupportfundings[0].image !=
-                                                      null)
-                                                  ? '$imgBaseUrl${mysupportfundings[0].image}'
-                                                  : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
-                                              fit: BoxFit.cover),
+                                          child: (mysupportfundings[0].image !=
+                                                  null)
+                                              ? Image.network(
+                                                  '$imgBaseUrl${mysupportfundings[0].image}',
+                                                  fit: BoxFit.cover)
+                                              : Image.asset(
+                                                  'assets/images/default_funding.jpg',
+                                                  fit: BoxFit.cover,
+                                                ),
                                         ),
                                         const SizedBox(
                                           width: 10,
@@ -248,13 +257,16 @@ class ExploreScreen extends StatelessWidget {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10)),
-                                                child: Image.network(
-                                                    (mysupportfundings[1]
-                                                                .image !=
-                                                            null)
-                                                        ? '$imgBaseUrl${mysupportfundings[1].image}'
-                                                        : 'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202303/19/starnews/20230319084657800lhwc.jpg',
-                                                    fit: BoxFit.cover),
+                                                child: (mysupportfundings[1]
+                                                            .image !=
+                                                        null)
+                                                    ? Image.network(
+                                                        '$imgBaseUrl${mysupportfundings[1].image}',
+                                                        fit: BoxFit.cover)
+                                                    : Image.asset(
+                                                        'assets/images/default_funding.jpg',
+                                                        fit: BoxFit.cover,
+                                                      ),
                                               ),
                                       ],
                                     ),

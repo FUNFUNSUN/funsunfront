@@ -51,10 +51,8 @@ class PreviewScreen extends StatelessWidget {
                 clipBehavior: Clip.hardEdge,
                 child: image != null
                     ? Image(image: FileImage(image!))
-                    : Image.network(
-                        'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
-                        fit: BoxFit.fill,
-                      ),
+                    : Image.asset('assets/images/default_profile.jpg',
+                        fit: BoxFit.cover),
               ),
               const SizedBox(
                 height: 30,

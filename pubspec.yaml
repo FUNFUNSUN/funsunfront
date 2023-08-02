@@ -78,6 +78,8 @@ flutter:
     - assets/images/giftBox.png
     - assets/images/pinkCircles.png
     - assets/images/purpleCircles.png
+    - assets/images/default_profile.jpg
+    - assets/images/default_funding.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
