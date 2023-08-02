@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/account_model.dart';
 
@@ -9,6 +11,14 @@ class UserProvider extends ChangeNotifier {
 
   AccountModel? _user;
   AccountModel? get user => _user;
+
+  File? _profileImage;
+  File? get profileImage => _profileImage;
+
+  void setProfileImage(File image) {
+    _profileImage = image;
+    notifyListeners();
+  }
 
   void setLogin(String status) {
     _logged = status;
