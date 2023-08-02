@@ -19,7 +19,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenHeight = MediaQuery.of(context).size.height;
     final leftDays = DateTime.parse(widget.temp['expire_on'])
             .difference(DateTime.now())
             .inDays +
