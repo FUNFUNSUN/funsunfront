@@ -53,6 +53,7 @@ class PreviewScreen extends StatelessWidget {
                     ? Image(image: FileImage(image!))
                     : Image.network(
                         'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
+                        fit: BoxFit.fill,
                       ),
               ),
               const SizedBox(

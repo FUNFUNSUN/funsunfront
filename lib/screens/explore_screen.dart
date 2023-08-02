@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +19,8 @@ class ExploreScreen extends StatelessWidget {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
     final Future<List<FundingModel>> publicfunding =
         Funding.getPublicFunding(page: '1');
-    final Future<List<FundingModel>> mysupportfunding =
-        Funding.getJoinedFunding(page: '1');
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: true);
     final sizeX = MediaQuery.of(context).size.width;
     //TODO : 정렬수정필요
     return MaterialApp(
@@ -107,7 +108,7 @@ class ExploreScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: FutureBuilder(
-                    future: publicfunding,
+                    future: fundingsProvider.publicFundings,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
@@ -194,7 +195,7 @@ class ExploreScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: FutureBuilder(
-                        future: mysupportfunding,
+                        future: fundingsProvider.joinedFundings,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
