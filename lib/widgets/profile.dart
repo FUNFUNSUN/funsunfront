@@ -22,12 +22,13 @@ class Profile extends StatelessWidget {
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     return Row(
       children: [
-        CircleAvatar(
-          radius: 60,
-          backgroundImage: NetworkImage((userimg != null)
-              ? '$baseUrl$userimg'
-              : 'https://i.pinimg.com/564x/fb/93/2f/fb932f45c78085b110c60695111cbdc3.jpg'),
-        ),
+        (userimg != null)
+            ? CircleAvatar(
+                radius: 60, backgroundImage: NetworkImage('$baseUrl$userimg'))
+            : const CircleAvatar(
+                radius: 60,
+                backgroundImage:
+                    AssetImage('assets/images/default_profile.jpg')),
         const SizedBox(
           width: 20,
         ),
