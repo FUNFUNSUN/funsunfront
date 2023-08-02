@@ -189,11 +189,27 @@ class RemitCheckScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => PreviewScreen(temp, image)),
-                  // );
+                  print('tap');
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('정말 펀딩하시겠습니까?'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('확인')),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('취소')),
+                          ],
+                        );
+                      });
                 },
                 child: Container(
                     decoration: BoxDecoration(
