@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/userscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../models/account_model.dart';
@@ -46,12 +47,20 @@ class _FollowTestState extends State<FollowTest>
     _profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text(_profileProvider.profile!.username),
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        elevation: 0.0,
+        centerTitle: true,
+        title: Text(
+          _profileProvider.profile!.username,
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+        ),
         bottom: TabBar(
+          indicatorColor: Theme.of(context).primaryColor,
           controller: _tabController,
           tabs: const [
-            Tab(text: '팔로워 페이지'),
-            Tab(text: '팔로잉 페이지'),
+            Tab(text: '팔로워'),
+            Tab(text: '팔로잉'),
           ],
         ),
       ),
@@ -88,25 +97,54 @@ class FollowerWidget extends StatelessWidget {
 
             return (followerLists!.isEmpty)
                 ? const Center(
-                    child: Text('팔로우한 사람이 없습니다.'),
+                    child: Text('팔로우하는 사람이 여기에 표시됩니다.'),
                   )
                 : ListView.builder(
                     itemCount: followerLists.length,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 70,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ClipOval(
-                              child: Container(
-                                width: 70, // 원의 지름
-                                height: 70, // 원의 지름
-                                color: Theme.of(context).primaryColorLight,
-                                child: (followerLists[index].image != null)
-                                    ? Image.network(
-                                        '$baseurl${followerLists[index].image}')
-                                    : Image.asset('assets/images/giftBox.png'),
+                      return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: InkWell(
+                            onTap: () async {
+                              final id = followerLists[index].id;
+                              await _profileProvider.updateProfile(id);
+                              if (context.mounted) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UserScreen(id: id),
+                                  ),
+                                );
+                              }
+                            },
+                            child: SizedBox(
+                              height: 70,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ClipOval(
+                                    child: Container(
+                                      width: 65, // 원의 지름
+                                      height: 65, // 원의 지름
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      child: (followerLists[index].image !=
+                                              null)
+                                          ? Image.network(
+                                              '$baseurl${followerLists[index].image}')
+                                          : Image.asset(
+                                              'assets/images/default_profile.jpg'),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    followerLists[index].username,
+                                    style: const TextStyle(fontSize: 16),
+                                  )
+                                ],
                               ),
                             ),
                             const SizedBox(
@@ -115,7 +153,10 @@ class FollowerWidget extends StatelessWidget {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [Text(followerLists[index].username)],
+                              children: [
+                                Text(followerLists[index].username),
+                                const Text('이거되냐'),
+                              ],
                             )
                           ],
                         ),
@@ -151,25 +192,54 @@ class FolloweeWidget extends StatelessWidget {
 
             return (followeeLists!.isEmpty)
                 ? const Center(
-                    child: Text('팔로우한 사람이 없습니다.'),
+                    child: Text('팔로잉하는 사람이 여기 표시됩니다.'),
                   )
                 : ListView.builder(
                     itemCount: followeeLists.length,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 70,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ClipOval(
-                              child: Container(
-                                width: 70, // 원의 지름
-                                height: 70, // 원의 지름
-                                color: Theme.of(context).primaryColorLight,
-                                child: (followeeLists[index].image != null)
-                                    ? Image.network(
-                                        '$baseurl${followeeLists[index].image}')
-                                    : Image.asset('assets/images/giftBox.png'),
+                      return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 20),
+                          child: InkWell(
+                            onTap: () async {
+                              final id = followeeLists[index].id;
+                              await _profileProvider.updateProfile(id);
+                              if (context.mounted) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UserScreen(id: id),
+                                  ),
+                                );
+                              }
+                            },
+                            child: SizedBox(
+                              height: 70,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ClipOval(
+                                    child: Container(
+                                      width: 65, // 원의 지름
+                                      height: 65, // 원의 지름
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      child: (followeeLists[index].image !=
+                                              null)
+                                          ? Image.network(
+                                              '$baseurl${followeeLists[index].image}')
+                                          : Image.asset(
+                                              'assets/images/default_profile.jpg'),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    followeeLists[index].username,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ],
                               ),
                             ),
                             const SizedBox(
@@ -180,6 +250,7 @@ class FolloweeWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(followeeLists[index].username),
+                                const Text('이거되냐'),
                               ],
                             )
                           ],

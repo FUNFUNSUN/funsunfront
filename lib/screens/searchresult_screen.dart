@@ -46,6 +46,7 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 150,
         elevation: 0.0,
         backgroundColor: Colors.white,
@@ -131,7 +132,7 @@ class _SearchBoxState extends State<SearchBox> {
                     child: SizedBox(
                       height: 70,
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ClipOval(
                             child: Container(
@@ -141,20 +142,17 @@ class _SearchBoxState extends State<SearchBox> {
                               child: (searchedUsers[index].image != null)
                                   ? Image.network(
                                       '$baseUrl${searchedUsers[index].image}')
-                                  : Image.asset('assets/images/giftBox.png'),
+                                  : Image.asset(
+                                      'assets/images/default_profile.jpg'),
                             ),
                           ),
                           const SizedBox(
-                            width: 30,
+                            width: 20,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(searchedUsers[index].username),
-                              const Text('팔로잉 여부'),
-                            ],
-                          )
+                          Text(
+                            searchedUsers[index].username,
+                            style: const TextStyle(fontSize: 16),
+                          ),
                         ],
                       ),
                     ),
