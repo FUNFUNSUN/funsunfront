@@ -10,7 +10,7 @@ class SearchResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: SearchBox());
+    return const SearchBox();
   }
 }
 
@@ -46,6 +46,7 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 150,
         elevation: 0.0,
         backgroundColor: Colors.white,

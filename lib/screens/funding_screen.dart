@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/remit_model.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
+import 'package:funsunfront/screens/remit_screen.dart';
 import 'package:funsunfront/screens/userscreen.dart';
 import 'package:funsunfront/services/api_remit.dart';
 
@@ -136,27 +137,21 @@ class FundingScreen extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               String id = funding.id!.toString();
-
-                              // snapshot.data!.id.toString();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => RemitScreen(
-                              //             targetFunding: funding,
-                              //           )),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RemitScreen(
+                                          targetFunding: funding,
+                                        )),
+                              );
                             },
                             child: const PinkBtn(
                               btnTxt: '펀딩하기',
                             ),
                           )),
-                      /////////////////////////////////////////////////
-                      ////////////////////////////////////////////////////
-                      ////////////////////////////////////////////////////
-                      ReportIcon(fundingId, 'funding', ''),
-                      /////////////////////////////////////////////////
-                      ////////////////////////////////////////////////////
-                      ////////////////////////////////////////////////////
+                      (funding.author!['id'] == _userProvider.user!.id)
+                          ? const SizedBox()
+                          : ReportIcon(fundingId, 'funding', ''),
                       Column(
                         children: [
                           Transform.translate(
@@ -255,13 +250,41 @@ class FundingScreen extends StatelessWidget {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: [
-                                                      Text(
-                                                        'From. ${remit.author.username}',
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w600,
+                                                      SizedBox(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              'From. ${remit.author.username}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 70,
+                                                            ),
+                                                            (remit.author.id
+                                                                        .toString() ==
+                                                                    _userProvider
+                                                                        .user!
+                                                                        .id)
+                                                                ? const SizedBox()
+                                                                : ReportIcon(
+                                                                    remit.id
+                                                                        .toString(),
+                                                                    'remit',
+                                                                    ''),
+                                                          ],
                                                         ),
                                                       ),
                                                       SizedBox(

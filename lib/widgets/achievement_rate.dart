@@ -87,6 +87,8 @@ class AchievementRate extends StatelessWidget {
                       LinearPercentIndicator(
                         barRadius: const Radius.circular(10),
                         percent: percent,
+                        animation: true,
+                        animationDuration: 1200,
                         lineHeight: 10,
                         backgroundColor: Theme.of(context)
                             .primaryColorLight

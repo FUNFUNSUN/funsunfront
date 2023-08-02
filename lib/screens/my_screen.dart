@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:funsunfront/screens/edit_screen.dart';
+import 'package:funsunfront/screens/funding_create_screen.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
 import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +16,6 @@ class MyScreen extends StatelessWidget {
   });
 
   late UserProvider _userProvider;
-
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
@@ -95,7 +94,7 @@ class MyScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const EditScreen()),
+                            builder: (context) => const FundingCreateScreen()),
                       );
                       print('펀딩작성페이지라우팅');
                     },
