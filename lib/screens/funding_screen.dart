@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/remit_model.dart';
+import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/screens/remit_screen.dart';
+import 'package:funsunfront/screens/userscreen.dart';
 import 'package:funsunfront/services/api_remit.dart';
 
 import 'package:funsunfront/widgets/achievement_rate.dart';
@@ -19,9 +21,11 @@ class FundingScreen extends StatelessWidget {
     required this.id,
   }) : super(key: key);
   late UserProvider _userProvider;
+  late ProfileProvider profileProvider;
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
+    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     final Future<FundingModel> funding = Funding.getFunding(id: id);
     final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
     final screenWidth = MediaQuery.of(context).size.width;
@@ -71,6 +75,7 @@ class FundingScreen extends StatelessWidget {
                           funding.image != null
                               ? '$baseurl${funding.image}'
                               : 'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
+                          fit: BoxFit.cover,
                         ),
                       ),
                       const SizedBox(
@@ -182,18 +187,38 @@ class FundingScreen extends StatelessWidget {
                                             children: [
                                               Row(
                                                 children: [
-                                                  CircleAvatar(
-                                                    // TODO: 추후 inkwell로 프로필페이지 이동
-                                                    radius: 30,
-                                                    backgroundImage: remit
-                                                                .author.image !=
-                                                            null
-                                                        ? NetworkImage(
-                                                            '$baseurl${remit.author.image}',
-                                                          )
-                                                        : Image.asset(
-                                                                'assets/images/giftBox.png')
-                                                            .image,
+                                                  InkWell(
+                                                    onTap: () async {
+                                                      await profileProvider
+                                                          .updateProfile(
+                                                              remit.author.id);
+                                                      if (context.mounted) {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                UserScreen(
+                                                                    id: remit
+                                                                        .author
+                                                                        .id),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                    child: CircleAvatar(
+                                                      // TODO: 추후 inkwell로 프로필페이지 이동
+                                                      radius: 30,
+                                                      backgroundImage: remit
+                                                                  .author
+                                                                  .image !=
+                                                              null
+                                                          ? NetworkImage(
+                                                              '$baseurl${remit.author.image}',
+                                                            )
+                                                          : Image.asset(
+                                                                  'assets/images/giftBox.png')
+                                                              .image,
+                                                    ),
                                                   ),
                                                   const SizedBox(
                                                     width: 20,

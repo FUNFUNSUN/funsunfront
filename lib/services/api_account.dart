@@ -93,4 +93,26 @@ class User {
     }
     throw Error();
   }
+
+  static Future<List<AccountModel>> userSearch(
+      {required String username, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
+      throw Error();
+    }
+    apiCounter -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final url = Uri.parse('${baseUrl}search?username=$username');
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> searchedUsers = jsonDecode(response.body);
+      return searchedUsers.map((user) => AccountModel.fromJson(user)).toList();
+    } else if (response.statusCode == 401) {
+      await refreshToken();
+      return userSearch(username: username, apiCounter: apiCounter);
+    }
+    throw Error();
+  }
 }
