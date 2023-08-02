@@ -13,10 +13,14 @@ class AchievementRate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String percentStr;
     if (percent >= 1.0) {
+      percentStr = (percent * 100).toStringAsFixed(0);
       percent = 1.0;
+    } else {
+      percentStr = (percent * 100).toStringAsFixed(0);
     }
-    final String percentStr = (percent * 100).toStringAsFixed(0);
+
     final String dateStr = date.toString();
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;

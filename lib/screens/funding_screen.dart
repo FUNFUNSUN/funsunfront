@@ -72,7 +72,7 @@ class FundingScreen extends StatelessWidget {
                         ),
                         clipBehavior: Clip.hardEdge,
                         child: Image.network(
-                          funding.image != null
+                          (funding.image != null)
                               ? '$baseurl${funding.image}'
                               : 'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
                           fit: BoxFit.cover,
@@ -239,10 +239,18 @@ class FundingScreen extends StatelessWidget {
                                                               FontWeight.w600,
                                                         ),
                                                       ),
-                                                      Text(
-                                                        '${remit.message} ${remit.id}',
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
+                                                      SizedBox(
+                                                        width:
+                                                            screenWidth * 0.7,
+                                                        child: Text(
+                                                          '${remit.message} ${remit.id}',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                          softWrap: true,
+                                                          overflow: TextOverflow
+                                                              .visible,
                                                         ),
                                                       ),
                                                     ],
