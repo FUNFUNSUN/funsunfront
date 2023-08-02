@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../screens/followTest.dart';
 import '../screens/followlist_screen.dart';
 
 class Profile extends StatelessWidget {
@@ -40,10 +41,10 @@ class Profile extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const ()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FollowTest()),
+                );
               },
               child: Row(
                 children: [
