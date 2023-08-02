@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../screens/report_screen.dart';
 
 class ReportIcon extends StatelessWidget {
-  late String id;
+  late dynamic id;
   late String message;
   late String type;
   ReportIcon(this.id, this.type, this.message, {Key? key}) : super(key: key);

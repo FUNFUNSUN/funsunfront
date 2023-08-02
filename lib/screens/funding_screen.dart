@@ -17,7 +17,6 @@ import '../widgets/report_icon.dart';
 
 class FundingScreen extends StatelessWidget {
   final String id;
-  late final fundingId;
   FundingScreen({
     Key? key,
     required this.id,
@@ -34,7 +33,6 @@ class FundingScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
-    fundingId = id;
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
@@ -151,7 +149,7 @@ class FundingScreen extends StatelessWidget {
                           )),
                       (funding.author!['id'] == _userProvider.user!.id)
                           ? const SizedBox()
-                          : ReportIcon(fundingId, 'funding', ''),
+                          : ReportIcon(funding.id!, 'funding', ''),
                       Column(
                         children: [
                           Transform.translate(

@@ -96,7 +96,7 @@ class _SearchBoxState extends State<SearchBox> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 15),
               suffixIcon: const Icon(Icons.search_rounded),
               filled: true,
-              fillColor: const Color(0xFFD9D9D9),
+              fillColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
               hintText: '검색',
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide.none,
@@ -132,7 +132,7 @@ class _SearchBoxState extends State<SearchBox> {
                     child: SizedBox(
                       height: 70,
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ClipOval(
                             child: Container(
@@ -142,20 +142,17 @@ class _SearchBoxState extends State<SearchBox> {
                               child: (searchedUsers[index].image != null)
                                   ? Image.network(
                                       '$baseUrl${searchedUsers[index].image}')
-                                  : Image.asset('assets/images/giftBox.png'),
+                                  : Image.asset(
+                                      'assets/images/default_profile.jpg'),
                             ),
                           ),
                           const SizedBox(
-                            width: 30,
+                            width: 20,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(searchedUsers[index].username),
-                              const Text('팔로잉 여부'),
-                            ],
-                          )
+                          Text(
+                            searchedUsers[index].username,
+                            style: const TextStyle(fontSize: 16),
+                          ),
                         ],
                       ),
                     ),

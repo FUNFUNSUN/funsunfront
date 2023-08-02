@@ -28,82 +28,74 @@ class AchievementRate extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Column(
-      children: [
-        Container(
-          width: screenWidth * 0.8,
-          height: screenHeight * 0.1,
-          decoration: BoxDecoration(
-            color: const Color(0xffF4F4F4),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Column(children: [
+      Container(
+        width: screenWidth * 0.8,
+        height: screenHeight * 0.1,
+        decoration: BoxDecoration(
+          color: const Color(0xffF4F4F4),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              Text(
+                '$percentStr% 달성!',
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(width: 30),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+                  const Icon(
+                    Icons.calendar_month_outlined,
+                    size: 15,
+                  ),
                   Text(
-                    '$percentStr% 달성!',
+                    (date + hour > 0) ? '$dateStr일 $hourStr시간 남음' : '만료됨',
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                       fontWeight: FontWeight.w900,
                     ),
-                  ),
-                  const SizedBox(width: 30),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_month_outlined,
-                        size: 15,
-                      ),
-                      Text(
-                        (date + hour > 0) ? '$dateStr일 $hourStr시간 남음' : '만료됨',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: FractionalOffset(percent, 1.0 - percent),
-                    child: const FractionallySizedBox(
-                      child: Icon(
-                        Icons.directions_run,
-                        color: Colors.black,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LinearPercentIndicator(
-                        barRadius: const Radius.circular(10),
-                        percent: percent,
-                        animation: true,
-                        animationDuration: 1200,
-                        lineHeight: 10,
-                        backgroundColor: Theme.of(context)
-                            .primaryColorLight
-                            .withOpacity(0.4),
-                        progressColor: Theme.of(context).primaryColor,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                      ),
-                    ],
                   ),
                 ],
               ),
             ],
           ),
-        ),
-      ],
-    );
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LinearPercentIndicator(
+                    widgetIndicator: const Icon(
+                      Icons.directions_run,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    barRadius: const Radius.circular(10),
+                    percent: percent,
+                    animation: true,
+                    animationDuration: 1200,
+                    lineHeight: 10,
+                    backgroundColor:
+                        Theme.of(context).primaryColorLight.withOpacity(0.4),
+                    progressColor: Theme.of(context).primaryColor,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ]),
+      )
+    ]);
   }
 }
