@@ -88,7 +88,7 @@ class FundingScreen extends StatelessWidget {
                                 fit: BoxFit.cover,
                               )
                             : Image.asset(
-                                'assets/images/default_profile.jpg',
+                                'assets/images/default_funding.jpg',
                                 fit: BoxFit.cover,
                               ),
                       ),
