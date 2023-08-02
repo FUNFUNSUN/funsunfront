@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../screens/followTest.dart';
+import '../screens/followlist_screen.dart';
+
 class Profile extends StatelessWidget {
   final String userName;
   final int following, follower;
@@ -36,23 +39,31 @@ class Profile extends StatelessWidget {
               '$userName님',
               style: const TextStyle(fontSize: 20),
             ),
-            Row(
-              children: [
-                Text('팔로워 $followerStr명'),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  '|',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FollowTest()),
+                );
+              },
+              child: Row(
+                children: [
+                  Text('팔로워 $followerStr명'),
+                  const SizedBox(
+                    width: 20,
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text('팔로잉 $followingStr명'),
-              ],
+                  Text(
+                    '|',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text('팔로잉 $followingStr명'),
+                ],
+              ),
             ),
           ],
         ),
