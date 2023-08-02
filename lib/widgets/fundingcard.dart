@@ -58,12 +58,16 @@ class FundingCard extends StatelessWidget {
                     width: sizeX,
                     child: FittedBox(
                       fit: BoxFit.cover,
-                      child: Image.network(
-                        (fundings[index].image != null)
-                            ? '$imgBaseUrl${fundings[index].image}'
-                            : 'https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/298331605_2612622035555714_7716975555145679769_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=973b4a&_nc_ohc=LI675SDvZuoAX_k7rf0&_nc_oc=AQnS0gC1D7bqAQKCchCh3DXlmriJ6b2B7hs4Zq9b3-bPVnlHmrf0B1gcmwpxXR34n24&_nc_ht=scontent-ssn1-1.xx&oh=00_AfDWYObdFeP4J0VeYDLRoppDAv37mH7pbMkIS47u2MVB6g&oe=64CA8C86', //펀딩이미지
-                        fit: BoxFit.cover,
-                      ),
+                      child: (fundings[index].image != null)
+                          ? Image.network(
+                              '$imgBaseUrl${fundings[index].image}',
+                              //펀딩이미지
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              'assets/images/default_funding.jpg',
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                 ),
