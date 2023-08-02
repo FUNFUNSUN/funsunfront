@@ -15,10 +15,8 @@ class PreviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     // final screenHeight = MediaQuery.of(context).size.height;
-    final leftDays = DateTime.parse(widget.temp['expire_on'])
-            .difference(DateTime.now())
-            .inDays +
-        1;
+    final leftDays =
+        DateTime.parse(temp['expire_on']).difference(DateTime.now()).inDays + 1;
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     return Scaffold(
