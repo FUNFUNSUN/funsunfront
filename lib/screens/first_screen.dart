@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
-import 'package:funsunfront/screens/edit_screen.dart';
+import 'package:funsunfront/screens/funding_create_screen.dart';
 import 'package:funsunfront/screens/explore_screen.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/mysupport_screen.dart';
@@ -53,7 +53,8 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const EditScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const FundingCreateScreen()),
                   );
                 },
                 child: const Text('editPage로 이동 임시테스트'),

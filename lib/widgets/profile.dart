@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../screens/followTest.dart';
@@ -6,13 +8,15 @@ class Profile extends StatelessWidget {
   final String userName;
   final int following, follower;
   final String? userimg;
+  final File? uploadedImage;
 
   const Profile(
       {super.key,
       required this.userName,
       required this.following,
       required this.follower,
-      this.userimg});
+      this.userimg,
+      this.uploadedImage});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +26,21 @@ class Profile extends StatelessWidget {
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     return Row(
       children: [
-        (userimg != null)
-            ? CircleAvatar(
-                radius: 60, backgroundImage: NetworkImage('$baseUrl$userimg'))
-            : const CircleAvatar(
+        (uploadedImage == null)
+            ? (userimg != null)
+                ? CircleAvatar(
+                    //유저 프로필 이미지
+                    radius: 60,
+                    backgroundImage: NetworkImage('$baseUrl$userimg'))
+                : const CircleAvatar(
+                    //디폴트 프로필 이미지
+                    radius: 60,
+                    backgroundImage:
+                        AssetImage('assets/images/default_profile.jpg'))
+            : CircleAvatar(
+                //업로드한 프로필 이미지(있으면)
                 radius: 60,
-                backgroundImage:
-                    AssetImage('assets/images/default_profile.jpg')),
+                backgroundImage: FileImage(uploadedImage!)),
         const SizedBox(
           width: 20,
         ),
