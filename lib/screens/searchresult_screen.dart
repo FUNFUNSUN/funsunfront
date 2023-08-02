@@ -96,7 +96,7 @@ class _SearchBoxState extends State<SearchBox> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 15),
               suffixIcon: const Icon(Icons.search_rounded),
               filled: true,
-              fillColor: const Color(0xFFD9D9D9),
+              fillColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
               hintText: '검색',
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide.none,

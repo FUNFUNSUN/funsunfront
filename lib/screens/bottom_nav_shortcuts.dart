@@ -57,7 +57,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
-    _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
+    _profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     _fundingsProvider = Provider.of<FundingsProvider>(context, listen: false);
 
     switch (_userProvider.logged) {
