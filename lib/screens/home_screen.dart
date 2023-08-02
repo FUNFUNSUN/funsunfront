@@ -4,6 +4,8 @@ import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'followTest.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -89,6 +91,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: const Text(' 펀딩 임시 이동버튼')),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FollowTest()),
+                          );
+                        },
+                        child: const Text('팔로우임시이동버튼')),
                   ],
                 ),
               ),
