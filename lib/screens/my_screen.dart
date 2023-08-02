@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../provider/fundings_provider.dart';
 import '../provider/user_provider.dart';
 import '../widgets/fundingcard_horizon.dart';
+import '../widgets/image_upload.dart';
 
 class MyScreen extends StatelessWidget {
   MyScreen({
@@ -45,18 +46,27 @@ class MyScreen extends StatelessWidget {
                 children: [
                   Stack(children: [
                     Profile(
+                      //프로필
                       userimg: _userProvider.user!.image,
                       userName: _userProvider.user!.username,
                       following: _userProvider.user!.followee,
                       follower: _userProvider.user!.follower,
-                      //이렇게 하는게 맞는지 정확히는 모르겠음
+                      // 업로드한 이미지 있으면,
+                      uploadedImage: _userProvider.profileImage,
                     ),
                     Positioned(
+                      //프로필 수정버튼
                       bottom: 10,
                       left: 100,
                       child: InkWell(
                         onTap: () {
-                          print('사랑해요');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ImageUpload(
+                                      setImage: _userProvider.setProfileImage,
+                                    )),
+                          );
                         },
                         child: Container(
                           width: 20,
@@ -76,7 +86,7 @@ class MyScreen extends StatelessWidget {
 
                   ////////////////////////유저 프로필 END
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   /////////////////////////내펀딩만들기 | 팔로우 버튼
                   InkWell(
