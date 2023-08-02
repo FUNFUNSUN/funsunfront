@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:funsunfront/models/funding_model.dart';
-import 'package:intl/intl.dart';
 
 import 'api_account.dart';
 
@@ -122,12 +121,9 @@ class Funding {
     req.fields['title'] = fundingData['title'];
     req.fields['content'] = fundingData['content'];
     req.fields['goal_amount'] = fundingData['goal_amount'];
-
     req.fields['public'] = jsonEncode(fundingData['public']);
-    if (fundingData['expire_on'].runtimeType == DateTime) {
-      req.fields['expire_on'] =
-          DateFormat('yyyy-MM-dd').format(fundingData['expire_on']);
-    }
+    req.fields['expire_on'] = fundingData['expire_on'];
+
     if (image != null) {
       req.files.add(await http.MultipartFile.fromPath('image', image.path));
     }

@@ -50,9 +50,8 @@ class _RemitScreenState extends State<RemitScreen> {
                     Text(widget.targetFunding.title),
                   ],
                 ),
-                Text(
-                  widget.targetFunding.id.toString(),
-                ),
+                const SizedBox(height: 20),
+                // Text(widget.targetFunding.id.toString()),
                 const Text(
                   '펀딩할 금액을 입력하세요',
                   style: TextStyle(
