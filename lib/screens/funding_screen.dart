@@ -123,26 +123,23 @@ class FundingScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: (funding.author!['id'] != _userProvider.user!.id)
-                            ? GestureDetector(
-                                onTap: () {
-                                  String id = funding.id!.toString();
-                                  // snapshot.data!.id.toString();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RemitScreen(
-                                              targetFunding: funding,
-                                            )),
-                                  );
-                                },
-                                child: const PinkBtn(
-                                  btnTxt: '펀딩하기',
-                                ),
-                              )
-                            : const SizedBox(),
-                      ),
+                          padding: const EdgeInsets.symmetric(vertical: 40),
+                          child: GestureDetector(
+                            onTap: () {
+                              String id = funding.id!.toString();
+                              // snapshot.data!.id.toString();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RemitScreen(
+                                          targetFunding: funding,
+                                        )),
+                              );
+                            },
+                            child: const PinkBtn(
+                              btnTxt: '펀딩하기',
+                            ),
+                          )),
                       Column(
                         children: [
                           Transform.translate(

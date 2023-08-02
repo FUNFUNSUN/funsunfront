@@ -47,6 +47,7 @@ class _EditScreenState extends State<EditScreen> {
   }
 
   // Future getImage(ImageSource imageSource) async {
+
   //   final image = await picker.pickImage(source: imageSource);
 
   //   setState(() {
@@ -314,21 +315,34 @@ class _EditScreenState extends State<EditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 15,
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: GestureDetector(
-                      onTap: () => _selectDate(context),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: const Color(0xffF4F4F4),
-                        ),
-                        height: 30,
-                        child: Text(dateStr),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => _selectDate(context),
+                        child: _selectedDate.isEmpty
+                            ? const Icon(
+                                Icons.calendar_month_outlined,
+                                size: 30,
+                              )
+                            : const Icon(
+                                Icons.refresh,
+                                size: 30,
+                              ),
                       ),
-                    ),
+                      SizedBox(
+                        width: 150,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: const Color(0xffF4F4F4),
+                          ),
+                          height: 30,
+                          child: Center(child: Text(dateStr)),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 30,
