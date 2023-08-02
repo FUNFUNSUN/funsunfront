@@ -13,9 +13,11 @@ import 'package:provider/provider.dart';
 import '../models/funding_model.dart';
 import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
+import '../widgets/report_icon.dart';
 
 class FundingScreen extends StatelessWidget {
   final String id;
+  late final fundingId;
   FundingScreen({
     Key? key,
     required this.id,
@@ -32,6 +34,7 @@ class FundingScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
+    fundingId = id;
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
@@ -88,7 +91,7 @@ class FundingScreen extends StatelessWidget {
                                 fit: BoxFit.cover,
                               )
                             : Image.asset(
-                                'assets/images/default_profile.jpg',
+                                'assets/images/default_funding.jpg',
                                 fit: BoxFit.cover,
                               ),
                       ),
@@ -126,12 +129,14 @@ class FundingScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40),
+                          padding: const EdgeInsets.symmetric(horizontal: 40),
                           child: GestureDetector(
                             onTap: () {
                               String id = funding.id!.toString();
-                              // snapshot.data!.id.toString();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -144,6 +149,9 @@ class FundingScreen extends StatelessWidget {
                               btnTxt: '펀딩하기',
                             ),
                           )),
+                      (funding.author!['id'] == _userProvider.user!.id)
+                          ? const SizedBox()
+                          : ReportIcon(fundingId, 'funding', ''),
                       Column(
                         children: [
                           Transform.translate(
@@ -265,6 +273,16 @@ class FundingScreen extends StatelessWidget {
                                                               .visible,
                                                         ),
                                                       ),
+                                                      (remit.author.id
+                                                                  .toString() ==
+                                                              _userProvider
+                                                                  .user!.id)
+                                                          ? const SizedBox()
+                                                          : ReportIcon(
+                                                              remit.id
+                                                                  .toString(),
+                                                              'remit',
+                                                              ''),
                                                     ],
                                                   ),
                                                 ],
