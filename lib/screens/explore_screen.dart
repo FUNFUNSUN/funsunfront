@@ -210,76 +210,74 @@ class ExploreScreen extends StatelessWidget {
                             isSupportExist = true;
                           }
 
-                            return (isSupportExist)
-                                ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 25),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 145,
-                                          height: 145,
-                                          clipBehavior: Clip.hardEdge,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: (mysupportfundings[0].image !=
-                                                  null)
-                                              ? Image.network(
-                                                  '$imgBaseUrl${mysupportfundings[0].image}',
-                                                  fit: BoxFit.cover)
-                                              : Image.asset(
-                                                  'assets/images/default_funding.jpg',
-                                                  fit: BoxFit.cover,
-                                                ),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        mysupportfundings.length < 2
-                                            ? const SizedBox(
-                                                width: 10,
-                                              )
-                                            : Container(
-                                                width: 145,
-                                                height: 145,
-                                                clipBehavior: Clip.hardEdge,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: (mysupportfundings[1]
-                                                            .image !=
-                                                        null)
-                                                    ? Image.network(
-                                                        '$imgBaseUrl${mysupportfundings[1].image}',
-                                                        fit: BoxFit.cover)
-                                                    : Image.asset(
-                                                        'assets/images/default_funding.jpg',
-                                                        fit: BoxFit.cover,
-                                                      ),
+                          return (isSupportExist)
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 145,
+                                        height: 145,
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: (mysupportfundings[0].image !=
+                                                null)
+                                            ? Image.network(
+                                                '$imgBaseUrl${mysupportfundings[0].image}',
+                                                fit: BoxFit.cover)
+                                            : Image.asset(
+                                                'assets/images/default_funding.jpg',
+                                                fit: BoxFit.cover,
                                               ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    alignment: Alignment.center,
-                                    height: 145,
-                                    child: const Text('서포트한 펀딩이 없습니다.'));
-                          }
-                        }),
-                  ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      mysupportfundings.length < 2
+                                          ? const SizedBox(
+                                              width: 10,
+                                            )
+                                          : Container(
+                                              width: 145,
+                                              height: 145,
+                                              clipBehavior: Clip.hardEdge,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: (mysupportfundings[1]
+                                                          .image !=
+                                                      null)
+                                                  ? Image.network(
+                                                      '$imgBaseUrl${mysupportfundings[1].image}',
+                                                      fit: BoxFit.cover)
+                                                  : Image.asset(
+                                                      'assets/images/default_funding.jpg',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                            ),
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  alignment: Alignment.center,
+                                  height: 145,
+                                  child: const Text('서포트한 펀딩이 없습니다.'));
+                        }
+                      }),
                 ),
-                const SizedBox(
-                  height: 50,
-                )
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 50,
+              )
+            ],
           ),
         ),
       ),
-    )
+    );
   }
 }

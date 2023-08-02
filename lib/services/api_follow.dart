@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:funsunfront/models/account_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/services/api_account.dart';
@@ -76,5 +77,53 @@ class Follow {
       return postFollow(uid: uid);
     }
     return false;
+  }
+
+  static Future<List<AccountModel>> getFollowerList(
+      {required String id, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
+      throw Error();
+    }
+    apiCounter -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final url = Uri.parse('$baseUrl?follower=$id');
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> followerList = jsonDecode(response.body);
+      return followerList
+          .map((follower) => AccountModel.fromJson(follower))
+          .toList();
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      getFollowerList(id: id, apiCounter: apiCounter);
+    }
+    throw Error();
+  }
+
+  static Future<List<AccountModel>> getFolloweeList(
+      {required String id, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
+      throw Error();
+    }
+    apiCounter -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final url = Uri.parse('$baseUrl?followee=$id');
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> followeeList = jsonDecode(response.body);
+      return followeeList
+          .map((followee) => AccountModel.fromJson(followee))
+          .toList();
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      getFolloweeList(id: id, apiCounter: apiCounter);
+    }
+    throw Error();
   }
 }
