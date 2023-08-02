@@ -31,11 +31,24 @@ class _EditScreenState extends State<EditScreen> {
   final _contentTextEditController = TextEditingController();
   final _goalAmountTextEditController = TextEditingController();
   late Map<String, dynamic> temp;
+
+  DateTime tommorow = DateTime.now().add(const Duration(days: 1));
+  DateTime today = DateTime.now().add(const Duration(hours: 9));
+
+  late DateTime FD =
+      int.parse(DateTime.now().add(const Duration(hours: 9)).hour.toString()) >=
+              17
+          ? DateTime.parse(tommorow.toString())
+          : DateTime.parse(today.toString());
+
   Future _selectDate(BuildContext context) async {
+    print(int.parse(
+        DateTime.now().add(const Duration(hours: 9)).hour.toString()));
+
     final DateTime? selected = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: FD,
+      firstDate: FD,
       lastDate: DateTime(
           DateTime.now().year + 1, DateTime.now().month, DateTime.now().day),
     );

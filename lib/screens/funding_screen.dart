@@ -49,21 +49,21 @@ class FundingScreen extends StatelessWidget {
               final funding = snapshot.data;
               funding!;
 
-              ////////////////////////날짜 수정해야함
-              // print(funding.expireOn);
-              // print(DateTime.now());
+              print('펀딩에 등록된 시간 ${DateTime.parse(funding.expireOn)}');
+              print('현재 시간 ${DateTime.now()}');
 
-              // DateTime now = DateTime.now();
-              // final difference =
-              //     now.difference(DateTime.parse(funding.expireOn));
-
-              // print(difference.inHours);
-              // print(funding.expireOn);
-
-              //날짜 계산
-              final leftDays = DateTime.parse(funding.expireOn)
+              final ex = DateTime.parse(funding.expireOn)
                   .difference(DateTime.now())
-                  .inDays;
+                  .toString();
+
+              int tempDifference =
+                  int.parse((ex.substring(0, ex.indexOf(':'))));
+
+              final leftDays = tempDifference ~/ 24;
+              print('차이나는 날짜만 출력 : $leftDays');
+
+              final leftHours = tempDifference - leftDays * 24;
+              print('차이나는 시간만 출력 : $leftHours');
 
               return SingleChildScrollView(
                 child: Center(
@@ -82,12 +82,15 @@ class FundingScreen extends StatelessWidget {
                               .withOpacity(0.6),
                         ),
                         clipBehavior: Clip.hardEdge,
-                        child: Image.network(
-                          (funding.image != null)
-                              ? '$baseurl${funding.image}'
-                              : 'https://m.herotime.co.kr/web/product/big/20200515/852dce30079acc95eb811def40714318.png',
-                          fit: BoxFit.cover,
-                        ),
+                        child: (funding.image != null)
+                            ? Image.network(
+                                '$baseurl${funding.image}',
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/images/default_profile.jpg',
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       const SizedBox(
                         height: 30,
@@ -95,6 +98,7 @@ class FundingScreen extends StatelessWidget {
                       AchievementRate(
                         percent: funding.currentAmount! / funding.goalAmount,
                         date: leftDays > 0 ? leftDays : 0,
+                        hour: leftHours > 0 ? leftHours : 0,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(

@@ -4,10 +4,12 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 class AchievementRate extends StatelessWidget {
   late double percent;
   final int date;
+  final int hour;
 
   AchievementRate({
     required this.percent,
     required this.date,
+    required this.hour,
     Key? key,
   }) : super(key: key);
 
@@ -22,6 +24,7 @@ class AchievementRate extends StatelessWidget {
     }
 
     final String dateStr = date.toString();
+    final String hourStr = hour.toString();
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
@@ -55,7 +58,7 @@ class AchievementRate extends StatelessWidget {
                         size: 15,
                       ),
                       Text(
-                        (date > 0) ? '$dateStr일 남음' : '만료됨',
+                        (date + hour > 0) ? '$dateStr일 $hourStr시간 남음' : '만료됨',
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w900,

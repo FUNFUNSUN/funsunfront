@@ -55,16 +55,21 @@ class MyScreen extends StatelessWidget {
                     Positioned(
                       bottom: 10,
                       left: 100,
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.red[100],
-                        ),
-                        child: const Icon(
-                          Icons.edit,
-                          size: 15,
+                      child: InkWell(
+                        onTap: () {
+                          print('사랑해요');
+                        },
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.red[100],
+                          ),
+                          child: const Icon(
+                            Icons.edit,
+                            size: 15,
+                          ),
                         ),
                       ),
                     ),
