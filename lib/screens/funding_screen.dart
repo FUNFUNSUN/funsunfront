@@ -273,10 +273,16 @@ class FundingScreen extends StatelessWidget {
                                                               .visible,
                                                         ),
                                                       ),
-                                                      ReportIcon(
-                                                          remit.id.toString(),
-                                                          'remit',
-                                                          ''),
+                                                      (remit.author.id
+                                                                  .toString() ==
+                                                              _userProvider
+                                                                  .user!.id)
+                                                          ? const SizedBox()
+                                                          : ReportIcon(
+                                                              remit.id
+                                                                  .toString(),
+                                                              'remit',
+                                                              ''),
                                                     ],
                                                   ),
                                                 ],
