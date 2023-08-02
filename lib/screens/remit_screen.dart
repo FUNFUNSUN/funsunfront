@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:funsunfront/services/api_remit.dart';
+import 'package:funsunfront/screens/remit_check_screen.dart';
 
 import '../models/funding_model.dart';
 import '../widgets/pink_btn.dart';
@@ -12,6 +10,7 @@ class RemitScreen extends StatefulWidget {
     Key? key,
     required this.targetFunding,
   }) : super(key: key);
+
   final FundingModel targetFunding;
 
   @override
@@ -21,6 +20,7 @@ class RemitScreen extends StatefulWidget {
 class _RemitScreenState extends State<RemitScreen> {
   final tempAmount = TextEditingController();
   final tempMessage = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
@@ -170,9 +170,20 @@ class _RemitScreenState extends State<RemitScreen> {
                           'funding': id
                         };
                         //확인페이지 -> 카카오페이페이지 -> 결제 -> 결제성공시 요청
-                        var remitJson = jsonEncode(remitMap);
-                        print(remitJson);
-                        final res = await Remit.postRemit(remitData: remitJson);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RemitCheckScreen(
+                                    remitMap,
+                                    widget.targetFunding,
+                                  )),
+                        );
+                        // api로 보낼 요청//
+
+                        // var remitJson = jsonEncode(remitMap);
+                        // // print(remitJson);
+                        // final res = await Remit.postRemit(remitData: remitJson);
                       }
                     },
                     child: const PinkBtn(
