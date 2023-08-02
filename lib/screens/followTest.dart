@@ -8,8 +8,7 @@ import '../services/api_follow.dart';
 import '../widgets/loading_circle.dart';
 
 class FollowTest extends StatefulWidget {
-  const FollowTest({super.key, required this.initIndex});
-  final int initIndex;
+  const FollowTest({super.key});
 
   @override
   _FollowTestState createState() => _FollowTestState();
@@ -21,14 +20,12 @@ late ProfileProvider _profileProvider;
 class _FollowTestState extends State<FollowTest>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late int currentPageIndex;
+  int currentPageIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _tabController.index = widget.initIndex;
-    currentPageIndex = widget.initIndex;
     _tabController.addListener(() {
       setState(() {
         currentPageIndex = _tabController.index;
@@ -147,20 +144,7 @@ class FollowerWidget extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(followerLists[index].username),
-                                const Text('이거되냐'),
-                              ],
-                            )
-                          ],
-                        ),
-                      );
+                          ));
                     });
           }
         });
@@ -242,20 +226,7 @@ class FolloweeWidget extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(followeeLists[index].username),
-                                const Text('이거되냐'),
-                              ],
-                            )
-                          ],
-                        ),
-                      );
+                          ));
                     });
           }
         });
