@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/bottom_nav_shortcuts.dart';
@@ -28,6 +29,7 @@ class FunsunApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => FundingsProvider()),
       ],
       child: MaterialApp(
         title: 'FunSun',

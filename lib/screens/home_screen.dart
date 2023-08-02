@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
+import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:provider/provider.dart';
-
-import '../provider/profile_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,13 +14,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<String> _list = ['a', 'b', 'c'];
   //TODO : Fix hardcoding
+  late FundingsProvider fundingsProvider;
+  late UserProvider userProvider;
+
+  Future<void> refreshFunction() async {
+    userProvider.updateUser();
+    fundingsProvider.refreshAllFundings(userProvider.user!.id);
+    print('done');
+  }
 
   @override
   Widget build(BuildContext context) {
-    ProfileProvider profileProvider = Provider.of(context, listen: false);
+    fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: refreshHomeScreen,
+        onRefresh: refreshFunction,
         child: LayoutBuilder(
           builder: ((context, constraints) {
             return SingleChildScrollView(
@@ -62,16 +71,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               .primaryColorLight
                               .withOpacity(0.5),
                           borderRadius: BorderRadius.circular(20)),
-                      child: RefreshIndicator(
-                        onRefresh: refreshHomeScreen,
-                        child: ListView.builder(
-                          itemCount: _list.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(_list[index]),
-                            );
-                          },
-                        ),
+                      child: ListView.builder(
+                        itemCount: _list.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(_list[index]),
+                          );
+                        },
                       ),
                     ),
                     TextButton(
@@ -93,11 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> refreshHomeScreen() async {
+  Future<void> refreshHomeScreen(
+      FundingsProvider fundingsProvider, String uid) async {
     // TODO: 여기서 API이용 메소드 작성
     final newList = ['d', 'e', 'f'];
     setState(() {
       _list = [..._list, ...newList];
     });
+    fundingsProvider.refreshAllFundings(uid);
   }
 }

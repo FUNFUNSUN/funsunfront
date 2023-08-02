@@ -5,9 +5,8 @@ import 'package:funsunfront/screens/faq_screen.dart';
 import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
 
-import '../models/funding_model.dart';
+import '../provider/fundings_provider.dart';
 import '../provider/user_provider.dart';
-import '../services/api_funding.dart';
 import '../widgets/fundingcard_horizon.dart';
 
 class MyScreen extends StatelessWidget {
@@ -20,13 +19,8 @@ class MyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
-    final Future<List<FundingModel>> fundings =
-        Funding.getJoinedFunding(page: '1');
-
-    final Future<List<FundingModel>> myfundings =
-        Funding.getUserFunding(page: '1', id: _userProvider.user!.id);
-
-    _userProvider = Provider.of<UserProvider>(context, listen: true);
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: false);
 
     final sizeX = MediaQuery.of(context).size.width;
     // final sizeY = MediaQuery.of(context).size.height;
@@ -54,8 +48,8 @@ class MyScreen extends StatelessWidget {
                     Profile(
                       userimg: _userProvider.user!.image,
                       userName: _userProvider.user!.username,
-                      following: _userProvider.user!.followee!,
-                      follower: _userProvider.user!.follower!,
+                      following: _userProvider.user!.followee,
+                      follower: _userProvider.user!.follower,
                       //이렇게 하는게 맞는지 정확히는 모르겠음
                     ),
                     Positioned(
@@ -117,14 +111,16 @@ class MyScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30.0),
                   child: FundingCardHorizon(
                     sizeX: sizeX,
-                    fundings: myfundings,
+                    fundings: fundingsProvider.myFundings!,
                     title: '내 펀딩',
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 30.0, top: 35),
                   child: FundingCardHorizon(
-                      sizeX: sizeX, fundings: fundings, title: '서포트한 펀딩'),
+                      sizeX: sizeX,
+                      fundings: fundingsProvider.joinedFundings!,
+                      title: '서포트한 펀딩'),
                 ),
               ],
             ),
