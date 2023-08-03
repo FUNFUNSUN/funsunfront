@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/user_provider.dart';
+import 'package:funsunfront/services/api_remit.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/funding_model.dart';
@@ -20,107 +18,6 @@ class RemitCheckScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-
-    Future<Map<String, dynamic>?> makePaymentRequest() async {
-      // Replace with your actual Kakao API key
-      String kakaoApiKey = 'ef1ad9b7217b279d7e7860cd9322e8b3';
-
-      // Replace with your actual data
-      String cid = 'TC0ONETIME';
-      String partnerOrderId = 'FUNSUN_KAKAOPAY';
-      String partnerUserId = userProvider.user!.id;
-      String itemName = 'FUNSUN_FUNDING';
-      int quantity = 1;
-      int totalAmount = remitMap['amount'];
-      int vatAmount = 0;
-      int taxFreeAmount = 0;
-      String approvalUrl = 'https://developers.kakao.com/success';
-      String failUrl = 'https://developers.kakao.com/fail';
-      String cancelUrl = 'https://developers.kakao.com/cancel';
-
-      // Create the request body
-      Map<String, dynamic> requestBody = {
-        'cid': cid,
-        'partner_order_id': partnerOrderId,
-        'partner_user_id': partnerUserId,
-        'item_name': itemName,
-        'quantity': quantity.toString(),
-        'total_amount': totalAmount.toString(),
-        'vat_amount': vatAmount.toString(),
-        'tax_free_amount': taxFreeAmount.toString(),
-        'approval_url': approvalUrl,
-        'fail_url': failUrl,
-        'cancel_url': cancelUrl,
-      };
-
-      // Set up the request headers
-      Map<String, String> headers = {
-        'Authorization': 'KakaoAK $kakaoApiKey',
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-      };
-
-      // Send the POST request
-      final response = await http.post(
-        Uri.parse('https://kapi.kakao.com/v1/payment/ready'),
-        headers: headers,
-        body: requestBody,
-      );
-
-      // Handle the response
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = jsonDecode(response.body);
-
-        return responseData;
-        // Parse the response data and proceed with payment flow
-      } else {
-        return null;
-        // Handle the error
-      }
-    }
-
-    Future<bool> approvePayment(String tid, String pgToken) async {
-      // Replace with your actual Kakao API key
-      String kakaoApiKey = 'YOUR_KAKAO_API_KEY';
-
-      // Replace with your actual data
-      String cid = 'TC0ONETIME';
-      String partnerOrderId = 'FUNSUN_KAKAOPAY';
-      String partnerUserId = userProvider.user!.id;
-
-      // Create the request body
-      Map<String, dynamic> requestBody = {
-        'cid': cid,
-        'tid': tid,
-        'partner_order_id': partnerOrderId,
-        'partner_user_id': partnerUserId,
-        'pg_token': pgToken,
-      };
-
-      // Set up the request headers
-      Map<String, String> headers = {
-        'Authorization': 'KakaoAK $kakaoApiKey',
-      };
-
-      // Send the POST request
-      final response = await http.post(
-        Uri.parse('https://kapi.kakao.com/v1/payment/approve'),
-        headers: headers,
-        body: jsonEncode(requestBody),
-      );
-
-      // Handle the response
-      if (response.statusCode == 200) {
-        print('Payment approval successful!');
-        print('Response: ${response.body}');
-        // Parse the response data and proceed with the payment approval flow
-        return true;
-      } else {
-        print('Payment approval failed. Status code: ${response.statusCode}');
-        print('Response: ${response.body}');
-        // Handle the error
-        return false;
-      }
-    }
 
     return Scaffold(
       body: SafeArea(
@@ -306,19 +203,18 @@ class RemitCheckScreen extends StatelessWidget {
                                 onPressed: () async {
                                   print('start');
                                   bool result = false;
-                                  final payStatus = await makePaymentRequest();
+                                  final req = await Remit.getPayRedirect(
+                                      amount: remitMap['amount'],
+                                      userid: userProvider.user!.id);
 
-                                  if (payStatus != null) {
-                                    final url = Uri.parse(
-                                        payStatus['next_redirect_app_url']);
-                                    if (await canLaunchUrl(url)) {
-                                      final redirect = await launchUrl(url,
-                                          mode: LaunchMode.externalApplication);
-                                      print(redirect);
-                                    }
-                                    // result = await approvePayment(
-                                    //     payStatus['tid'], payStatus['pgtoken']);
+                                  final url = Uri.parse(req);
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url,
+                                        mode: LaunchMode.inAppWebView);
                                   }
+
+                                  result = await Remit.getPayApprove(
+                                      userid: userProvider.user!.id);
 
                                   if (context.mounted) {
                                     result
