@@ -88,8 +88,9 @@ flutter:
     - assets/images/
     - assets/launcher/
 
-    fonts:
+  fonts:
     - family: PretenDard
+      fonts:
         - asset: assets/fonts/PretenDard-ExtraLight.otf
           weight: 200
         - asset: assets/fonts/PretenDard-Light.otf
