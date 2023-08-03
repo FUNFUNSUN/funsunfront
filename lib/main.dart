@@ -34,6 +34,7 @@ class FunsunApp extends StatelessWidget {
       child: MaterialApp(
         title: 'FunSun',
         theme: ThemeData(
+          fontFamily: 'Pretendard',
           primarySwatch: createMaterialColor(const Color(0xffFF80C0)),
         ),
         home: const BottomNavShortcuts(),

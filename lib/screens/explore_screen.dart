@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/screens/public_screen.dart';
@@ -30,38 +29,39 @@ class ExploreScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         title: Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: OpenContainer(
-            transitionDuration: const Duration(milliseconds: 500),
-            transitionType: ContainerTransitionType.fadeThrough,
-            closedBuilder: (context, action) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColorLight.withOpacity(0.5),
-                ),
-                height: 48,
-                // width: 320,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '검색',
-                        style: TextStyle(
-                            color: Colors.grey.shade600, fontSize: 16),
-                      ),
-                      Icon(
-                        Icons.search_rounded,
-                        color: Colors.grey.shade600,
-                      ),
-                    ],
-                  ),
-                ),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SearchResultScreen()),
               );
             },
-            openBuilder: (context, action) {
-              return const SearchResultScreen();
-            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColorLight.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              height: 48,
+              // width: 320,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '검색',
+                      style:
+                          TextStyle(color: Colors.grey.shade600, fontSize: 16),
+                    ),
+                    Icon(
+                      Icons.search_rounded,
+                      color: Colors.grey.shade600,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),

@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       '펀딩을\n시작해보세요!',
                       style: TextStyle(
                         fontSize: 30,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     Text(
@@ -54,8 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.black.withOpacity(0.8),
                       ),
                     ),
-                    SizedBox(
-                      child: Image.asset('assets/images/giftBox.png'),
+                    Center(
+                      child: Image.asset(
+                        'assets/images/three_gifts.png',
+                        width: 300,
+                      ),
                     ),
                     const Text(
                       '\n내 친구들의 펀딩',
