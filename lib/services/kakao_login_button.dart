@@ -29,12 +29,15 @@ class KakaoLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return GestureDetector(
       onTap: kakaobtn,
       child: Center(
         heightFactor: 5,
         child: Image.asset(
           'assets/images/kakaologin.png',
+          width: screenWidth * 0.6,
         ),
       ),
     );
