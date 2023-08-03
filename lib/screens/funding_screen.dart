@@ -7,13 +7,14 @@ import 'package:funsunfront/services/api_remit.dart';
 
 import 'package:funsunfront/widgets/achievement_rate.dart';
 import 'package:funsunfront/widgets/loading_circle.dart';
-import 'package:funsunfront/widgets/pink_btn.dart';
 import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
 import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
+import '../widgets/pink_btn.dart';
 import '../widgets/report_icon.dart';
+import 'fundig_edit_screen.dart';
 
 class FundingScreen extends StatelessWidget {
   final String id;
@@ -101,6 +102,37 @@ class FundingScreen extends StatelessWidget {
                         date: leftDays > 0 ? leftDays : 0,
                         hour: leftHours > 0 ? leftHours : 0,
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      (funding.author!['id'] == _userProvider.user!.id)
+                          ? Padding(
+                              padding: const EdgeInsets.only(right: 50),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Text('수정하기'),
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              FundingEditScreen(
+                                            origin: funding,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 50),

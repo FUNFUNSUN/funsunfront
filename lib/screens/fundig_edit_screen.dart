@@ -1,18 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:funsunfront/screens/terms_screen.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
+import '../models/funding_model.dart';
 import '../widgets/image_upload.dart';
+import '../widgets/pink_btn.dart';
 
-class FundingCreateScreen extends StatefulWidget {
-  const FundingCreateScreen({super.key});
+class FundingEditScreen extends StatefulWidget {
+  final FundingModel origin;
+  const FundingEditScreen({Key? key, required this.origin}) : super(key: key);
 
   @override
-  State<FundingCreateScreen> createState() => _FundingCreateScreenState();
+  State<FundingEditScreen> createState() => _FundingEditScreen();
 }
 
 const List<Widget> _publics = <Widget>[
@@ -20,73 +20,54 @@ const List<Widget> _publics = <Widget>[
   Text('Private'),
 ];
 
-class _FundingCreateScreenState extends State<FundingCreateScreen> {
-  File? _image;
+class _FundingEditScreen extends State<FundingEditScreen> {
+  File? editImage;
   final picker = ImagePicker();
-  final List<bool> _selectedPublic = <bool>[true, false];
-  int tempPublic = 0;
-  String _selectedDate = "";
-  final finalDate = "";
-  final _titleTextEditController = TextEditingController();
-  final _contentTextEditController = TextEditingController();
-  final _goalAmountTextEditController = TextEditingController();
-  late Map<String, dynamic> temp;
+  late final List<bool> _selectedPublic =
+      widget.origin.public! == true ? <bool>[true, false] : <bool>[false, true];
+  late int tempPublic = widget.origin.public! ? 0 : 1;
+  String? originImage;
 
-  DateTime tommorow = DateTime.now().add(const Duration(days: 1, hours: 9));
-  DateTime today = DateTime.now().add(const Duration(hours: 9));
+  Map<String, dynamic> editData = {
+    'title': "",
+    'content': "",
+  };
 
-  late DateTime FD =
-      int.parse(DateTime.now().add(const Duration(hours: 9)).hour.toString()) >=
-              17
-          ? DateTime.parse(tommorow.toString())
-          : DateTime.parse(today.toString());
-
-  Future _selectDate(BuildContext context) async {
-    print(int.parse(
-        DateTime.now().add(const Duration(hours: 9)).hour.toString()));
-
-    final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: tommorow,
-      firstDate: tommorow,
-      lastDate: DateTime(
-          DateTime.now().year + 1, DateTime.now().month, DateTime.now().day),
-    );
-    if (selected != null) {
-      setState(() {
-        _selectedDate = DateFormat('yyyy-MM-dd').format(selected);
-      });
-    }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    editData['title'] = widget.origin.title;
+    editData['content'] = widget.origin.content;
+    originImage = widget.origin.image;
   }
 
-  // Future getImage(ImageSource imageSource) async {
-
-  //   final image = await picker.pickImage(source: imageSource);
-
-  //   setState(() {
-  //     _image = File(image!.path);
-  //   });
-  // }
   void setImage(File uploadedImage) {
     setState(() {
-      _image = uploadedImage;
+      editImage = uploadedImage;
     });
   }
 
-  Widget showImage() {
-    return Container(
-        color: const Color(0xffd0cece),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.width,
-        child: Center(
-            child: _image == null
-                ? const Text('No image selected.')
-                : Image.file(File(_image!.path))));
-  }
-
+  final formKey = GlobalKey<FormState>();
+  @required
+  late FormFieldSetter onSaved;
+  @required
+  late FormFieldValidator validator;
+  String name = '';
   @override
   Widget build(BuildContext context) {
-    String dateStr = _selectedDate.toString();
+    const String baseurl = 'http://projectsekai.kro.kr:5000/';
+
+    Widget showImage() {
+      if (originImage != null) {
+        return Image.network(
+          '$baseurl$originImage',
+          fit: BoxFit.cover,
+        );
+      }
+      return const SizedBox();
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -96,7 +77,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  '펀딩 이름을 입력해주세요',
+                  '수정할 펀딩 이름을 입력해주세요',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -106,7 +87,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   height: 5,
                 ),
                 Text(
-                  '센스있는 이름으로 특별한 펀딩을 만들어보세요.',
+                  '조금만 더 신중하게 지어봐요!',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 12,
@@ -115,7 +96,13 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                TextField(
+                TextFormField(
+                  initialValue: editData['title'],
+                  onChanged: (value) {
+                    setState(() {
+                      editData['title'] = value;
+                    });
+                  },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: const Color(0xffF4F4F4),
@@ -126,13 +113,11 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(15)),
-                    hintText: '안녕',
                   ),
-                  controller: _titleTextEditController,
                 ),
                 const SizedBox(height: 30),
                 const Text(
-                  '펀딩 이미지를 첨부하세요',
+                  '펀딩 이미지를 수정하세요',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -142,7 +127,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   height: 5,
                 ),
                 Text(
-                  '펀딩 대표 이미지를 첨부하세요.',
+                  '수정하고싶지 않다면 넘어가도 돼요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 12,
@@ -151,38 +136,73 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                Row(
-                  children: [
-                    if (_image != null)
-                      Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        width: 100,
-                        height: 100,
-                        child: Image.file(
-                          _image!,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => ImageUpload(
-                              setImage: setImage,
-                            ),
+                (originImage == null)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      ImageUpload(
+                                    setImage: setImage,
+                                  ),
+                                ),
+                              ).then((res) => setState(() {}));
+                            },
+                            icon: Icon(
+                                color: Theme.of(context).primaryColor,
+                                Icons.add_a_photo),
                           ),
-                        ).then((res) => setState(() {}));
-                      },
-                      icon: Icon(
-                        (_image != null) ? Icons.delete : Icons.add,
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          ImageUpload(
+                                        setImage: setImage,
+                                      ),
+                                    ),
+                                  ).then((res) => setState(() {}));
+                                },
+                                icon: Icon(
+                                    color: Theme.of(context).primaryColor,
+                                    Icons.refresh),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  originImage = null;
+                                  setState(() {
+                                    showImage();
+                                  });
+                                },
+                                icon: Icon(
+                                    color: Theme.of(context).primaryColor,
+                                    Icons.delete),
+                              )
+                            ],
+                          ),
+                          Container(
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            width: 100,
+                            height: 100,
+                            child: showImage(),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -206,7 +226,13 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                TextField(
+                TextFormField(
+                  initialValue: widget.origin.content.toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      editData['content'] = value;
+                    });
+                  },
                   textAlignVertical: TextAlignVertical.top,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
@@ -222,9 +248,8 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(15)),
-                    hintText: '안녕',
                   ),
-                  controller: _contentTextEditController,
+                  //controller: _contentTextEditController,
                 ),
                 const SizedBox(
                   height: 30,
@@ -237,7 +262,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   ),
                 ),
                 Text(
-                  '수정이 불가합니다.',
+                  '나중에 수정 가능해요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 13,
@@ -246,6 +271,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                 ToggleButtons(
                   direction: Axis.horizontal,
                   onPressed: (int index) {
+                    tempPublic == 0 ? true : false;
                     setState(() {
                       for (int i = 0; i < _selectedPublic.length; i++) {
                         _selectedPublic[i] = i == index;
@@ -255,8 +281,8 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   },
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   selectedColor: Colors.white,
-                  selectedBorderColor: Colors.blue[200],
-                  fillColor: Colors.blue[400],
+                  selectedBorderColor: Theme.of(context).primaryColor,
+                  fillColor: Theme.of(context).primaryColor,
                   constraints: const BoxConstraints(
                     minHeight: 40.0,
                     minWidth: 80.0,
@@ -264,189 +290,37 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   isSelected: _selectedPublic,
                   children: _publics,
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Text(
-                  '펀딩 목표금액',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '수정이 불가합니다.',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 13,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color(0xffF4F4F4),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(15)),
-                    hintText: '안녕',
-                  ),
-                  controller: _goalAmountTextEditController,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Text(
-                  '펀딩 종료일',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '수정이 불가합니다.',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 13,
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        print(tommorow.toString());
-                        _selectDate(context);
-                      },
-                      child: _selectedDate.isEmpty
-                          ? const Icon(
-                              Icons.calendar_month_outlined,
-                              size: 30,
-                            )
-                          : const Icon(
-                              Icons.refresh,
-                              size: 30,
-                            ),
-                    ),
-                    SizedBox(
-                      width: 150,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: const Color(0xffF4F4F4),
-                        ),
-                        height: 30,
-                        child: Center(child: Text(dateStr)),
-                      ),
-                    ),
-                  ],
-                ),
+                const SizedBox(height: 30),
                 const SizedBox(
                   height: 30,
                 ),
                 SizedBox(
                   width: double.infinity,
                   child: GestureDetector(
-                    onTap: () async {
-                      if (_titleTextEditController.text.length < 2 ||
-                          _titleTextEditController.text.length > 20 ||
-                          _titleTextEditController.text.isEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: ((context) {
-                            return const AlertDialog(
-                              title: Text('제목확인'),
-                            );
-                          }),
-                        );
-                      } else if (_contentTextEditController.text.length < 2 ||
-                          _contentTextEditController.text.length > 255 ||
-                          _contentTextEditController.text.isEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: ((context) {
-                            return const AlertDialog(
-                              title: Text('내용확인'),
-                            );
-                          }),
-                        );
-                      } else if (_goalAmountTextEditController.text.isEmpty ||
-                          int.parse(_goalAmountTextEditController.text) <
-                              1000 ||
-                          int.parse(_goalAmountTextEditController.text) >
-                              10000000) {
-                        showDialog(
-                          context: context,
-                          builder: ((context) {
-                            return const AlertDialog(
-                              title: Text('가격확인'),
-                            );
-                          }),
-                        );
-                      } else if (_selectedDate.isEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: ((context) {
-                            return const AlertDialog(
-                              title: Text('날짜골라'),
-                            );
-                          }),
-                        );
-                      } else {
-                        bool tempPublicBool = tempPublic == 0 ? true : false;
+                      onTap: () async {
+                        print('수정된 펀딩제목 :${editData['title']}');
+                        print('수정된 펀딩목적 :${editData['content']}');
+                        bool tempPublicBool = widget.origin.public!
+                            ? tempPublic == 0
+                                ? true
+                                : false
+                            : tempPublic == 1
+                                ? false
+                                : true;
 
-                        //17시 들어가라.
-                        String tmpDate = _selectedDate.toString();
-                        String time = ' 17:00:00';
-                        final finalDate = tmpDate + time;
-                        DateTime tempDate = DateTime.parse(finalDate);
+                        print(tempPublicBool);
 
-                        temp = {
-                          'title': _titleTextEditController.text,
-                          'content': _contentTextEditController.text,
-                          'goal_amount':
-                              _goalAmountTextEditController.value.text,
-                          'expire_on': tempDate.toIso8601String(),
-                          'public': tempPublicBool
-                        };
-                        print(tempDate);
-
-                        print('API 호출은 됐음');
                         // print(postResult);
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TermsScreen(temp, _image)),
-                        );
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.blue,
-                      ),
-                      height: 30,
-                    ),
-                  ),
+                        // Navigator.push(
+                        // context,
+                        //MaterialPageRoute(
+                        //  builder: (context) => TermsScreen(temp, _image)),
+                        //);
+                      },
+                      child: const PinkBtn(
+                        btnTxt: '펀딩 만들기',
+                      )),
                 ),
               ],
             ),

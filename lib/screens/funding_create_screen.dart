@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:funsunfront/screens/terms_screen.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:intl/intl.dart';
 
 import '../widgets/image_upload.dart';
@@ -23,7 +23,7 @@ const List<Widget> _publics = <Widget>[
 
 class _FundingCreateScreenState extends State<FundingCreateScreen> {
   File? _image;
-  final picker = ImagePicker();
+
   final List<bool> _selectedPublic = <bool>[true, false];
   int tempPublic = 0;
   String _selectedDate = "";
@@ -236,7 +236,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   ),
                 ),
                 Text(
-                  '수정이 불가합니다.',
+                  '나중에 수정 가능해요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 13,

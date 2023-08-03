@@ -5,57 +5,46 @@ class FaqScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'FAQ',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 30,
                 ),
-                const Text(
+                Text(
                   '자주 물어보는 질문을 확인하세요',
                   style: TextStyle(color: Color(0xff7D7D7D)),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 30,
                 ),
-                const Column(children: [
+                Column(children: [
                   Faqwidget(
-                    question: '질문1',
-                    answer: '답변1',
+                    question: '펀딩 100% 초과 달성되면 추가 금액은 어떻게 되나요?',
+                    answer: '100% 이상 달성되면 추가 달성된 금액도 함께 정산해드립니다.',
                   ),
-                  Faqwidget(question: '질문2', answer: '답변2'),
+                  Faqwidget(
+                      question: '펀딩 100%를 달성하지 못하면 어떻게 하나요?',
+                      answer: '펀딩 100%를 달성하지 못하더라도, 모인 금액만큼 정산받으실 수 있습니다.'),
+                  Faqwidget(
+                      question: '펀딩이 완료된 이후 정산 과정은 어떻게 되나요?',
+                      answer:
+                          '펀딩이 완료되면, FunSun에서 회원님의 등록된 계좌로 펀딩 금액을 정산해드립니다.'),
+                  Faqwidget(
+                      question: '펀딩 기간이 지났는데 계속 진행하고 싶어요!',
+                      answer:
+                          '펀딩 기간이 지나면 수정이 어려우니, 가능하시다면 미리 펀딩 기간을 충분히 설정해 주시면 감사하겠습니다.'),
                 ]),
-                InkWell(
-                  onTap: () {
-                    print('클릭');
-                  },
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xffD9D9D9),
-                          borderRadius: BorderRadius.circular(15)),
-                      width: 400,
-                      height: 50,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '다음',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 15),
-                          )
-                        ],
-                      )),
-                )
               ],
             ),
           ),
@@ -78,7 +67,10 @@ class Faqwidget extends StatelessWidget {
     return ExpansionTile(
       collapsedTextColor: Colors.black,
       leading: const Icon(Icons.help_outline_rounded),
-      title: Text(question),
+      title: Text(
+        question,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
       trailing: const Icon(
         Icons.arrow_drop_down,
         color: Colors.black,

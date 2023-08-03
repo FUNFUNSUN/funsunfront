@@ -81,17 +81,26 @@ class FundingCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(fundings[index].title,
-                              overflow: TextOverflow.ellipsis),
+                          Text(
+                            fundings[index].title,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.w500),
+                          ),
                           Row(
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text('펀딩종료일'),
-                                  Text(DateFormat.yMMMd('en_US').format(
-                                      DateTime.parse(
-                                          fundings[index].expireOn))),
+                                  Text(
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                    DateFormat.yMMMd('en_US').format(
+                                        DateTime.parse(
+                                            fundings[index].expireOn)),
+                                  ),
                                 ],
                               ),
                             ],
