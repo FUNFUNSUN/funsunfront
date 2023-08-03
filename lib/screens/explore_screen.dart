@@ -16,7 +16,7 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _userProvider = Provider.of<UserProvider>(context, listen: true);
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
     // final Future<List<FundingModel>> publicfunding =
     //     Funding.getPublicFunding(page: '1');
     FundingsProvider fundingsProvider =
