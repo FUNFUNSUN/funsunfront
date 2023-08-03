@@ -81,6 +81,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
     String dateStr = _selectedDate.toString();
     return Scaffold(
       body: SafeArea(
@@ -146,41 +147,73 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                Row(
-                  children: [
-                    if (_image != null)
-                      Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                (_image == null)
+                    ? IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => ImageUpload(
+                                setImage: setImage,
+                              ),
+                            ),
+                          ).then((res) => setState(() {}));
+                        },
+                        icon: Icon(
+                          color: Theme.of(context).primaryColor,
+                          (_image != null)
+                              ? Icons.delete
+                              : Icons.add_a_photo_rounded,
                         ),
-                        width: 100,
-                        height: 100,
-                        child: Image.file(
-                          _image!,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => ImageUpload(
-                              setImage: setImage,
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          ImageUpload(
+                                        setImage: setImage,
+                                      ),
+                                    ),
+                                  ).then((res) => setState(() {}));
+                                },
+                                icon: Icon(
+                                    color: Theme.of(context).primaryColor,
+                                    Icons.refresh),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  _image = null;
+                                  setState(() {
+                                    showImage();
+                                  });
+                                },
+                                icon: Icon(
+                                    color: Theme.of(context).primaryColor,
+                                    Icons.delete),
+                              )
+                            ],
+                          ),
+                          Container(
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            width: 100,
+                            height: 100,
+                            child: Image.file(
+                              _image!,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        ).then((res) => setState(() {}));
-                      },
-                      icon: Icon(
-                        color: Theme.of(context).primaryColor,
-                        (_image != null)
-                            ? Icons.delete
-                            : Icons.add_a_photo_rounded,
+                        ],
                       ),
-                    ),
-                  ],
-                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -328,14 +361,14 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      child: _selectedDate.isEmpty
+                GestureDetector(
+                  onTap: () {
+                    _selectDate(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _selectedDate.isEmpty
                           ? const Icon(
                               Icons.calendar_month_outlined,
                               size: 30,
@@ -344,20 +377,20 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                               Icons.refresh,
                               size: 30,
                             ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: screenWidth * 0.6,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: const Color(0xffF4F4F4),
+                      SizedBox(
+                        height: 50,
+                        width: screenWidth * 0.6,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: const Color(0xffF4F4F4),
+                          ),
+                          height: 30,
+                          child: Center(child: Text(dateStr)),
                         ),
-                        height: 30,
-                        child: Center(child: Text(dateStr)),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 30,

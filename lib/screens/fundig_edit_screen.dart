@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
 import '../services/api_funding.dart';
@@ -34,6 +36,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
     'title': "",
     'content': "",
     'public': true,
+    'image_delete': ""
   };
 
   @override
@@ -50,6 +53,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
   void setImage(File uploadedImage) {
     setState(() {
       editImage = uploadedImage;
+      originImage = null;
     });
   }
 
@@ -72,6 +76,9 @@ class _FundingEditScreen extends State<FundingEditScreen> {
       }
       return const SizedBox();
     }
+
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(
@@ -187,6 +194,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () {
+                                      originImage = null;
                                       editImage = null;
                                       setState(() {
                                         showImage();
@@ -236,6 +244,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                               IconButton(
                                 onPressed: () {
                                   originImage = null;
+                                  editImage = null;
                                   setState(() {
                                     showImage();
                                   });
@@ -248,7 +257,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                           ),
                           Column(
                             children: [
-                              const Text('원본이미지'),
+                              const Text('기존이미지'),
                               Container(
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
@@ -357,6 +366,9 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {
+                      if (editImage == null && originImage == null) {
+                        editData['image_delete'] = 'delete';
+                      }
                       bool tempPublicBool = widget.origin.public!
                           ? tempPublic == 0
                               ? true
@@ -367,6 +379,8 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                       editData['public'] = tempPublicBool;
 
                       print(editData);
+                      print('edit데이터id =${editData['id']}');
+                      print(widget.origin.id);
 
                       if (editData['text'].toString().length > 20 ||
                           editData['text'].toString().length < 2) {
@@ -417,6 +431,8 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                                                 image: editImage);
 
                                         print('put요청 이후');
+                                        fundingsProvider.getFundingDetail(
+                                            widget.origin.id.toString());
                                         if (context.mounted) {
                                           Navigator.pop(context);
                                           Navigator.pop(context);

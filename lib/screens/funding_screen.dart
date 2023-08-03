@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/remit_model.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/screens/remit_screen.dart';
 import 'package:funsunfront/screens/userscreen.dart';
@@ -9,9 +10,7 @@ import 'package:funsunfront/widgets/achievement_rate.dart';
 import 'package:funsunfront/widgets/loading_circle.dart';
 import 'package:provider/provider.dart';
 
-import '../models/funding_model.dart';
 import '../provider/user_provider.dart';
-import '../services/api_funding.dart';
 import '../widgets/pink_btn.dart';
 import '../widgets/report_icon.dart';
 import 'fundig_edit_screen.dart';
@@ -24,11 +23,14 @@ class FundingScreen extends StatelessWidget {
   }) : super(key: key);
   late UserProvider _userProvider;
   late ProfileProvider profileProvider;
+  late FundingsProvider fundingsProvider;
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
     profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    final Future<FundingModel> funding = Funding.getFunding(id: id);
+    fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
+    fundingsProvider.getFundingDetail(id);
+
     final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -37,7 +39,7 @@ class FundingScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
-          future: funding,
+          future: fundingsProvider.fundingDetail,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 데이터를 불러오는 동안 로딩 표시

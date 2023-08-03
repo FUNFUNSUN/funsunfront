@@ -126,7 +126,7 @@ class PreviewScreen extends StatelessWidget {
                   },
                   child: Container(
                       decoration: BoxDecoration(
-                          color: const Color(0xffD9D9D9),
+                          color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(15)),
                       width: 400,
                       height: 50,
@@ -134,7 +134,9 @@ class PreviewScreen extends StatelessWidget {
                         child: Text(
                           '등록하기',
                           style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 15),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              color: Colors.white),
                         ),
                       )),
                 ),
