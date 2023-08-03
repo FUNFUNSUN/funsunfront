@@ -236,7 +236,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   ),
                 ),
                 Text(
-                  '수정이 불가합니다.',
+                  '나중에 수정 가능해요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 13,
