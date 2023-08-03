@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/user_provider.dart';
+import 'package:funsunfront/services/api_remit.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/funding_model.dart';
 
@@ -16,6 +18,7 @@ class RemitCheckScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -189,11 +192,52 @@ class RemitCheckScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => PreviewScreen(temp, image)),
-                  // );
+                  print('tap');
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('정말 펀딩하시겠습니까?'),
+                          actions: [
+                            TextButton(
+                                onPressed: () async {
+                                  print('start');
+                                  bool result = false;
+                                  final req = await Remit.getPayRedirect(
+                                      amount: remitMap['amount'],
+                                      userid: userProvider.user!.id);
+
+                                  final url = Uri.parse(req);
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(url,
+                                        mode: LaunchMode.inAppWebView);
+                                  }
+
+                                  result = await Remit.getPayApprove(
+                                      userid: userProvider.user!.id);
+
+                                  if (context.mounted) {
+                                    result
+                                        ? Navigator.pop(context)
+                                        : showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return const AlertDialog(
+                                                title: Text('결제실패'),
+                                              );
+                                            });
+                                  }
+                                },
+                                child: const Text('확인')),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('취소')),
+                          ],
+                        );
+                      });
                 },
                 child: Container(
                     decoration: BoxDecoration(

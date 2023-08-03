@@ -51,4 +51,50 @@ class Remit {
     }
     throw Error();
   }
+
+  static Future<String> getPayRedirect(
+      {required int amount, required String userid, int trigger = 2}) async {
+    if (trigger == 0) {
+      throw Error();
+    }
+    trigger -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    final url = Uri.parse('$baseUrl/$userid');
+    final response =
+        await http.post(url, headers: headers, body: {'amount': amount});
+    if (response.statusCode == 200) {
+      final redirect = jsonDecode(response.body);
+      return redirect['url'];
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      return getPayRedirect(amount: amount, userid: userid);
+    }
+    throw Error();
+  }
+
+  static Future<bool> getPayApprove(
+      {required String userid, int trigger = 2}) async {
+    if (trigger == 0) {
+      throw Error();
+    }
+    trigger -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+    final url = Uri.parse('$baseUrl/$userid/approve');
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      return true;
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      return getPayApprove(userid: userid);
+    }
+    return false;
+  }
 }
