@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
+import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/services/api_funding.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/achievement_rate.dart';
 import 'funding_screen.dart';
@@ -32,6 +35,10 @@ class PreviewScreen extends StatelessWidget {
     print('차이나는 시간만 출력 : $leftHours');
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: false);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -62,8 +69,11 @@ class PreviewScreen extends StatelessWidget {
                   color: Theme.of(context).primaryColorDark.withOpacity(0.6),
                 ),
                 clipBehavior: Clip.hardEdge,
-                child: image != null
-                    ? Image(image: FileImage(image!))
+                child: (image != null)
+                    ? Image(
+                        image: FileImage(image!),
+                        fit: BoxFit.cover,
+                      )
                     : Image.asset('assets/images/default_profile.jpg',
                         fit: BoxFit.cover),
               ),
@@ -115,6 +125,7 @@ class PreviewScreen extends StatelessWidget {
 
                     if (context.mounted) {
                       Navigator.of(context).popUntil((route) => route.isFirst);
+                      fundingsProvider.getMyfundings(userProvider.user!.id);
 
                       Navigator.push(
                         context,

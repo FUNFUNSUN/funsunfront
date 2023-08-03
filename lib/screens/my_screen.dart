@@ -3,7 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/screens/dropout_confirm_screen.dart';
 import 'package:funsunfront/screens/funding_create_screen.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
-import 'package:funsunfront/services/api_account.dart';
 import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +21,7 @@ class MyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
     FundingsProvider fundingsProvider =
-        Provider.of<FundingsProvider>(context, listen: false);
+        Provider.of<FundingsProvider>(context, listen: true);
 
     final sizeX = MediaQuery.of(context).size.width;
     // final sizeY = MediaQuery.of(context).size.height;
