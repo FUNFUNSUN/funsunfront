@@ -35,7 +35,7 @@ class RemitCheckScreen extends StatelessWidget {
               ),
               const Text(
                 '작성한 내용을 확인해주세요',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
               ),
               const SizedBox(
                 height: 10,
@@ -57,7 +57,8 @@ class RemitCheckScreen extends StatelessWidget {
                         ? NetworkImage(
                             '$baseurl${targetFunding.image}',
                           )
-                        : Image.asset('assets/images/giftBox.png').image,
+                        : Image.asset('assets/images/default_funding.jpg')
+                            .image,
                   ),
                   const SizedBox(
                     width: 30,
@@ -75,10 +76,21 @@ class RemitCheckScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                '내가 작성한 축하메세지',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              const Text(
+                '축하메세지를 확인하세요.',
+                style: TextStyle(color: Color(0xff7D7D7D)),
+              ),
+              const SizedBox(
                 height: 20,
               ),
               Container(
-                color: const Color.fromARGB(255, 255, 159, 208),
+                color: Theme.of(context).primaryColorLight,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -93,7 +105,8 @@ class RemitCheckScreen extends StatelessWidget {
                                 ? NetworkImage(
                                     '$baseurl${userProvider.user!.image}',
                                   )
-                                : Image.asset('assets/images/giftBox.png')
+                                : Image.asset(
+                                        'assets/images/default_funding.jpg')
                                     .image,
                           ),
                           const SizedBox(
@@ -141,33 +154,6 @@ class RemitCheckScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 30,
-              ),
-              const Text(
-                '내가 작성한 축하메세지',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
-              const Text(
-                '축하메세지를 확인하세요.',
-                style: TextStyle(color: Color(0xff7D7D7D)),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 50,
-                width: screenWidth * 0.8,
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  remitMap['message'],
-                  style: const TextStyle(
-                      fontSize: 17, fontWeight: FontWeight.w400),
-                ),
-              ),
-              const SizedBox(
                 height: 20,
               ),
               const Text(
@@ -183,15 +169,17 @@ class RemitCheckScreen extends StatelessWidget {
               ),
               Container(
                 height: 50,
-                width: screenWidth * 0.8,
+                width: screenWidth,
                 decoration: BoxDecoration(
-                  color: Colors.black12,
+                  color: Theme.of(context).primaryColorLight,
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Text(
-                  remitMap['amount'].toString(),
-                  style: const TextStyle(
-                      fontSize: 17, fontWeight: FontWeight.w400),
+                child: Center(
+                  child: Text(
+                    '${remitMap['amount'].toString()}원',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
               const SizedBox(
@@ -217,7 +205,7 @@ class RemitCheckScreen extends StatelessWidget {
                                   final url = Uri.parse(req);
                                   if (await canLaunchUrl(url)) {
                                     await launchUrl(url,
-                                        mode: LaunchMode.inAppWebView);
+                                        mode: LaunchMode.externalApplication);
                                   }
 
                                   result = await Remit.getPayApprove(
@@ -248,7 +236,7 @@ class RemitCheckScreen extends StatelessWidget {
                 },
                 child: Container(
                     decoration: BoxDecoration(
-                        color: const Color(0xffD9D9D9),
+                        color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(15)),
                     width: 400,
                     height: 50,
@@ -256,7 +244,9 @@ class RemitCheckScreen extends StatelessWidget {
                       child: Text(
                         '다음',
                         style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 15),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20),
                       ),
                     )),
               ),
