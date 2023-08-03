@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:funsunfront/screens/dropout_confirm_screen.dart';
 import 'package:funsunfront/screens/funding_create_screen.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
+import 'package:funsunfront/services/api_account.dart';
 import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -208,17 +210,22 @@ class MyScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          child: InkWell(
-                            onTap: () {},
-                            child: const Row(
-                              children: [
-                                Text(
-                                  '회원탈퇴',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
+                        InkWell(
+                          onTap: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DropOutConfirmScreen()),
+                            );
+                          },
+                          child: const Row(
+                            children: [
+                              Text(
+                                '회원탈퇴',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ],
                           ),
                         ),
                       ],

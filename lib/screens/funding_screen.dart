@@ -76,25 +76,57 @@ class FundingScreen extends StatelessWidget {
                       const SizedBox(
                         height: 60,
                       ),
-                      Container(
-                        width: screenWidth * 0.8,
-                        height: screenWidth * 0.8,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Theme.of(context)
-                              .primaryColorDark
-                              .withOpacity(0.6),
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: (funding.image != null)
-                            ? Image.network(
-                                '$baseurl${funding.image}',
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset(
-                                'assets/images/default_funding.jpg',
-                                fit: BoxFit.cover,
-                              ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: screenWidth * 0.8,
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  // TODO: 추후 inkwell로 프로필페이지 이동
+                                  radius: 20,
+                                  backgroundImage: funding.author!['image'] !=
+                                          null
+                                      ? NetworkImage(
+                                          '$baseurl${funding.author!['image']}',
+                                        )
+                                      : Image.asset(
+                                              'assets/images/default_profile.jpg')
+                                          .image,
+                                ),
+                                Text(
+                                  funding.author!['username'],
+                                  style: const TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            width: screenWidth * 0.8,
+                            height: screenWidth * 0.8,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Theme.of(context)
+                                  .primaryColorDark
+                                  .withOpacity(0.6),
+                            ),
+                            clipBehavior: Clip.hardEdge,
+                            child: (funding.image != null)
+                                ? Image.network(
+                                    '$baseurl${funding.image}',
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'assets/images/default_funding.jpg',
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 30,
