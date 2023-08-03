@@ -147,4 +147,27 @@ class User {
     }
     throw Error();
   }
+
+  static Future<bool> delAccount(
+      {required String uid, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
+      throw Error();
+    }
+    apiCounter -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final url = Uri.parse(baseUrl);
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.delete(url, headers: headers);
+    if (response.statusCode == 200) {
+      storage.deleteAll();
+
+      return true;
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      delAccount(uid: uid, apiCounter: apiCounter);
+    }
+    return false;
+  }
 }
