@@ -18,9 +18,9 @@ class FirstScreen extends StatelessWidget {
                 const Text(
                   '즐거운\n펀딩플랫폼\nFunSun',
                   style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.w900,
-                  ),
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Pretendard'),
                 ),
                 const SizedBox(
                   height: 50,
