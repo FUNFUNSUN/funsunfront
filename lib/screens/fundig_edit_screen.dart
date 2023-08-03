@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../models/funding_model.dart';
+import '../services/api_funding.dart';
 import '../widgets/image_upload.dart';
 import '../widgets/pink_btn.dart';
 
@@ -29,16 +30,20 @@ class _FundingEditScreen extends State<FundingEditScreen> {
   String? originImage;
 
   Map<String, dynamic> editData = {
+    'id': "",
     'title': "",
     'content': "",
+    'public': true,
   };
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    editData['id'] = widget.origin.id.toString();
     editData['title'] = widget.origin.title;
     editData['content'] = widget.origin.content;
+    editData['public'] = widget.origin.public;
     originImage = widget.origin.image;
   }
 
@@ -137,27 +142,76 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   height: 5,
                 ),
                 (originImage == null)
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      ImageUpload(
-                                    setImage: setImage,
+                    ? (editImage == null)
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          ImageUpload(
+                                        setImage: setImage,
+                                      ),
+                                    ),
+                                  ).then((res) => setState(() {}));
+                                },
+                                icon: Icon(
+                                    color: Theme.of(context).primaryColor,
+                                    Icons.add_a_photo),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              ImageUpload(
+                                            setImage: setImage,
+                                          ),
+                                        ),
+                                      ).then((res) => setState(() {}));
+                                    },
+                                    icon: Icon(
+                                        color: Theme.of(context).primaryColor,
+                                        Icons.refresh),
                                   ),
+                                  IconButton(
+                                    onPressed: () {
+                                      editImage = null;
+                                      setState(() {
+                                        showImage();
+                                      });
+                                    },
+                                    icon: Icon(
+                                        color: Theme.of(context).primaryColor,
+                                        Icons.delete),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                              ).then((res) => setState(() {}));
-                            },
-                            icon: Icon(
-                                color: Theme.of(context).primaryColor,
-                                Icons.add_a_photo),
-                          ),
-                        ],
-                      )
+                                width: 100,
+                                height: 100,
+                                child: Image.file(
+                                  editImage!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
+                          )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -192,14 +246,19 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                               )
                             ],
                           ),
-                          Container(
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            width: 100,
-                            height: 100,
-                            child: showImage(),
+                          Column(
+                            children: [
+                              const Text('원본이미지'),
+                              Container(
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                width: 100,
+                                height: 100,
+                                child: showImage(),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -207,7 +266,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   height: 30,
                 ),
                 const Text(
-                  '펀딩의 목적을 설명해주세요',
+                  '펀딩의 목적을 수정해주세요',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -297,30 +356,87 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: GestureDetector(
-                      onTap: () async {
-                        print('수정된 펀딩제목 :${editData['title']}');
-                        print('수정된 펀딩목적 :${editData['content']}');
-                        bool tempPublicBool = widget.origin.public!
-                            ? tempPublic == 0
-                                ? true
-                                : false
-                            : tempPublic == 1
-                                ? false
-                                : true;
+                    onTap: () async {
+                      bool tempPublicBool = widget.origin.public!
+                          ? tempPublic == 0
+                              ? true
+                              : false
+                          : tempPublic == 1
+                              ? false
+                              : true;
+                      editData['public'] = tempPublicBool;
 
-                        print(tempPublicBool);
+                      print(editData);
 
-                        // print(postResult);
+                      if (editData['text'].toString().length > 20 ||
+                          editData['text'].toString().length < 2) {
+                        showDialog(
+                          context: context,
+                          builder: ((context) {
+                            return AlertDialog(
+                              title: const Text('수정할 펀딩 제목을 확인해주세요.'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('닫기'))
+                              ],
+                            );
+                          }),
+                        );
+                      } else if (editData['content'].toString().length > 255 ||
+                          editData['content'].toString().length < 2) {
+                        showDialog(
+                          context: context,
+                          builder: ((context) {
+                            return AlertDialog(
+                              title: const Text('수정할 펀딩 목적을 확인해주세요.'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('닫기'))
+                              ],
+                            );
+                          }),
+                        );
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return AlertDialog(
+                                title: const Text('정말 수정하시겠습니까?'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () async {
+                                        Map<String, dynamic> postResult =
+                                            await Funding.putFunding(
+                                                editData: editData,
+                                                image: editImage);
 
-                        // Navigator.push(
-                        // context,
-                        //MaterialPageRoute(
-                        //  builder: (context) => TermsScreen(temp, _image)),
-                        //);
-                      },
-                      child: const PinkBtn(
-                        btnTxt: '펀딩 만들기',
-                      )),
+                                        print('put요청 이후');
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: const Text('확인')),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('취소')),
+                                ],
+                              );
+                            }));
+                      }
+                    },
+                    child: const PinkBtn(
+                      btnTxt: '펀딩 수정하기',
+                    ),
+                  ),
                 ),
               ],
             ),

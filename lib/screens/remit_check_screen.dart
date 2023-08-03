@@ -26,6 +26,13 @@ class RemitCheckScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                    color: Theme.of(context).primaryColor, Icons.first_page),
+              ),
               const Text(
                 '작성한 내용을 확인해주세요',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
