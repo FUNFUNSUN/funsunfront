@@ -59,13 +59,10 @@ class Remit {
     }
     trigger -= 1;
     String? token = await storage.read(key: 'accessToken');
-    final headers = {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-    };
-    final url = Uri.parse('$baseUrl/$userid');
-    final response =
-        await http.post(url, headers: headers, body: {'amount': amount});
+    final headers = {'Authorization': 'Bearer $token'};
+    final url = Uri.parse('$baseUrl$userid');
+    final response = await http
+        .post(url, headers: headers, body: {'amount': amount.toString()});
     if (response.statusCode == 200) {
       final redirect = jsonDecode(response.body);
       return redirect['url'];
@@ -83,11 +80,8 @@ class Remit {
     }
     trigger -= 1;
     String? token = await storage.read(key: 'accessToken');
-    final headers = {
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
-    };
-    final url = Uri.parse('$baseUrl/$userid/approve');
+    final headers = {'Authorization': 'Bearer $token'};
+    final url = Uri.parse('$baseUrl$userid/approve');
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
       return true;
