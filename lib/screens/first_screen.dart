@@ -49,10 +49,10 @@ class FirstScreen extends StatelessWidget {
                               color: Theme.of(context)
                                   .primaryColorDark
                                   .withOpacity(0.2),
-                              spreadRadius: 0.5,
-                              blurRadius: 10,
+                              spreadRadius: 0.2,
+                              blurRadius: 20,
                               offset: const Offset(
-                                  10, 5), // changes position of shadow
+                                  4, 4), // changes position of shadow
                             ),
                           ],
                         ),
