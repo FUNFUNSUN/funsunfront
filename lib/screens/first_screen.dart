@@ -8,7 +8,7 @@ class FirstScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFDC0DB),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -25,12 +25,38 @@ class FirstScreen extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                Image.asset(
-                  'assets/images/three_gifts.png',
-                  width: screenWidth * 0.8,
-                ),
+                Stack(children: [
+                  ClipOval(
+                    child: Container(
+                      width: screenWidth * 0.8,
+                      height: screenWidth * 0.8,
+                      color: Theme.of(context).primaryColor.withOpacity(0.5),
+                    ),
+                  ),
+                  Image.asset(
+                    'assets/images/three_gifts.png',
+                    width: screenWidth * 0.8,
+                  ),
+                ]),
                 Transform.translate(
-                    offset: const Offset(0, -50), child: KakaoLoginButton()),
+                    offset: const Offset(0, 25),
+                    child: Container(
+                        height: 90,
+                        width: 250,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context)
+                                  .primaryColorDark
+                                  .withOpacity(0.2),
+                              spreadRadius: 0.5,
+                              blurRadius: 10,
+                              offset: const Offset(
+                                  10, 5), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: KakaoLoginButton())),
               ],
             ),
           ),
