@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/account_model.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
+import 'package:funsunfront/provider/user_provider.dart';
+import 'package:funsunfront/screens/my_screen.dart';
 import 'package:funsunfront/screens/userscreen.dart';
 import 'package:funsunfront/services/api_account.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +46,8 @@ class _SearchBoxState extends State<SearchBox> {
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     ProfileProvider profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -121,12 +125,21 @@ class _SearchBoxState extends State<SearchBox> {
                       final id = searchedUsers[index].id;
                       await profileProvider.updateProfile(id);
                       if (context.mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserScreen(id: id),
-                          ),
-                        );
+                        if (userProvider.user!.id != id) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserScreen(id: id),
+                            ),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyScreen(),
+                            ),
+                          );
+                        }
                       }
                     },
                     child: SizedBox(
