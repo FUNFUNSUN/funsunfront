@@ -113,7 +113,7 @@ class ExploreScreen extends StatelessWidget {
                     } else if (snapshot.hasError) {
                       // 오류 표시
                       return Text('오류: ${snapshot.error}');
-                    } else {
+                    } else if (snapshot.hasData) {
                       final publicfundings = snapshot.data;
                       publicfundings!;
                       return SingleChildScrollView(
@@ -157,6 +157,7 @@ class ExploreScreen extends StatelessWidget {
                         ),
                       );
                     }
+                    return const Center(child: CircularProgressIndicator());
                   },
                 ),
               ),

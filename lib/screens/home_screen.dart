@@ -3,7 +3,7 @@ import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'fundig_edit_screen.dart';
+import 'funding_create_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

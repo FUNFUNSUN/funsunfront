@@ -266,7 +266,7 @@ class FundingScreen extends StatelessWidget {
                                                               '$baseurl${remit.author.image}',
                                                             )
                                                           : Image.asset(
-                                                                  'assets/images/giftBox.png')
+                                                                  'assets/images/default_funding.jpg')
                                                               .image,
                                                     ),
                                                   ),

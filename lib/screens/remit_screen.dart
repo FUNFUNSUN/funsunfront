@@ -41,7 +41,8 @@ class _RemitScreenState extends State<RemitScreen> {
                         ? NetworkImage(
                             '$baseurl${widget.targetFunding.image}',
                           )
-                        : Image.asset('assets/images/giftBox.png').image,
+                        : Image.asset('assets/images/default_funding.jpg')
+                            .image,
                   ),
                   const SizedBox(
                     width: 50,
