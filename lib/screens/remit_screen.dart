@@ -37,20 +37,32 @@ class _RemitScreenState extends State<RemitScreen> {
                   CircleAvatar(
                     // TODO: 추후 inkwell로 프로필페이지 이동
                     radius: 30,
-                    backgroundImage: widget.targetFunding.image != null
-                        ? NetworkImage(
-                            '$baseurl${widget.targetFunding.image}',
-                          )
-                        : Image.asset('assets/images/default_funding.jpg')
-                            .image,
+                    backgroundImage:
+                        widget.targetFunding.author!['image'] != null
+                            ? NetworkImage(
+                                '$baseurl${widget.targetFunding.author!['image']}',
+                              )
+                            : Image.asset('assets/images/default_profile.jpg')
+                                .image,
                   ),
                   const SizedBox(
-                    width: 50,
+                    width: 15,
                   ),
-                  Text(widget.targetFunding.title),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        widget.targetFunding.author!['username'],
+                        style: const TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.w400),
+                      ),
+                      const Text('님에게 펀딩하기'),
+                    ],
+                  )
                 ],
               ),
               const SizedBox(height: 20),
+
               // Text(widget.targetFunding.id.toString()),
               const Text(
                 '펀딩할 금액을 입력하세요',
@@ -87,7 +99,7 @@ class _RemitScreenState extends State<RemitScreen> {
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(15)),
-                  hintText: '안녕',
+                  hintText: '1000원부터 1000만원까지 가능해요',
                 ),
                 controller: tempAmount,
               ),
@@ -127,7 +139,8 @@ class _RemitScreenState extends State<RemitScreen> {
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(15)),
-                  hintText: '안녕',
+                  hintText:
+                      '생일축하해! 너의 생일을 축하하는 마음으로, 너에게 펀딩했어! 펀딩으로 모은 금액으로, 너가 바라는 선물을 구매했으면 좋겠어!',
                 ),
                 controller: tempMessage,
               ),
@@ -138,7 +151,8 @@ class _RemitScreenState extends State<RemitScreen> {
                 width: double.infinity,
                 child: GestureDetector(
                   onTap: () async {
-                    if (int.parse(tempAmount.text) > 10000000 ||
+                    if (tempAmount.text.isEmpty ||
+                        int.parse(tempAmount.text) > 10000000 ||
                         int.parse(tempAmount.text) < 1000) {
                       showDialog(
                         context: context,
