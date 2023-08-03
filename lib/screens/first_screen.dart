@@ -9,28 +9,30 @@ class FirstScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(50.0),
-          child: Column(
-            children: [
-              const Text(
-                '즐거운\n펀딩플랫폼\nFunSun',
-                style: TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.w900,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(50.0),
+            child: Column(
+              children: [
+                const Text(
+                  '즐거운\n펀딩플랫폼\nFunSun',
+                  style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Image.asset(
-                'assets/images/three_gifts.png',
-                width: screenWidth * 0.8,
-              ),
-              Transform.translate(
-                  offset: const Offset(0, -50), child: KakaoLoginButton()),
-            ],
+                const SizedBox(
+                  height: 50,
+                ),
+                Image.asset(
+                  'assets/images/three_gifts.png',
+                  width: screenWidth * 0.8,
+                ),
+                Transform.translate(
+                    offset: const Offset(0, -50), child: KakaoLoginButton()),
+              ],
+            ),
           ),
         ),
       ),
