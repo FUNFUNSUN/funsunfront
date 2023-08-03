@@ -117,10 +117,8 @@ class User {
     throw Error();
   }
 
-  static Future<Map<String, dynamic>> putUser(
-      {required Map<String, dynamic> userData,
-      File? image,
-      int apiCounter = 2}) async {
+  static Future<Map<String, dynamic>> putProfileImage(
+      {File? image, int apiCounter = 2}) async {
     if (apiCounter == 0) {
       throw Error();
     }
@@ -130,10 +128,6 @@ class User {
     final url = Uri.parse(baseUrl);
     final req = http.MultipartRequest('PUT', url);
     req.headers.addAll(headers);
-    req.fields['id'] = userData['id'];
-    req.fields['email'] = userData['email'];
-    req.fields['birthday'] = userData['birthday'];
-    req.fields['gender'] = userData['gender'];
 
     if (image != null) {
       req.files.add(await http.MultipartFile.fromPath('image', image.path));
@@ -141,15 +135,16 @@ class User {
 
     final response0 = await req.send();
     final response = await http.Response.fromStream(response0);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       Map<String, dynamic> resBodyJson = jsonDecode(response.body);
 
       return resBodyJson;
     } else if (response.statusCode == 401) {
       await User.refreshToken();
-      putUser(userData: userData, image: image, apiCounter: apiCounter);
+      putProfileImage(image: image, apiCounter: apiCounter);
+    } else {
+      print('response.statusCode: ${response.statusCode}');
     }
-
     throw Error();
   }
 }
