@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/funding_model.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/fundings_provider.dart';
 import 'loading_circle.dart';
 
 class FundingCardHorizon extends StatefulWidget {
@@ -10,9 +12,11 @@ class FundingCardHorizon extends StatefulWidget {
     required this.sizeX,
     required this.title,
     required this.fetchFunding,
+    this.routeFunction,
   });
   final String title;
   final double sizeX;
+  final Function? routeFunction;
 
   final Future<List<FundingModel>> Function(String page) fetchFunding;
 
@@ -53,11 +57,30 @@ class _FundingCardHorizonState extends State<FundingCardHorizon> {
   @override
   Widget build(BuildContext context) {
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: true);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.title),
+        Row(
+          children: [
+            Text(widget.title),
+            (widget.routeFunction != null)
+                ? IconButton(
+                    onPressed: () {
+                      widget.routeFunction!();
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      size: 20,
+                    ),
+                  )
+                : const SizedBox(
+                    width: 5,
+                  ),
+          ],
+        ),
         const SizedBox(
           height: 15,
         ),
@@ -102,6 +125,7 @@ class _FundingCardHorizonState extends State<FundingCardHorizon> {
                                     .isBefore(DateTime.now());
                             return GestureDetector(
                               onTap: () {
+                                fundingsProvider.getFundingDetail(postid);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

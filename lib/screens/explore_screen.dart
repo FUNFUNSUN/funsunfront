@@ -123,6 +123,8 @@ class ExploreScreen extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
+                                fundingsProvider.getFundingDetail(
+                                    publicfundings[0].id.toString());
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -154,6 +156,8 @@ class ExploreScreen extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
+                                fundingsProvider.getFundingDetail(
+                                    publicfundings[1].id.toString());
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -248,6 +252,8 @@ class ExploreScreen extends StatelessWidget {
                                   children: [
                                     InkWell(
                                       onTap: () {
+                                        fundingsProvider.getFundingDetail(
+                                            mysupportfundings[0].id.toString());
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -286,6 +292,10 @@ class ExploreScreen extends StatelessWidget {
                                           )
                                         : InkWell(
                                             onTap: () {
+                                              fundingsProvider.getFundingDetail(
+                                                  mysupportfundings[1]
+                                                      .id
+                                                      .toString());
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
