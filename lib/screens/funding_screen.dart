@@ -42,506 +42,497 @@ class FundingScreen extends StatelessWidget {
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     return Scaffold(
-      body: SafeArea(
-        child: FutureBuilder(
-          future: _fundingsProvider.fundingDetail,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // 데이터를 불러오는 동안 로딩 표시
-              return const LoadingCircle();
-            } else if (snapshot.hasError) {
-              // 오류 표시
-              return Text('오류: ${snapshot.error}');
-            } else if (snapshot.hasData) {
-              // 로딩 끝났으면 표시가능
+      body: RefreshIndicator(
+        onRefresh: refreshFunction,
+        child: SafeArea(
+          child: FutureBuilder(
+            future: _fundingsProvider.fundingDetail,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // 데이터를 불러오는 동안 로딩 표시
+                return const LoadingCircle();
+              } else if (snapshot.hasError) {
+                // 오류 표시
+                return Text('오류: ${snapshot.error}');
+              } else {
+                // 로딩 끝났으면 표시가능
 
-              final funding = snapshot.data;
-              funding!;
+                final funding = snapshot.data;
+                funding!;
 
-              // print('펀딩에 등록된 시간 ${DateTime.parse(funding.expireOn)}');
-              // print('현재 시간 ${DateTime.now()}');
+                // print('펀딩에 등록된 시간 ${DateTime.parse(funding.expireOn)}');
+                // print('현재 시간 ${DateTime.now()}');
 
-              final ex = DateTime.parse(funding.expireOn)
-                  .difference(DateTime.now())
-                  .toString();
+                final ex = DateTime.parse(funding.expireOn)
+                    .difference(DateTime.now())
+                    .toString();
 
-              int tempDifference =
-                  int.parse((ex.substring(0, ex.indexOf(':'))));
+                int tempDifference =
+                    int.parse((ex.substring(0, ex.indexOf(':'))));
 
-              final leftDays = tempDifference ~/ 24;
-              //print('차이나는 날짜만 출력 : $leftDays');
+                final leftDays = tempDifference ~/ 24;
+                //print('차이나는 날짜만 출력 : $leftDays');
 
-              final leftHours = tempDifference - leftDays * 24;
-              //print('차이나는 시간만 출력 : $leftHours');
+                final leftHours = tempDifference - leftDays * 24;
+                //print('차이나는 시간만 출력 : $leftHours');
 
-              return RefreshIndicator(
-                onRefresh: refreshFunction,
-                child: LayoutBuilder(builder: ((context, constraints) {
-                  return SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              SizedBox(
-                                // 펀딩작성자의 프로필 사진, 닉네임
-                                width: screenWidth * 0.8,
-                                child: InkWell(
-                                  onTap: () async {
-                                    // 다른 사람 펀딩이면 해당 유저의 프로필로 이동
-                                    if (funding.author!['id'] !=
-                                        _userProvider.user!.id) {
-                                      await _profileProvider
-                                          .updateProfile(funding.author!['id']);
-                                      if (context.mounted) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => UserScreen(
-                                                id: funding.author!['id']),
-                                          ),
-                                        );
-                                      }
-                                    } else // 내 펀딩이면 마이페이지로 이동
-                                    {
-                                      if (context.mounted) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => MyScreen()),
-                                        );
-                                      }
-                                    }
-                                  },
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 20,
-                                        backgroundImage: funding
-                                                    .author!['image'] !=
-                                                null
-                                            ? NetworkImage(
-                                                '$baseurl${funding.author!['image']}',
-                                              )
-                                            : Image.asset(
-                                                    'assets/images/default_profile.jpg')
-                                                .image,
-                                      ),
-                                      Text(
-                                        funding.author!['username'],
-                                        style: const TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                width: screenWidth * 0.8,
-                                height: screenWidth * 0.8,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Theme.of(context)
-                                      .primaryColorDark
-                                      .withOpacity(0.6),
-                                ),
-                                clipBehavior: Clip.hardEdge,
-                                child: (funding.image != null)
-                                    ? Image.network(
-                                        '$baseurl${funding.image}',
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        'assets/images/default_funding.jpg',
-                                        fit: BoxFit.cover,
-                                      ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          AchievementRate(
-                            percent:
-                                funding.currentAmount! / funding.goalAmount,
-                            date: leftDays > 0 ? leftDays : 0,
-                            hour: leftHours > 0 ? leftHours : 0,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          (funding.author!['id'] == _userProvider.user!.id)
-                              ? Padding(
-                                  padding: const EdgeInsets.only(right: 50),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      const Text('수정하기'),
-                                      IconButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  FundingEditScreen(
-                                                origin: funding,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        icon: const Icon(
-                                          Icons.edit,
-                                          size: 20,
+                return SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            SizedBox(
+                              // 펀딩작성자의 프로필 사진, 닉네임
+                              width: screenWidth * 0.8,
+                              child: InkWell(
+                                onTap: () async {
+                                  // 다른 사람 펀딩이면 해당 유저의 프로필로 이동
+                                  if (funding.author!['id'] !=
+                                      _userProvider.user!.id) {
+                                    await _profileProvider
+                                        .updateProfile(funding.author!['id']);
+                                    if (context.mounted) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => UserScreen(
+                                              id: funding.author!['id']),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : const SizedBox(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 50),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                funding.title,
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 50),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                funding.content!,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 40),
-                              child: GestureDetector(
-                                // 펀딩하기 버튼
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RemitScreen(
-                                              targetFunding: funding,
-                                            )),
-                                  );
-                                },
-                                child: const PinkBtn(
-                                  btnTxt: '펀딩하기',
-                                ),
-                              )),
-                          (funding.author!['id'] == _userProvider.user!.id)
-                              ? const SizedBox()
-                              : ReportIcon(funding.id!, 'funding', ''),
-                          Column(
-                            children: [
-                              Transform.translate(
-                                offset: const Offset(0, 15),
-                                child: Transform.scale(
-                                  scale: 1.5,
-                                  child: Image.asset(
-                                      'assets/images/pinkCircles.png'),
-                                ),
-                              ),
-                              Container(
-                                color: const Color.fromARGB(255, 255, 159, 208),
-                                width: screenWidth,
-                                height: 80,
-                                child: Transform.translate(
-                                  offset: const Offset(20, 20),
-                                  child: const Text(
-                                    '축하메세지',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              FutureBuilder(
-                                future: remits,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    // 데이터를 불러오는 동안 로딩 표시
-                                    return const LoadingCircle();
-                                  } else if (snapshot.hasError) {
-                                    // 오류 표시
-                                    return Text('오류: ${snapshot.error}');
-                                  } else {
-                                    // 로딩 끝났으면 표시가능
-                                    final remits = snapshot.data;
-                                    remits!;
-
-                                    return (remits.isEmpty)
-                                        ? Container(
-                                            color: const Color.fromARGB(
-                                                255, 255, 159, 208),
-                                            width: screenWidth,
-                                            height: 80,
-                                            child: const Column(
-                                              children: [
-                                                Center(
-                                                  child: Text(
-                                                    '첫번째로 펀딩을 하고 축하메세지를 남겨보세요!',
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        : Column(
-                                            children: [
-                                              for (final remit
-                                                  in remits) //listview 안쓰고 for문으로
-                                                Container(
-                                                  color: const Color.fromARGB(
-                                                      255, 255, 159, 208),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 20,
-                                                        vertical: 15),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            InkWell(
-                                                              // 각각 유저 프로필로 이동, profileProvider로 유저 정보 불러오기
-                                                              onTap: () async {
-                                                                await _profileProvider
-                                                                    .updateProfile(
-                                                                        remit
-                                                                            .author
-                                                                            .id);
-                                                                if (context
-                                                                    .mounted) {
-                                                                  Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder: (context) => UserScreen(
-                                                                          id: remit
-                                                                              .author
-                                                                              .id),
-                                                                    ),
-                                                                  );
-                                                                }
-                                                              },
-                                                              child:
-                                                                  CircleAvatar(
-                                                                radius: 30,
-                                                                backgroundImage: remit
-                                                                            .author
-                                                                            .image !=
-                                                                        null
-                                                                    ? NetworkImage(
-                                                                        '$baseurl${remit.author.image}',
-                                                                      )
-                                                                    : Image.asset(
-                                                                            'assets/images/default_profile.jpg')
-                                                                        .image,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                SizedBox(
-                                                                  width:
-                                                                      screenWidth *
-                                                                          0.7,
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Text(
-                                                                        'From. ${remit.author.username}',
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          color:
-                                                                              Colors.white,
-                                                                          fontSize:
-                                                                              18,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                        ),
-                                                                      ),
-                                                                      const SizedBox(
-                                                                        width:
-                                                                            70,
-                                                                      ),
-                                                                      (remit.author.id.toString() ==
-                                                                              _userProvider
-                                                                                  .user!.id)
-                                                                          ? const SizedBox()
-                                                                          : ReportIcon(
-                                                                              remit.id.toString(),
-                                                                              'remit',
-                                                                              ''),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width:
-                                                                      screenWidth *
-                                                                          0.7,
-                                                                  child: Text(
-                                                                    remit
-                                                                        .message,
-                                                                    style:
-                                                                        const TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ),
-                                                                    softWrap:
-                                                                        true,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .visible,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 15),
-                                                          child: Divider(
-                                                            color: Colors.white,
-                                                            thickness: 1,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                            ],
-                                          );
+                                      );
+                                    }
+                                  } else // 내 펀딩이면 마이페이지로 이동
+                                  {
+                                    if (context.mounted) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyScreen()),
+                                      );
+                                    }
                                   }
                                 },
-                              ),
-                              // 여기까지가 댓글
-                              if (funding.review != null)
-                                Column(
+                                child: Row(
                                   children: [
-                                    Container(
-                                      color: const Color.fromARGB(
-                                          255, 255, 159, 208),
-                                      height: 50,
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: funding
+                                                  .author!['image'] !=
+                                              null
+                                          ? NetworkImage(
+                                              '$baseurl${funding.author!['image']}',
+                                            )
+                                          : Image.asset(
+                                                  'assets/images/default_profile.jpg')
+                                              .image,
                                     ),
-                                    Transform.translate(
-                                      offset: const Offset(0, -15),
-                                      child: Transform.scale(
-                                        scale: 1.5,
-                                        child: Image.asset(
-                                            'assets/images/purpleCircles.png'),
-                                      ),
+                                    Text(
+                                      funding.author!['username'],
+                                      style: const TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w400),
                                     ),
-                                    Transform.translate(
-                                      offset: const Offset(0, -30),
-                                      child: Container(
-                                        color: const Color.fromARGB(
-                                            255, 178, 159, 255),
-                                        width: screenWidth,
-                                        height: 500,
-                                        child: Transform.translate(
-                                          offset: const Offset(20, 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                '펀딩 후기',
-                                                style: TextStyle(
-                                                  fontSize: 27,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              if (funding.reviewImage != null)
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 30),
-                                                  child: Container(
-                                                    width: screenWidth * 0.8,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
-                                                      color: Theme.of(context)
-                                                          .primaryColorDark
-                                                          .withOpacity(0.6),
-                                                    ),
-                                                    clipBehavior: Clip.hardEdge,
-                                                    child: Image.network(
-                                                      '$baseurl${funding.reviewImage}',
-                                                    ),
-                                                  ),
-                                                ),
-                                              Text(
-                                                funding.review!,
-                                                style: const TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.white),
-                                              ),
-                                            ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Container(
+                              width: screenWidth * 0.8,
+                              height: screenWidth * 0.8,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Theme.of(context)
+                                    .primaryColorDark
+                                    .withOpacity(0.6),
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                              child: (funding.image != null)
+                                  ? Image.network(
+                                      '$baseurl${funding.image}',
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      'assets/images/default_funding.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        AchievementRate(
+                          percent: funding.currentAmount! / funding.goalAmount,
+                          date: leftDays > 0 ? leftDays : 0,
+                          hour: leftHours > 0 ? leftHours : 0,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        (funding.author!['id'] == _userProvider.user!.id)
+                            ? Padding(
+                                padding: const EdgeInsets.only(right: 50),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Text('수정하기'),
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                FundingEditScreen(
+                                              origin: funding,
+                                            ),
                                           ),
-                                        ),
+                                        );
+                                      },
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        size: 20,
                                       ),
                                     ),
                                   ],
                                 ),
-                            ],
+                              )
+                            : const SizedBox(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 50),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              funding.title,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              funding.content!,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            child: GestureDetector(
+                              // 펀딩하기 버튼
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RemitScreen(
+                                            targetFunding: funding,
+                                          )),
+                                );
+                              },
+                              child: const PinkBtn(
+                                btnTxt: '펀딩하기',
+                              ),
+                            )),
+                        (funding.author!['id'] == _userProvider.user!.id)
+                            ? const SizedBox()
+                            : ReportIcon(funding.id!, 'funding', ''),
+                        Column(
+                          children: [
+                            Transform.translate(
+                              offset: const Offset(0, 15),
+                              child: Transform.scale(
+                                scale: 1.5,
+                                child: Image.asset(
+                                    'assets/images/pinkCircles.png'),
+                              ),
+                            ),
+                            Container(
+                              color: const Color.fromARGB(255, 255, 159, 208),
+                              width: screenWidth,
+                              height: 80,
+                              child: Transform.translate(
+                                offset: const Offset(20, 20),
+                                child: const Text(
+                                  '축하메세지',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            FutureBuilder(
+                              future: remits,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  // 데이터를 불러오는 동안 로딩 표시
+                                  return const LoadingCircle();
+                                } else if (snapshot.hasError) {
+                                  // 오류 표시
+                                  return Text('오류: ${snapshot.error}');
+                                } else {
+                                  // 로딩 끝났으면 표시가능
+                                  final remits = snapshot.data;
+                                  remits!;
+
+                                  return (remits.isEmpty)
+                                      ? Container(
+                                          color: const Color.fromARGB(
+                                              255, 255, 159, 208),
+                                          width: screenWidth,
+                                          height: 80,
+                                          child: const Column(
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  '첫번째로 펀딩을 하고 축하메세지를 남겨보세요!',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : Column(
+                                          children: [
+                                            for (final remit
+                                                in remits) //listview 안쓰고 for문으로
+                                              Container(
+                                                color: const Color.fromARGB(
+                                                    255, 255, 159, 208),
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 15),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          InkWell(
+                                                            // 각각 유저 프로필로 이동, profileProvider로 유저 정보 불러오기
+                                                            onTap: () async {
+                                                              await _profileProvider
+                                                                  .updateProfile(
+                                                                      remit
+                                                                          .author
+                                                                          .id);
+                                                              if (context
+                                                                  .mounted) {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) => UserScreen(
+                                                                        id: remit
+                                                                            .author
+                                                                            .id),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            },
+                                                            child: CircleAvatar(
+                                                              radius: 30,
+                                                              backgroundImage: remit
+                                                                          .author
+                                                                          .image !=
+                                                                      null
+                                                                  ? NetworkImage(
+                                                                      '$baseurl${remit.author.image}',
+                                                                    )
+                                                                  : Image.asset(
+                                                                          'assets/images/default_profile.jpg')
+                                                                      .image,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 20,
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              SizedBox(
+                                                                width:
+                                                                    screenWidth *
+                                                                        0.7,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      'From. ${remit.author.username}',
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            18,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      width: 70,
+                                                                    ),
+                                                                    (remit.author.id.toString() ==
+                                                                            _userProvider
+                                                                                .user!.id)
+                                                                        ? const SizedBox()
+                                                                        : ReportIcon(
+                                                                            remit.id.toString(),
+                                                                            'remit',
+                                                                            ''),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width:
+                                                                    screenWidth *
+                                                                        0.7,
+                                                                child: Text(
+                                                                  remit.message,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                  softWrap:
+                                                                      true,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .visible,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 15),
+                                                        child: Divider(
+                                                          color: Colors.white,
+                                                          thickness: 1,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        );
+                                }
+                              },
+                            ),
+                            // 여기까지가 댓글
+                            if (funding.review != null)
+                              Column(
+                                children: [
+                                  Container(
+                                    color: const Color.fromARGB(
+                                        255, 255, 159, 208),
+                                    height: 50,
+                                  ),
+                                  Transform.translate(
+                                    offset: const Offset(0, -15),
+                                    child: Transform.scale(
+                                      scale: 1.5,
+                                      child: Image.asset(
+                                          'assets/images/purpleCircles.png'),
+                                    ),
+                                  ),
+                                  Transform.translate(
+                                    offset: const Offset(0, -30),
+                                    child: Container(
+                                      color: const Color.fromARGB(
+                                          255, 178, 159, 255),
+                                      width: screenWidth,
+                                      height: 500,
+                                      child: Transform.translate(
+                                        offset: const Offset(20, 20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              '펀딩 후기',
+                                              style: TextStyle(
+                                                fontSize: 27,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            if (funding.reviewImage != null)
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 30),
+                                                child: Container(
+                                                  width: screenWidth * 0.8,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    color: Theme.of(context)
+                                                        .primaryColorDark
+                                                        .withOpacity(0.6),
+                                                  ),
+                                                  clipBehavior: Clip.hardEdge,
+                                                  child: Image.network(
+                                                    '$baseurl${funding.reviewImage}',
+                                                  ),
+                                                ),
+                                              ),
+                                            Text(
+                                              funding.review!,
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                })),
-              );
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
