@@ -32,6 +32,7 @@ class FunsunApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => FundingsProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'FunSun',
         theme: ThemeData(
           fontFamily: 'Pretendard',
