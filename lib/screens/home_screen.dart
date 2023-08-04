@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
+import 'package:funsunfront/widgets/fundingcard_horizon.dart';
 import 'package:provider/provider.dart';
 
 import 'funding_create_screen.dart';
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           const Text(
                             '마음을 모아 펀딩해보세요',
                             style: TextStyle(
-                              fontSize: 30,
+                              fontSize: 27,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             '소중한 순간을 더욱 특별하게, 모두 함께 펀딩!',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 15,
                               fontWeight: FontWeight.w400,
                               color: Colors.black.withOpacity(0.8),
                             ),
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 15,
                           ),
                           InkWell(
                             onTap: () {
@@ -118,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding:
                             const EdgeInsets.only(top: 20, left: 30, right: 30),
                         width: screenWidth,
-                        height: screenHeight * 0.66,
+                        height: screenHeight * 0.64,
                         decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -157,12 +158,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 20,
                                 ),
                                 Column(
+                                  mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '함께 모여 특별한 선물 준비',
                                       style: TextStyle(
-                                        fontSize: 17,
+                                        fontSize: 14.5,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black.withOpacity(0.8),
                                       ),
@@ -171,7 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       height: 7,
                                     ),
                                     const Text(
-                                        '소중한 사람들과 함께 특별한 선물을 \n준비할 수 있도록 도와줍니다.'),
+                                      '소중한 사람들과 함께 특별한 선물을 \n준비할 수 있도록 도와줍니다.',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
                                   ],
                                 )
                               ],
@@ -195,12 +199,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 20,
                                 ),
                                 Column(
+                                  mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '실시간 상태 확인',
                                       style: TextStyle(
-                                        fontSize: 17,
+                                        fontSize: 14.5,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black.withOpacity(0.8),
                                       ),
@@ -209,7 +214,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       height: 7,
                                     ),
                                     const Text(
-                                        '펀딩 진행 상태를 실시간으로 확인하고,\n모든 과정을 투명하게 관리하세요'),
+                                        overflow: TextOverflow.visible,
+                                        style: TextStyle(fontSize: 12),
+                                        '펀딩 진행 상태를 실시간으로 확인하고\n모든 과정을 투명하게 관리하세요'),
                                   ],
                                 )
                               ],
@@ -233,12 +240,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 20,
                                 ),
                                 Column(
+                                  mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '감동의 공유',
                                       style: TextStyle(
-                                        fontSize: 17,
+                                        fontSize: 14.5,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black.withOpacity(0.8),
                                       ),
@@ -247,6 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       height: 7,
                                     ),
                                     const Text(
+                                        style: TextStyle(fontSize: 12),
                                         '펀딩이 완료되면 특별한 순간을 \n후기로 공유할 수 있습니다\n더 많은 이들에게 감동을 전하세요!'),
                                   ],
                                 )
@@ -267,6 +276,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        color: Colors.white,
+                        child: FundingCardHorizon(
+                            sizeX: screenWidth,
+                            fundings: fundingsProvider.publicFundings!,
+                            title: '     전체공개펀딩'),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        height: 20,
                       ),
                     ],
                   ),
