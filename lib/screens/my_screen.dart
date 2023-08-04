@@ -49,6 +49,7 @@ class MyScreen extends StatelessWidget {
           builder: ((context, constraints) {
             return SafeArea(
               child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
                     ///////////////////////유저 프로필
@@ -216,24 +217,22 @@ class MyScreen extends StatelessWidget {
                                 onTap: () {
                                   logout();
                                 },
-                                child: Container(
-                                  child: const Row(
-                                    children: [
-                                      Icon(
-                                        size: 15,
-                                        Icons.exit_to_app_rounded,
-                                        color: Colors.grey,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        '로그아웃',
-                                        style: TextStyle(
-                                            color: Colors.grey, fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      size: 15,
+                                      Icons.exit_to_app_rounded,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      '로그아웃',
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 12),
+                                    ),
+                                  ],
                                 ),
                               ),
                               InkWell(
