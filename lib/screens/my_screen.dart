@@ -78,8 +78,9 @@ class MyScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProfileEditScreen()),
+                                        builder: (context) => ProfileEditScreen(
+                                              origin: _userProvider.user!,
+                                            )),
                                   );
                                 },
                                 child: Container(
