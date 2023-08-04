@@ -109,7 +109,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 TextField(
                   decoration: InputDecoration(
@@ -145,7 +145,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 (_image == null)
                     ? IconButton(
@@ -228,14 +228,14 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   height: 5,
                 ),
                 Text(
-                  '서포터의 마음을 사로잡아야 돈을 받지. 돈벌기가 쉽나?',
+                  '당신의 특별한 펀딩을 소개해보세요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 12,
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 TextField(
                   textAlignVertical: TextAlignVertical.top,
@@ -253,8 +253,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(15)),
-                    hintText:
-                        '한 달 후면, 1년에 한번뿐인 제 생일이에요!평소 갖고 싶던 물건이었는데, 가격이 부담스러워서 살 용기를 내지 못했답니다...이번 핀딩을 통해서 이 선물을 꼭 받고싶어요! 펀딩 부탁드립니당!!',
+                    hintText: '저의 생일을 위해 펀딩해주세요!',
                   ),
                   controller: _contentTextEditController,
                 ),
@@ -268,12 +267,18 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
+                const SizedBox(
+                  height: 5,
+                ),
                 Text(
                   '나중에 수정 가능해요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
-                    fontSize: 13,
+                    fontSize: 12,
                   ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 ToggleButtons(
                   direction: Axis.horizontal,
@@ -310,14 +315,14 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   height: 5,
                 ),
                 Text(
-                  '수정이 불가합니다.',
+                  '이후 수정이 불가합니다.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 13,
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 TextField(
                   keyboardType: TextInputType.number,
@@ -352,7 +357,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   height: 5,
                 ),
                 Text(
-                  '수정이 불가합니다.',
+                  '이후 수정이 불가합니다.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 13,
@@ -366,20 +371,24 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                     _selectDate(context);
                   },
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       _selectedDate.isEmpty
                           ? const Icon(
                               Icons.calendar_month_outlined,
-                              size: 30,
+                              size: 25,
                             )
                           : const Icon(
                               Icons.refresh,
-                              size: 30,
+                              size: 25,
                             ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       SizedBox(
                         height: 50,
-                        width: screenWidth * 0.6,
+                        width: screenWidth * 0.7,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
