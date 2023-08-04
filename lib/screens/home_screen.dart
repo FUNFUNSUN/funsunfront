@@ -4,6 +4,7 @@ import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/widgets/fundingcard_horizon.dart';
 import 'package:provider/provider.dart';
 
+import '../services/api_funding.dart';
 import 'funding_create_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -282,7 +283,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.white,
                         child: FundingCardHorizon(
                             sizeX: screenWidth,
-                            fundings: fundingsProvider.publicFundings!,
+                            // fundings: fundingsProvider.publicFundings!,
+                            fetchFunding: (page) =>
+                                Funding.getPublicFunding(page: page),
                             title: '     전체공개펀딩'),
                       ),
                       Container(

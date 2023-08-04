@@ -61,7 +61,8 @@ class UserScreen extends StatelessWidget {
                 ),
                 FundingCardHorizon(
                   sizeX: sizeX,
-                  fundings: userfundings,
+                  fetchFunding: (page) =>
+                      Funding.getUserFunding(page: page, id: id),
                   title: '${profileProvider.profile!.username}의 펀딩',
                 ),
                 /////////////////////////// 펀딩리스트END
@@ -106,7 +107,6 @@ class _FollowBtnState extends State<FollowBtn> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isFollowing =
         Follow.isFollowing(uid: widget.uid, currentuid: widget.currentuid);
