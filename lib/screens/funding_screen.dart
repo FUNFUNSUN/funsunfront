@@ -497,6 +497,7 @@ class FundingScreen extends StatelessWidget {
                                                         vertical: 30),
                                                 child: Container(
                                                   width: screenWidth * 0.8,
+                                                  height: screenWidth * 0.8,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -507,6 +508,7 @@ class FundingScreen extends StatelessWidget {
                                                   ),
                                                   clipBehavior: Clip.hardEdge,
                                                   child: Image.network(
+                                                    fit: BoxFit.cover,
                                                     '$baseurl${funding.reviewImage}',
                                                   ),
                                                 ),
