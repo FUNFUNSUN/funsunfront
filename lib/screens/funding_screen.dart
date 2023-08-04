@@ -22,14 +22,14 @@ class FundingScreen extends StatelessWidget {
     required this.id,
   }) : super(key: key);
   late UserProvider _userProvider;
-  late ProfileProvider profileProvider;
-  late FundingsProvider fundingsProvider;
+  late ProfileProvider _profileProvider;
+  late FundingsProvider _fundingsProvider;
   @override
   Widget build(BuildContext context) {
-    _userProvider = Provider.of<UserProvider>(context, listen: true);
-    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
-    fundingsProvider.getFundingDetail(id);
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
+    _profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    _fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
+    _fundingsProvider.getFundingDetail(id);
 
     final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
     final screenWidth = MediaQuery.of(context).size.width;
@@ -39,7 +39,7 @@ class FundingScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
-          future: fundingsProvider.fundingDetail,
+          future: _fundingsProvider.fundingDetail,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 데이터를 불러오는 동안 로딩 표시
@@ -300,7 +300,7 @@ class FundingScreen extends StatelessWidget {
                                                         InkWell(
                                                           // 각각 유저 프로필로 이동, profileProvider로 유저 정보 불러오기
                                                           onTap: () async {
-                                                            await profileProvider
+                                                            await _profileProvider
                                                                 .updateProfile(
                                                                     remit.author
                                                                         .id);
