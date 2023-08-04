@@ -126,6 +126,8 @@ class PreviewScreen extends StatelessWidget {
                     if (context.mounted) {
                       Navigator.of(context).popUntil((route) => route.isFirst);
                       fundingsProvider.getMyfundings(userProvider.user!.id);
+                      fundingsProvider
+                          .getFundingDetail(postResult['id'].toString());
 
                       Navigator.push(
                         context,

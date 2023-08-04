@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
+import '../provider/fundings_provider.dart';
 import '../screens/funding_screen.dart';
 
 class FundingCard extends StatefulWidget {
@@ -54,6 +56,8 @@ class _FundingCardState extends State<FundingCard> {
 
   @override
   Widget build(BuildContext context) {
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: true);
     return (_fundings.isNotEmpty)
         ? NotificationListener<ScrollNotification>(
             onNotification: (scrollInfo) {
@@ -83,6 +87,9 @@ class _FundingCardState extends State<FundingCard> {
                     .isBefore(DateTime.now());
                 return InkWell(
                     onTap: () {
+                      fundingsProvider
+                          .getFundingDetail(_fundings[index].id.toString());
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
