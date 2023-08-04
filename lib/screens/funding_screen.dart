@@ -74,9 +74,6 @@ class FundingScreen extends StatelessWidget {
                 child: Center(
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 60,
-                      ),
                       Column(
                         children: [
                           SizedBox(
