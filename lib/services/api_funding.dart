@@ -176,7 +176,45 @@ class Funding {
       return resBodyJson;
     } else if (response.statusCode == 401) {
       await User.refreshToken();
-      postFunding(fundingData: editData, image: image, apiCounter: apiCounter);
+      putFunding(editData: editData, image: image, apiCounter: apiCounter);
+    }
+    print(response.body);
+    throw Error();
+  }
+
+  static Future<Map<String, dynamic>> putReview(
+      {required Map<String, dynamic> editData,
+      File? image,
+      int apiCounter = 2}) async {
+    if (apiCounter == 0) {
+      throw Error();
+    }
+    apiCounter -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final headers = {'Authorization': 'Bearer $token'};
+    final url = Uri.parse(baseUrl);
+    final req = http.MultipartRequest('PUT', url);
+
+    req.headers.addAll(headers);
+    req.fields['id'] = editData['id'];
+    req.fields['review'] = editData['review'];
+    // req.fields['image_delete'] = editData['image_delete'];
+
+    if (image != null) {
+      req.files
+          .add(await http.MultipartFile.fromPath('review_image', image.path));
+    }
+
+    final response0 = await req.send();
+    final response = await http.Response.fromStream(response0);
+    print(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      Map<String, dynamic> resBodyJson = jsonDecode(response.body);
+
+      return resBodyJson;
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      putReview(editData: editData, image: image, apiCounter: apiCounter);
     }
     print(response.body);
     throw Error();
