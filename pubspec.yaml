@@ -87,6 +87,7 @@ flutter:
   assets:
     - assets/images/
     - assets/launcher/
+    - assets/images/bank/
 
   fonts:
     - family: PretenDard

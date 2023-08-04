@@ -17,7 +17,37 @@ class ProfileEditScreen extends StatefulWidget {
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
   late File _image;
   File? editImage;
+  final bankList = [];
 
+  ListTile _tile(String title, String image) => ListTile(
+        title: Text(title),
+        leading: Image.asset(
+          image,
+          fit: BoxFit.cover,
+        ),
+      );
+
+  Widget _bankList() => Expanded(
+        child: ListView(
+          children: [
+            _tile("국민", 'assets/images/bank/bank_kb.png'),
+            _tile("기업", 'assets/images/bank/bank_ibk.png'),
+            _tile("농협", 'assets/images/bank/bank_nh.png'),
+            _tile("새마을", 'assets/images/bank/bank_mg.png'),
+            _tile("산업", 'assets/images/bank/bank_su.png'),
+            _tile("수협", 'assets/images/bank/bank_sh.png'),
+            _tile("신한", 'assets/images/bank/bank_shinhan.png'),
+            _tile("우리", 'assets/images/bank/bank_wr.jpg'),
+            _tile("우체국", 'assets/images/bank/bank_ucg.png'),
+            _tile("하나", 'assets/images/bank/bank_hn.png'),
+            _tile("한국씨티", 'assets/images/bank/bank_hg.png'),
+            _tile("SC제일", 'assets/images/bank/bank_sc.png'),
+            _tile("카카오뱅크", 'assets/images/bank/bank_kko.png'),
+            _tile("케이뱅크", 'assets/images/bank/bank_kayB.png'),
+            _tile("토스", 'assets/images/bank/bank_ts.png'),
+          ],
+        ),
+      );
   void setImage(File uploadedImage) {
     setState(() {
       editImage = uploadedImage;
@@ -27,6 +57,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   Map<String, dynamic> editData = {
     'user_name': "",
     'birthday': "",
+    'bank_account': "",
     // 'title': "",
     // 'content': "",
     // 'public': true,
@@ -42,6 +73,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     super.initState();
     editData['user_name'] = widget.origin.username;
     editData['birthday'] = widget.origin.birthday;
+    editData['bank_account'] = widget.origin.bankAccount;
   }
 
   @override
@@ -58,7 +90,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       return const SizedBox();
     }
 
-    print(editData);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -224,7 +255,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 TextFormField(
                   initialValue: widget.origin.username,
                   onChanged: (value) {
-                    print(value);
                     setState(() {
                       editData['user_name'] = value;
                     });
@@ -241,7 +271,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                         borderRadius: BorderRadius.circular(15)),
                   ),
                 ),
-                (widget.origin.birthday == null)
+                const SizedBox(height: 20),
+                (widget.origin.birthday == "")
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -268,9 +299,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                           TextFormField(
                             initialValue: widget.origin.username,
                             onChanged: (value) {
-                              print(value);
                               setState(() {
-                                editData['user_name'] = value;
+                                editData['birthday'] = value;
                               });
                             },
                             decoration: InputDecoration(
@@ -288,7 +318,78 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                         ],
                       )
                     : const SizedBox(),
-                Text('${widget.origin.birthday}'),
+                const SizedBox(height: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '계좌번호를 변경하시겠습니까?',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      '변경할 계좌번호를 입력하세요.',
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.6),
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      initialValue: widget.origin.username,
+                      onChanged: (value) {
+                        setState(() {
+                          editData['bank_acount'] = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color(0xffF4F4F4),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(15)),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: SizedBox(
+                                  width: 150,
+                                  height: 200,
+                                  child: _bankList(),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('확인'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      icon: Icon(
+                          color: Theme.of(context).primaryColor,
+                          Icons.add_a_photo),
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: 50,
                 ),
@@ -296,7 +397,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {
-                      print(editData['user_name']);
+                      print(editData);
                       showDialog(
                           context: context,
                           builder: ((context) {

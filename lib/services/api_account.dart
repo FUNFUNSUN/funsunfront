@@ -187,6 +187,7 @@ class User {
 
     req.fields['user_name'] = editData['user_name'];
     req.fields['birthday'] = editData['birthday'];
+    req.fields['bank_account'] = editData['bank_account'];
 
     if (image != null) {
       req.files.add(await http.MultipartFile.fromPath('image', image.path));
