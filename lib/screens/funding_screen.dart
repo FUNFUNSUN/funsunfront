@@ -257,132 +257,168 @@ class FundingScreen extends StatelessWidget {
                                 final remits = snapshot.data;
                                 remits!;
 
-                                return Column(
-                                  children: [
-                                    for (final remit
-                                        in remits) //listview 안쓰고 for문으로
-                                      Container(
+                                return (remits.isEmpty)
+                                    ? Container(
                                         color: const Color.fromARGB(
                                             255, 255, 159, 208),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 15),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () async {
-                                                      await profileProvider
-                                                          .updateProfile(
-                                                              remit.author.id);
-                                                      if (context.mounted) {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                UserScreen(
-                                                                    id: remit
-                                                                        .author
-                                                                        .id),
-                                                          ),
-                                                        );
-                                                      }
-                                                    },
-                                                    child: CircleAvatar(
-                                                      // TODO: 추후 inkwell로 프로필페이지 이동
-                                                      radius: 30,
-                                                      backgroundImage: remit
-                                                                  .author
-                                                                  .image !=
-                                                              null
-                                                          ? NetworkImage(
-                                                              '$baseurl${remit.author.image}',
-                                                            )
-                                                          : Image.asset(
-                                                                  'assets/images/default_funding.jpg')
-                                                              .image,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      SizedBox(
-                                                        width:
-                                                            screenWidth * 0.7,
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'From. ${remit.author.username}',
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 70,
-                                                            ),
-                                                            (remit.author.id
-                                                                        .toString() ==
-                                                                    _userProvider
-                                                                        .user!
-                                                                        .id)
-                                                                ? const SizedBox()
-                                                                : ReportIcon(
-                                                                    remit.id
-                                                                        .toString(),
-                                                                    'remit',
-                                                                    ''),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                            screenWidth * 0.7,
-                                                        child: Text(
-                                                          remit.message,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.white,
-                                                          ),
-                                                          softWrap: true,
-                                                          overflow: TextOverflow
-                                                              .visible,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              const Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 15),
-                                                child: Divider(
+                                        width: screenWidth,
+                                        height: 80,
+                                        child: const Column(
+                                          children: [
+                                            Center(
+                                              child: Text(
+                                                '첫번째로 펀딩을 하고 축하메세지를 남겨보세요!',
+                                                style: TextStyle(
+                                                  fontSize: 16,
                                                   color: Colors.white,
-                                                  thickness: 1,
+                                                  fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            )
+                                          ],
                                         ),
-                                      ),
-                                  ],
-                                );
+                                      )
+                                    : Column(
+                                        children: [
+                                          for (final remit
+                                              in remits) //listview 안쓰고 for문으로
+                                            Container(
+                                              color: const Color.fromARGB(
+                                                  255, 255, 159, 208),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 15),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        InkWell(
+                                                          // 각각 유저 프로필로 이동, profileProvider로 유저 정보 불러오기
+                                                          onTap: () async {
+                                                            await profileProvider
+                                                                .updateProfile(
+                                                                    remit.author
+                                                                        .id);
+                                                            if (context
+                                                                .mounted) {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      UserScreen(
+                                                                          id: remit
+                                                                              .author
+                                                                              .id),
+                                                                ),
+                                                              );
+                                                            }
+                                                          },
+                                                          child: CircleAvatar(
+                                                            radius: 30,
+                                                            backgroundImage: remit
+                                                                        .author
+                                                                        .image !=
+                                                                    null
+                                                                ? NetworkImage(
+                                                                    '$baseurl${remit.author.image}',
+                                                                  )
+                                                                : Image.asset(
+                                                                        'assets/images/default_profile.jpg')
+                                                                    .image,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(
+                                                              width:
+                                                                  screenWidth *
+                                                                      0.7,
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(
+                                                                    'From. ${remit.author.username}',
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          18,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 70,
+                                                                  ),
+                                                                  (remit.author
+                                                                              .id
+                                                                              .toString() ==
+                                                                          _userProvider
+                                                                              .user!
+                                                                              .id)
+                                                                      ? const SizedBox()
+                                                                      : ReportIcon(
+                                                                          remit
+                                                                              .id
+                                                                              .toString(),
+                                                                          'remit',
+                                                                          ''),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  screenWidth *
+                                                                      0.7,
+                                                              child: Text(
+                                                                remit.message,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                softWrap: true,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .visible,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 15),
+                                                      child: Divider(
+                                                        color: Colors.white,
+                                                        thickness: 1,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      );
                               }
                             },
                           ),
