@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/widgets/fundingcard_horizon.dart';
 
 import '../services/api_funding.dart';
@@ -260,6 +261,15 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     color: Colors.white,
                     child: FundingCardHorizon(
+                        routeFunction: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PublicScreen(
+                                      page: '1',
+                                    )),
+                          );
+                        }, //함수,
                         sizeX: screenWidth,
                         // fundings: fundingsProvider.publicFundings!,
                         fetchFunding: (page) =>

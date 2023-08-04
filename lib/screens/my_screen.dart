@@ -3,6 +3,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/screens/dropout_confirm_screen.dart';
 import 'package:funsunfront/screens/funding_create_screen.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
+import 'package:funsunfront/screens/myfunding_screen.dart';
+import 'package:funsunfront/screens/mysupport_screen.dart';
 import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -118,7 +120,6 @@ class MyScreen extends StatelessWidget {
                                     builder: (context) =>
                                         const FundingCreateScreen()),
                               );
-                              print('펀딩작성페이지라우팅');
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -147,6 +148,15 @@ class MyScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 30.0),
                           child: FundingCardHorizon(
+                            routeFunction: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MyFundingScreen(
+                                          page: '1',
+                                        )),
+                              );
+                            },
                             sizeX: sizeX,
                             //fundings: fundingsProvider.myFundings!,
                             fetchFunding: (page) => Funding.getUserFunding(
@@ -157,10 +167,20 @@ class MyScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 30.0, top: 35),
                           child: FundingCardHorizon(
-                              sizeX: sizeX,
-                              fetchFunding: (page) =>
-                                  Funding.getJoinedFunding(page: page),
-                              title: '서포트한 펀딩'),
+                            routeFunction: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MySupportScreen(
+                                          page: '1',
+                                        )),
+                              );
+                            },
+                            sizeX: sizeX,
+                            fetchFunding: (page) =>
+                                Funding.getJoinedFunding(page: page),
+                            title: '서포트한 펀딩',
+                          ),
                         ),
                       ],
                     ),

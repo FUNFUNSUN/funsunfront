@@ -10,9 +10,11 @@ class FundingCardHorizon extends StatefulWidget {
     required this.sizeX,
     required this.title,
     required this.fetchFunding,
+    this.routeFunction,
   });
   final String title;
   final double sizeX;
+  final Function? routeFunction;
 
   final Future<List<FundingModel>> Function(String page) fetchFunding;
 
@@ -57,7 +59,24 @@ class _FundingCardHorizonState extends State<FundingCardHorizon> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.title),
+        Row(
+          children: [
+            Text(widget.title),
+            (widget.routeFunction != null)
+                ? IconButton(
+                    onPressed: () {
+                      widget.routeFunction!();
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      size: 20,
+                    ),
+                  )
+                : const SizedBox(
+                    width: 5,
+                  ),
+          ],
+        ),
         const SizedBox(
           height: 15,
         ),
