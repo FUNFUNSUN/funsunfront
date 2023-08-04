@@ -3,7 +3,7 @@ import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
 
 class MySupportScreen extends StatelessWidget {
-  const MySupportScreen({super.key, required this.page});
+  const MySupportScreen({super.key, this.page = '1'});
 
   final String page;
 

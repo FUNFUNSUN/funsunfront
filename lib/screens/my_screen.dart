@@ -3,8 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/screens/dropout_confirm_screen.dart';
 import 'package:funsunfront/screens/funding_create_screen.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
-import 'package:funsunfront/screens/myfunding_screen.dart';
-import 'package:funsunfront/screens/mysupport_screen.dart';
+import 'package:funsunfront/screens/profile_edit_screen.dart';
 import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +11,6 @@ import '../provider/fundings_provider.dart';
 import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
 import '../widgets/fundingcard_horizon.dart';
-import '../widgets/image_upload.dart';
 
 // ignore: must_be_immutable
 class MyScreen extends StatelessWidget {
@@ -78,10 +76,8 @@ class MyScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ImageUpload(
-                                              setImage:
-                                                  _userProvider.setProfileImage,
-                                            )),
+                                        builder: (context) =>
+                                            ProfileEditScreen()),
                                   );
                                 },
                                 child: Container(
