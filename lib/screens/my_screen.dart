@@ -98,7 +98,7 @@ class MyScreen extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                   child: const Icon(
-                                    Icons.edit,
+                                    Icons.settings,
                                     size: 15,
                                   ),
                                 ),

@@ -20,10 +20,21 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final bankList = [];
 
   ListTile _tile(String title, String image) => ListTile(
+        minVerticalPadding: 10,
+        focusColor: Theme.of(context).primaryColorLight,
+        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
         title: Text(title),
-        leading: Image.asset(
-          image,
-          fit: BoxFit.cover,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            width: 80,
+            height: 80,
+            child: Image.asset(
+              image,
+              width: 60,
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
       );
 
@@ -44,7 +55,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             _tile("SC제일", 'assets/images/bank/bank_sc.png'),
             _tile("카카오뱅크", 'assets/images/bank/bank_kko.png'),
             _tile("케이뱅크", 'assets/images/bank/bank_kayB.png'),
-            _tile("토스", 'assets/images/bank/bank_ts.png'),
+            _tile("토스", 'assets/images/bank/bank_ts.jpg'),
           ],
         ),
       );
@@ -91,74 +102,98 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 80,
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    '프로필 수정페이지입니다.',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                        color: Theme.of(context).primaryColor, Icons.close),
+                  ),
+                ],
+              ),
+              Text(
+                '수정할 항목들을 입력하세요.',
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.6),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30),
+            padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                          color: Theme.of(context).primaryColor, Icons.close),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  '프로필 수정페이지입니다.',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '수정할 항목들을 입력하세요.',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 12,
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
                 (widget.origin.image == null)
                     ? (editImage == null)
-                        ? Row(
+                        ? Stack(
                             children: [
                               const CircleAvatar(
                                   //디폴트 프로필 이미지
                                   radius: 55,
                                   backgroundImage: AssetImage(
                                       'assets/images/default_profile.jpg')),
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (BuildContext context) =>
-                                          ImageUpload(
-                                        setImage: setImage,
+                              Positioned(
+                                bottom: 5,
+                                left: 80,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            ImageUpload(
+                                          setImage: setImage,
+                                        ),
                                       ),
+                                    ).then((res) => setState(() {}));
+                                  },
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      boxShadow: const <BoxShadow>[
+                                        BoxShadow(
+                                            color: Color.fromARGB(
+                                                137, 173, 173, 173),
+                                            blurRadius: .8,
+                                            offset: Offset(0.0, 0.8))
+                                      ],
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
                                     ),
-                                  ).then((res) => setState(() {}));
-                                },
-                                icon: Icon(
-                                  color: Theme.of(context).primaryColor,
-                                  Icons.add_a_photo_rounded,
+                                    child: const Icon(
+                                      Icons.edit,
+                                      size: 19,
+                                    ),
+                                  ),
                                 ),
-                              )
+                              ),
                             ],
                           )
                         : Row(
@@ -342,51 +377,66 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      initialValue: widget.origin.username,
-                      onChanged: (value) {
-                        setState(() {
-                          editData['bank_acount'] = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xffF4F4F4),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none,
+                    Row(
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: SizedBox(
+                                        width: 150,
+                                        height: 200,
+                                        child: _bankList(),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('확인'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Theme.of(context)
+                                      .primaryColorLight
+                                      .withOpacity(.5)),
+                              width: 60,
+                              height: 60,
+                              child: const Text('은행 선택'),
+                            )),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          child: TextFormField(
+                            initialValue: widget.origin.username,
+                            onChanged: (value) {
+                              setState(() {
+                                editData['bank_acount'] = value;
+                              });
+                            },
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: const Color(0xffF4F4F4),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(15)),
+                            ),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(15)),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                content: SizedBox(
-                                  width: 150,
-                                  height: 200,
-                                  child: _bankList(),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('확인'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
-                      },
-                      icon: Icon(
-                          color: Theme.of(context).primaryColor,
-                          Icons.add_a_photo),
+                      ],
                     ),
                   ],
                 ),
@@ -422,7 +472,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                           }));
                     },
                     child: const PinkBtn(
-                      btnTxt: '펀딩 수정하기',
+                      btnTxt: '프로필 수정',
                     ),
                   ),
                 ),

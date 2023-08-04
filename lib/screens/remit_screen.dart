@@ -54,9 +54,14 @@ class _RemitScreenState extends State<RemitScreen> {
                       Text(
                         widget.targetFunding.author!['username'],
                         style: const TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w400),
+                            fontSize: 20, fontWeight: FontWeight.w400),
                       ),
-                      const Text('님에게 펀딩하기'),
+                      const Text(
+                        '님에게 펀딩하기',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ],
                   )
                 ],
@@ -82,7 +87,7 @@ class _RemitScreenState extends State<RemitScreen> {
                 ),
               ),
               const SizedBox(
-                height: 5,
+                height: 10,
               ),
               TextField(
                 keyboardType: TextInputType.number,
@@ -123,6 +128,9 @@ class _RemitScreenState extends State<RemitScreen> {
                   fontSize: 12,
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               TextField(
                 textAlignVertical: TextAlignVertical.top,
                 keyboardType: TextInputType.multiline,
@@ -139,8 +147,7 @@ class _RemitScreenState extends State<RemitScreen> {
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(15)),
-                  hintText:
-                      '생일축하해! 너의 생일을 축하하는 마음으로, 너에게 펀딩했어! 펀딩으로 모은 금액으로, 너가 바라는 선물을 구매했으면 좋겠어!',
+                  hintText: '생일축하해! 너의 생일을 축하하는 마음으로, \n너에게 펀딩했어!',
                 ),
                 controller: tempMessage,
               ),
