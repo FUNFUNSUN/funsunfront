@@ -85,17 +85,22 @@ class FundingCard extends StatelessWidget {
                             fundings[index].title,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.w500),
+                                fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                           Row(
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text('펀딩종료일'),
+                                  const Text(
+                                    '펀딩종료일',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                    ),
+                                  ),
                                   Text(
                                     style: const TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 12,
                                     ),
                                     DateFormat.yMMMd('en_US').format(
                                         DateTime.parse(

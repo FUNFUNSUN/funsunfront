@@ -30,11 +30,11 @@ class Profile extends StatelessWidget {
             ? (userimg != null)
                 ? CircleAvatar(
                     //유저 프로필 이미지
-                    radius: 60,
+                    radius: 55,
                     backgroundImage: NetworkImage('$baseUrl$userimg'))
                 : const CircleAvatar(
                     //디폴트 프로필 이미지
-                    radius: 60,
+                    radius: 55,
                     backgroundImage:
                         AssetImage('assets/images/default_profile.jpg'))
             : CircleAvatar(
@@ -49,7 +49,10 @@ class Profile extends StatelessWidget {
           children: [
             Text(
               '$userName님',
-              style: const TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 17),
+            ),
+            const SizedBox(
+              height: 8,
             ),
             Row(
               children: [
@@ -63,7 +66,8 @@ class Profile extends StatelessWidget {
                                 )),
                       );
                     },
-                    child: Text('팔로워 $followerStr명')),
+                    child: Text('팔로워 $followerStr명',
+                        style: const TextStyle(fontSize: 12))),
                 const SizedBox(
                   width: 20,
                 ),
@@ -77,16 +81,18 @@ class Profile extends StatelessWidget {
                   width: 20,
                 ),
                 InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const FollowTest(
-                                  initIndex: 1,
-                                )),
-                      );
-                    },
-                    child: Text('팔로잉 $followingStr명')),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FollowTest(
+                                initIndex: 1,
+                              )),
+                    );
+                  },
+                  child: Text('팔로잉 $followingStr명',
+                      style: const TextStyle(fontSize: 12)),
+                ),
               ],
             ),
           ],

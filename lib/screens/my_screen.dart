@@ -56,7 +56,7 @@ class MyScreen extends StatelessWidget {
                       Positioned(
                         //프로필 수정버튼
                         bottom: 10,
-                        left: 100,
+                        left: 90,
                         child: InkWell(
                           onTap: () {
                             Navigator.push(
@@ -71,8 +71,14 @@ class MyScreen extends StatelessWidget {
                             width: 20,
                             height: 20,
                             decoration: BoxDecoration(
+                              boxShadow: const <BoxShadow>[
+                                BoxShadow(
+                                    color: Color.fromARGB(137, 173, 173, 173),
+                                    blurRadius: .6,
+                                    offset: Offset(0.0, 0.75))
+                              ],
                               borderRadius: BorderRadius.circular(15),
-                              color: Colors.red[100],
+                              color: Colors.white,
                             ),
                             child: const Icon(
                               Icons.edit,
@@ -195,6 +201,7 @@ class MyScreen extends StatelessWidget {
                             child: const Row(
                               children: [
                                 Icon(
+                                  size: 15,
                                   Icons.exit_to_app_rounded,
                                   color: Colors.grey,
                                 ),
@@ -203,7 +210,8 @@ class MyScreen extends StatelessWidget {
                                 ),
                                 Text(
                                   '로그아웃',
-                                  style: TextStyle(color: Colors.grey),
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
                                 ),
                               ],
                             ),
@@ -222,7 +230,8 @@ class MyScreen extends StatelessWidget {
                             children: [
                               Text(
                                 '회원탈퇴',
-                                style: TextStyle(color: Colors.grey),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
                               ),
                             ],
                           ),

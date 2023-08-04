@@ -44,7 +44,12 @@ class FundingCardHorizon extends StatelessWidget {
                         ? SizedBox(
                             height: 150,
                             child: Center(
-                              child: Text('$title이 없습니다.'),
+                              child: Text(
+                                '$title이 없습니다.',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                ),
+                              ),
                             ),
                           )
                         : ListView.separated(

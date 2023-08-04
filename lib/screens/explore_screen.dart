@@ -267,12 +267,15 @@ class ExploreScreen extends StatelessWidget {
                             : Container(
                                 alignment: Alignment.center,
                                 height: 145,
-                                child: const Text('서포트한 펀딩이 없습니다.'));
+                                child: const Text(
+                                  '서포트한 펀딩이 없습니다.',
+                                  style: TextStyle(fontSize: 13),
+                                ));
                       }
                     }),
               ),
               const SizedBox(
-                height: 50,
+                height: 20,
               )
             ],
           ),
