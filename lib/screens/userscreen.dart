@@ -3,6 +3,7 @@ import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/services/api_follow.dart';
 import 'package:funsunfront/services/api_funding.dart';
+import 'package:funsunfront/widgets/bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/fundingcard_horizon.dart';
@@ -36,58 +37,62 @@ class UserScreen extends StatelessWidget {
     // final sizeY = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      bottomNavigationBar: const BtmNavBarWidget(),
       body: RefreshIndicator(
         onRefresh: refreshFunction,
         child: LayoutBuilder(
           builder: ((context, constraints) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ///////////////////////유저 프로필
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(children: [
-                      Profile(
-                          userimg: profileProvider.profile?.image,
-                          userName: profileProvider.profile!.username,
-                          following: profileProvider.profile!.followee,
-                          follower: profileProvider.profile!.follower),
+            return SafeArea(
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ///////////////////////유저 프로필
+                    Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(children: [
+                        Profile(
+                            userimg: profileProvider.profile?.image,
+                            userName: profileProvider.profile!.username,
+                            following: profileProvider.profile!.followee,
+                            follower: profileProvider.profile!.follower),
 
-                      ////////////////////////유저 프로필 END
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      /////////////////////////내펀딩만들기 | 팔로우 버튼
-                      FollowBtn(
-                          uid: profileProvider.profile!.id,
-                          currentuid: userProvider.user!.id,
-                          sizeX: sizeX),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      FundingCardHorizon(
-                        sizeX: sizeX,
-                        fetchFunding: (page) =>
-                            Funding.getUserFunding(page: page, id: id),
-                        title: '${profileProvider.profile!.username}의 펀딩',
-                      ),
-                      /////////////////////////// 펀딩리스트END
-                      /////////////////////////// FAQ, 로그아웃, 회원탈퇴
+                        ////////////////////////유저 프로필 END
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        /////////////////////////내펀딩만들기 | 팔로우 버튼
+                        FollowBtn(
+                            uid: profileProvider.profile!.id,
+                            currentuid: userProvider.user!.id,
+                            sizeX: sizeX),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        FundingCardHorizon(
+                          sizeX: sizeX,
+                          fetchFunding: (page) =>
+                              Funding.getUserFunding(page: page, id: id),
+                          title: '${profileProvider.profile!.username}의 펀딩',
+                        ),
+                        /////////////////////////// 펀딩리스트END
+                        /////////////////////////// FAQ, 로그아웃, 회원탈퇴
 
-                      const SizedBox(
-                        height: 40,
-                      )
-                    ]),
-                  ),
-                  //////////////////////// 버튼 END
+                        const SizedBox(
+                          height: 40,
+                        )
+                      ]),
+                    ),
+                    //////////////////////// 버튼 END
 
-                  //////////////////////// 펀딩 리스트
-                ],
+                    //////////////////////// 펀딩 리스트
+                  ],
+                ),
+                /////////////////////////// FAQ, 로그아웃, 회원탈퇴 END
               ),
-              /////////////////////////// FAQ, 로그아웃, 회원탈퇴 END
             );
           }),
         ),
