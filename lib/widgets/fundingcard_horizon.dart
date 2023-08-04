@@ -111,22 +111,48 @@ class _FundingCardHorizonState extends State<FundingCardHorizon> {
                                           )),
                                 );
                               },
-                              child: Container(
-                                width: 150,
-                                height: 150,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: (funding.image != null)
-                                    ? Image.network(
-                                        '$baseurl${funding.image}',
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        'assets/images/default_funding.jpg',
-                                        fit: BoxFit.cover,
+                              child: Stack(children: [
+                                Container(
+                                  width: 150,
+                                  height: 150,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: (funding.image != null)
+                                      ? Image.network(
+                                          '$baseurl${funding.image}',
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'assets/images/default_funding.jpg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                                (isExpired == true)
+                                    ? Positioned(
+                                        top: 5,
+                                        right: 5,
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              color: Theme.of(context)
+                                                  .primaryColorLight),
+                                          child: const Text(
+                                            '만료된 \n펀딩',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 10),
+                                          ),
+                                        ))
+                                    : const SizedBox(
+                                        width: 10,
                                       ),
-                              ),
+                              ]),
                             );
                           },
                           separatorBuilder: (context, index) {
