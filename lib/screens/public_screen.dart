@@ -4,7 +4,7 @@ import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
 
 class PublicScreen extends StatelessWidget {
-  const PublicScreen({super.key, required this.page});
+  const PublicScreen({super.key, this.page = '1'});
 
   final String page;
 
