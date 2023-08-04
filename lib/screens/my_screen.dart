@@ -12,17 +12,13 @@ import '../services/api_funding.dart';
 import '../widgets/fundingcard_horizon.dart';
 import '../widgets/image_upload.dart';
 
-class MyScreen extends StatefulWidget {
-  const MyScreen({
+class MyScreen extends StatelessWidget {
+  MyScreen({
     super.key,
   });
 
-  @override
-  State<MyScreen> createState() => _MyScreenState();
-}
-
-class _MyScreenState extends State<MyScreen> {
   late FundingsProvider _fundingsProvider;
+
   late UserProvider _userProvider;
 
   Future<void> refreshFunction() async {

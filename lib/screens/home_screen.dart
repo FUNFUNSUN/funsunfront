@@ -4,17 +4,10 @@ import 'package:funsunfront/widgets/fundingcard_horizon.dart';
 import '../services/api_funding.dart';
 import 'funding_create_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   // late FundingsProvider fundingsProvider;
-  // late UserProvider userProvider;
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
