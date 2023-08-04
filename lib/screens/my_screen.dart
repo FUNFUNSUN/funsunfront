@@ -142,7 +142,6 @@ class MyScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 30.0, top: 35),
                     child: FundingCardHorizon(
                         sizeX: sizeX,
-                        // fundings: fundingsProvider.joinedFundings!,
                         fetchFunding: (page) =>
                             Funding.getJoinedFunding(page: page),
                         title: '서포트한 펀딩'),
