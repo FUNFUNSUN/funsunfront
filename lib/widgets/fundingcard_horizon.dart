@@ -163,7 +163,8 @@ class _FundingCardHorizonState extends State<FundingCardHorizon> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               color: Theme.of(context)
-                                                  .primaryColorLight),
+                                                  .primaryColorLight
+                                                  .withOpacity(0.6)),
                                           child: const Text(
                                             '만료된 \n펀딩',
                                             textAlign: TextAlign.center,
