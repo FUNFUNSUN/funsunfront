@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
 
-class MySupportScreen extends StatelessWidget {
-  const MySupportScreen({super.key, this.page = '1'});
+class MyFundingScreen extends StatelessWidget {
+  MyFundingScreen({super.key, required this.page});
 
   final String page;
+  late UserProvider _userProvider;
 
   @override
   Widget build(BuildContext context) {
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
+
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -18,7 +24,7 @@ class MySupportScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              '서포트한 펀딩',
+              '내 펀딩',
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -31,10 +37,12 @@ class MySupportScreen extends StatelessWidget {
                   width: sizeX,
                   height: sizeY,
                   child: FundingCard(
-                    title: '서포트한 펀딩',
+                    title: '내 펀딩',
                     sizeX: sizeX,
-                    fetchFunding: (page) =>
-                        Funding.getJoinedFunding(page: page),
+                    fetchFunding: (page) => Funding.getUserFunding(
+                      page: page,
+                      id: _userProvider.user!.id,
+                    ),
                   )),
             ),
           ],
