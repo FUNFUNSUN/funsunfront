@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/fundings_provider.dart';
 import '../provider/user_provider.dart';
+import '../services/api_funding.dart';
 import '../widgets/fundingcard_horizon.dart';
 import '../widgets/image_upload.dart';
 
@@ -131,7 +132,9 @@ class MyScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 30.0),
                     child: FundingCardHorizon(
                       sizeX: sizeX,
-                      fundings: fundingsProvider.myFundings!,
+                      //fundings: fundingsProvider.myFundings!,
+                      fetchFunding: (page) => Funding.getUserFunding(
+                          page: page, id: _userProvider.user!.id),
                       title: '내 펀딩',
                     ),
                   ),
@@ -139,7 +142,9 @@ class MyScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 30.0, top: 35),
                     child: FundingCardHorizon(
                         sizeX: sizeX,
-                        fundings: fundingsProvider.joinedFundings!,
+                        // fundings: fundingsProvider.joinedFundings!,
+                        fetchFunding: (page) =>
+                            Funding.getJoinedFunding(page: page),
                         title: '서포트한 펀딩'),
                   ),
                 ],
