@@ -60,6 +60,9 @@ class FundingCardHorizon extends StatelessWidget {
                             itemBuilder: (context, index) {
                               String postid =
                                   snapshot.data![index].id.toString();
+                              bool isExpired =
+                                  DateTime.parse(snapshot.data![index].expireOn)
+                                      .isBefore(DateTime.now());
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.push(
