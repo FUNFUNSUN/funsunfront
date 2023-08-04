@@ -89,7 +89,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  '수정할 펀딩 이름을 입력해주세요',
+                  '펀딩 이름을 입력해주세요',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -106,7 +106,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 TextFormField(
                   initialValue: editData['title'],
@@ -285,14 +285,14 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   height: 5,
                 ),
                 Text(
-                  '서포터의 마음을 사로잡아야 돈을 받지. 돈벌기가 쉽나?',
+                  '센스있는 이름으로 특별한 펀딩을 만들어보세요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 12,
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 TextFormField(
                   initialValue: widget.origin.content.toString(),
@@ -329,12 +329,18 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
+                const SizedBox(
+                  height: 5,
+                ),
                 Text(
                   '나중에 수정 가능해요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 13,
                   ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 ToggleButtons(
                   direction: Axis.horizontal,
