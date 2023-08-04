@@ -433,6 +433,8 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                                         print('put요청 이후');
                                         fundingsProvider.getFundingDetail(
                                             widget.origin.id.toString());
+                                        fundingsProvider.getMyfundings(
+                                            widget.origin.author!['id']);
                                         if (context.mounted) {
                                           Navigator.pop(context);
                                           Navigator.pop(context);
