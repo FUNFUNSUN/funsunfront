@@ -5,7 +5,6 @@ import 'package:funsunfront/services/api_follow.dart';
 import 'package:funsunfront/services/api_funding.dart';
 import 'package:provider/provider.dart';
 
-import '../models/funding_model.dart';
 import '../widgets/fundingcard_horizon.dart';
 import '../widgets/profile.dart';
 
@@ -23,9 +22,6 @@ class UserScreen extends StatelessWidget {
 
     ProfileProvider profileProvider =
         Provider.of<ProfileProvider>(context, listen: true);
-
-    final Future<List<FundingModel>> userfundings =
-        Funding.getUserFunding(page: '1', id: id);
 
     final sizeX = MediaQuery.of(context).size.width;
     // final sizeY = MediaQuery.of(context).size.height;

@@ -15,8 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> _list = ['a', 'b', 'c'];
-  //TODO : Fix hardcoding
   late FundingsProvider fundingsProvider;
   late UserProvider userProvider;
 
@@ -357,10 +355,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> refreshHomeScreen(
       FundingsProvider fundingsProvider, String uid) async {
     // TODO: 여기서 API이용 메소드 작성
-    final newList = ['d', 'e', 'f'];
-    setState(() {
-      _list = [..._list, ...newList];
-    });
+
+    setState(() {});
     fundingsProvider.refreshAllFundings(uid);
   }
 }

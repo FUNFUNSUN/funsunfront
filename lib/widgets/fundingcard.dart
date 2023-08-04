@@ -8,11 +8,10 @@ class FundingCard extends StatefulWidget {
   const FundingCard({
     super.key,
     required this.sizeX,
-    // required this.fundings,
     required this.title,
     required this.fetchFunding,
   });
-  // final List<FundingModel> fundings;
+
   final Future<List<FundingModel>> Function(String page) fetchFunding;
 
   final double sizeX;
