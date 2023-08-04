@@ -15,13 +15,11 @@ class ReportIcon extends StatelessWidget {
       'message': message,
       'target': id
     };
-    return IconButton(
-      icon: const Icon(Icons.campaign_outlined),
-      color: Colors.black,
-      onPressed: () {
-        print(report['target']);
-        print(report['type']);
-        print(report['message']);
+    return InkWell(
+      onTap: () {
+        // print(report['target']);
+        // print(report['type']);
+        // print(report['message']);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -31,6 +29,28 @@ class ReportIcon extends StatelessWidget {
           ),
         );
       },
+      child: const SizedBox(
+        height: 50,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.campaign_outlined,
+              color: Colors.grey,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              '신고하기',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

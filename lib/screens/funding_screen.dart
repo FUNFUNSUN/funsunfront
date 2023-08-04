@@ -199,8 +199,8 @@ class FundingScreen extends StatelessWidget {
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40),
                           child: GestureDetector(
+                            // 펀딩하기 버튼
                             onTap: () {
-                              String id = funding.id!.toString();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
