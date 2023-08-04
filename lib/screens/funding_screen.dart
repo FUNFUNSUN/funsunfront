@@ -316,6 +316,7 @@ class FundingScreen extends StatelessWidget {
                                           ),
                                         )
                                       : Column(
+                                          // 펀딩 축하메세지
                                           children: [
                                             for (final remit
                                                 in remits) //listview 안쓰고 for문으로
@@ -334,22 +335,43 @@ class FundingScreen extends StatelessWidget {
                                                           InkWell(
                                                             // 각각 유저 프로필로 이동, profileProvider로 유저 정보 불러오기
                                                             onTap: () async {
-                                                              await _profileProvider
-                                                                  .updateProfile(
-                                                                      remit
-                                                                          .author
-                                                                          .id);
-                                                              if (context
-                                                                  .mounted) {
+                                                              if (_userProvider
+                                                                      .user!
+                                                                      .id ==
+                                                                  remit.author
+                                                                      .id) {
                                                                 Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                    builder: (context) => UserScreen(
-                                                                        id: remit
-                                                                            .author
-                                                                            .id),
+                                                                    builder:
+                                                                        (context) =>
+                                                                            MyScreen(),
                                                                   ),
                                                                 );
+                                                              } else {
+                                                                await _profileProvider
+                                                                    .updateProfile(
+                                                                        remit
+                                                                            .author
+                                                                            .id);
+                                                                await _profileProvider
+                                                                    .updateProfile(
+                                                                        remit
+                                                                            .author
+                                                                            .id);
+                                                                if (context
+                                                                    .mounted) {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder: (context) => UserScreen(
+                                                                          id: remit
+                                                                              .author
+                                                                              .id),
+                                                                    ),
+                                                                  );
+                                                                }
                                                               }
                                                             },
                                                             child: CircleAvatar(
