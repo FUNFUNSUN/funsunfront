@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
+import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/screens/searchresult_screen.dart';
 import 'package:provider/provider.dart';
@@ -120,38 +121,64 @@ class ExploreScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              width: 145,
-                              height: 145,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: (publicfundings[0].image != null)
-                                  ? Image.network(
-                                      '$imgBaseUrl${publicfundings[0].image}',
-                                      fit: BoxFit.cover)
-                                  : Image.asset(
-                                      'assets/images/default_funding.jpg',
-                                      fit: BoxFit.cover,
-                                    ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => (FundingScreen(
+                                          id: publicfundings[0]
+                                              .id
+                                              .toString()))),
+                                );
+                              },
+                              child: Container(
+                                //첫번째 펀딩
+                                width: 145,
+                                height: 145,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: (publicfundings[0].image != null)
+                                    ? Image.network(
+                                        '$imgBaseUrl${publicfundings[0].image}',
+                                        fit: BoxFit.cover)
+                                    : Image.asset(
+                                        'assets/images/default_funding.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
                             ),
                             const SizedBox(
                               width: 10,
                             ),
-                            Container(
-                              width: 145,
-                              height: 145,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: (publicfundings[1].image != null)
-                                  ? Image.network(
-                                      '$imgBaseUrl${publicfundings[1].image}',
-                                      fit: BoxFit.cover)
-                                  : Image.asset(
-                                      'assets/images/default_funding.jpg',
-                                      fit: BoxFit.cover,
-                                    ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => (FundingScreen(
+                                          id: publicfundings[1]
+                                              .id
+                                              .toString()))),
+                                );
+                              },
+                              child: Container(
+                                //두번째 펀딩
+                                width: 145,
+                                height: 145,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: (publicfundings[1].image != null)
+                                    ? Image.network(
+                                        '$imgBaseUrl${publicfundings[1].image}',
+                                        fit: BoxFit.cover)
+                                    : Image.asset(
+                                        'assets/images/default_funding.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
                             ),
                           ],
                         ),
@@ -219,22 +246,36 @@ class ExploreScreen extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      width: 145,
-                                      height: 145,
-                                      clipBehavior: Clip.hardEdge,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: (mysupportfundings[0].image !=
-                                              null)
-                                          ? Image.network(
-                                              '$imgBaseUrl${mysupportfundings[0].image}',
-                                              fit: BoxFit.cover)
-                                          : Image.asset(
-                                              'assets/images/default_funding.jpg',
-                                              fit: BoxFit.cover,
-                                            ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  (FundingScreen(
+                                                      id: mysupportfundings[0]
+                                                          .id
+                                                          .toString()))),
+                                        );
+                                      },
+                                      child: Container(
+                                        //첫번째 펀딩
+                                        width: 145,
+                                        height: 145,
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: (mysupportfundings[0].image !=
+                                                null)
+                                            ? Image.network(
+                                                '$imgBaseUrl${mysupportfundings[0].image}',
+                                                fit: BoxFit.cover)
+                                            : Image.asset(
+                                                'assets/images/default_funding.jpg',
+                                                fit: BoxFit.cover,
+                                              ),
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 10,
@@ -243,23 +284,39 @@ class ExploreScreen extends StatelessWidget {
                                         ? const SizedBox(
                                             width: 145,
                                           )
-                                        : Container(
-                                            width: 145,
-                                            height: 145,
-                                            clipBehavior: Clip.hardEdge,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: (mysupportfundings[1]
-                                                        .image !=
-                                                    null)
-                                                ? Image.network(
-                                                    '$imgBaseUrl${mysupportfundings[1].image}',
-                                                    fit: BoxFit.cover)
-                                                : Image.asset(
-                                                    'assets/images/default_funding.jpg',
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                        : InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        (FundingScreen(
+                                                            id: mysupportfundings[
+                                                                    1]
+                                                                .id
+                                                                .toString()))),
+                                              );
+                                            },
+                                            child: Container(
+                                              //두번째 펀딩
+                                              width: 145,
+                                              height: 145,
+                                              clipBehavior: Clip.hardEdge,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: (mysupportfundings[1]
+                                                          .image !=
+                                                      null)
+                                                  ? Image.network(
+                                                      '$imgBaseUrl${mysupportfundings[1].image}',
+                                                      fit: BoxFit.cover)
+                                                  : Image.asset(
+                                                      'assets/images/default_funding.jpg',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                            ),
                                           ),
                                   ],
                                 ),
