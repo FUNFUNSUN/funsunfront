@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
@@ -13,6 +15,8 @@ class ExploreScreen extends StatelessWidget {
   ExploreScreen({super.key});
   late UserProvider _userProvider;
   final imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
+
+  var historyList = ListQueue();
 
   @override
   Widget build(BuildContext context) {

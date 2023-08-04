@@ -52,6 +52,8 @@ dependencies:
   provider: ^6.0.5
   animations: ^2.0.7
   url_launcher: ^6.1.12
+  localstorage: ^4.0.1+4
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:
