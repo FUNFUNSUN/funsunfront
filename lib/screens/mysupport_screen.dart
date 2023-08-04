@@ -46,6 +46,7 @@ class MySupportScreen extends StatelessWidget {
                       return Text('오류: ${snapshot.error}');
                     } else {
                       return FundingCard(
+                        title: '서포트한 펀딩',
                         sizeX: sizeX,
                         fundings: snapshot.data!,
                       );

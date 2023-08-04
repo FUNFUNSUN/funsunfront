@@ -47,6 +47,7 @@ class PublicScreen extends StatelessWidget {
                       return Text('오류: ${snapshot.error}');
                     } else {
                       return FundingCard(
+                        title: '전체공개펀딩',
                         sizeX: sizeX,
                         fundings: snapshot.data!,
                       );
