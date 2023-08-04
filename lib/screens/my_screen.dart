@@ -11,6 +11,8 @@ import '../provider/fundings_provider.dart';
 import '../provider/user_provider.dart';
 import '../services/api_funding.dart';
 import '../widgets/fundingcard_horizon.dart';
+import 'myfunding_screen.dart';
+import 'mysupport_screen.dart';
 
 // ignore: must_be_immutable
 class MyScreen extends StatelessWidget {
