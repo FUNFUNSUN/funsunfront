@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
@@ -20,20 +19,20 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreen extends State<ReviewScreen> {
   File? editImage;
-  final picker = ImagePicker();
-  late final List<bool> _selectedPublic =
-      widget.origin.public! == true ? <bool>[true, false] : <bool>[false, true];
-  late int tempPublic = widget.origin.public! ? 0 : 1;
   String? originImage;
 
-  Map<String, dynamic> editData = {'id': "", 'review': "", 'image_delete': ""};
+  Map<String, dynamic> editData = {
+    'id': "",
+    'review': "",
+    // 'review_image_delete': ""
+  };
 
   @override
   void initState() {
     super.initState();
     editData['id'] = widget.origin.id.toString();
     editData['review'] = widget.origin.review;
-    originImage = widget.origin.image;
+    originImage = widget.origin.reviewImage;
   }
 
   void setImage(File uploadedImage) {
@@ -74,45 +73,6 @@ class _ReviewScreen extends State<ReviewScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '리뷰를 작성해주세요!',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '감사한 마음을 전해보세요!',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 12,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
-                  initialValue: editData['review'],
-                  onChanged: (value) {
-                    setState(() {
-                      editData['review'] = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color(0xffF4F4F4),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(15)),
-                  ),
-                ),
                 const SizedBox(height: 30),
                 const Text(
                   '리뷰 사진을 올려주세요!',
@@ -233,7 +193,6 @@ class _ReviewScreen extends State<ReviewScreen> {
                           ),
                           Column(
                             children: [
-                              const Text('기존이미지'),
                               Container(
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
@@ -251,7 +210,7 @@ class _ReviewScreen extends State<ReviewScreen> {
                   height: 30,
                 ),
                 const Text(
-                  '펀딩의 목적을 수정해주세요',
+                  '리뷰를 작성해주세요',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -261,7 +220,7 @@ class _ReviewScreen extends State<ReviewScreen> {
                   height: 5,
                 ),
                 Text(
-                  '서포터의 마음을 사로잡아야 돈을 받지. 돈벌기가 쉽나?',
+                  '고마운 마음을 리뷰를 통해 전해보세요',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 12,
@@ -271,10 +230,12 @@ class _ReviewScreen extends State<ReviewScreen> {
                   height: 5,
                 ),
                 TextFormField(
-                  initialValue: widget.origin.content.toString(),
+                  initialValue: (widget.origin.review != null)
+                      ? widget.origin.review.toString()
+                      : '',
                   onChanged: (value) {
                     setState(() {
-                      editData['content'] = value;
+                      editData['review'] = value;
                     });
                   },
                   textAlignVertical: TextAlignVertical.top,
@@ -298,68 +259,25 @@ class _ReviewScreen extends State<ReviewScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Text(
-                  '펀딩 공개여부',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                Text(
-                  '나중에 수정 가능해요.',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
-                    fontSize: 13,
-                  ),
-                ),
-                const SizedBox(height: 30),
-                const SizedBox(
-                  height: 30,
-                ),
                 SizedBox(
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {
-                      if (editImage == null && originImage == null) {
-                        editData['image_delete'] = 'delete';
-                      }
-                      bool tempPublicBool = widget.origin.public!
-                          ? tempPublic == 0
-                              ? true
-                              : false
-                          : tempPublic == 1
-                              ? false
-                              : true;
-                      editData['public'] = tempPublicBool;
+                      // if (editImage == null && originImage == null) {
+                      //   editData['review_image_delete'] = 'delete';
+                      // }
 
                       print(editData);
                       print('edit데이터id =${editData['id']}');
                       print(widget.origin.id);
 
-                      if (editData['text'].toString().length > 20 ||
-                          editData['text'].toString().length < 2) {
+                      if (editData['review'].toString().length > 255 ||
+                          editData['review'].toString().length < 2) {
                         showDialog(
                           context: context,
                           builder: ((context) {
                             return AlertDialog(
-                              title: const Text('수정할 펀딩 제목을 확인해주세요.'),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('닫기'))
-                              ],
-                            );
-                          }),
-                        );
-                      } else if (editData['content'].toString().length > 255 ||
-                          editData['content'].toString().length < 2) {
-                        showDialog(
-                          context: context,
-                          builder: ((context) {
-                            return AlertDialog(
-                              title: const Text('수정할 펀딩 목적을 확인해주세요.'),
+                              title: const Text('리뷰 내용을 확인해주세요.'),
                               actions: [
                                 TextButton(
                                     onPressed: () {
@@ -380,7 +298,7 @@ class _ReviewScreen extends State<ReviewScreen> {
                                   TextButton(
                                       onPressed: () async {
                                         Map<String, dynamic> postResult =
-                                            await Funding.putFunding(
+                                            await Funding.putReview(
                                                 editData: editData,
                                                 image: editImage);
 
