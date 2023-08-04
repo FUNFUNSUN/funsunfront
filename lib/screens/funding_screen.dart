@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/models/remit_model.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
+import 'package:funsunfront/screens/my_screen.dart';
 import 'package:funsunfront/screens/remit_screen.dart';
 import 'package:funsunfront/screens/userscreen.dart';
 import 'package:funsunfront/services/api_remit.dart';
@@ -22,14 +23,14 @@ class FundingScreen extends StatelessWidget {
     required this.id,
   }) : super(key: key);
   late UserProvider _userProvider;
-  late ProfileProvider profileProvider;
-  late FundingsProvider fundingsProvider;
+  late ProfileProvider _profileProvider;
+  late FundingsProvider _fundingsProvider;
   @override
   Widget build(BuildContext context) {
-    _userProvider = Provider.of<UserProvider>(context, listen: true);
-    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-    fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
-    fundingsProvider.getFundingDetail(id);
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
+    _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
+    _fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
+    _fundingsProvider.getFundingDetail(id);
 
     final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
     final screenWidth = MediaQuery.of(context).size.width;
@@ -39,7 +40,7 @@ class FundingScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
-          future: fundingsProvider.fundingDetail,
+          future: _fundingsProvider.fundingDetail,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 데이터를 불러오는 동안 로딩 표시
@@ -53,8 +54,8 @@ class FundingScreen extends StatelessWidget {
               final funding = snapshot.data;
               funding!;
 
-              print('펀딩에 등록된 시간 ${DateTime.parse(funding.expireOn)}');
-              print('현재 시간 ${DateTime.now()}');
+              // print('펀딩에 등록된 시간 ${DateTime.parse(funding.expireOn)}');
+              // print('현재 시간 ${DateTime.now()}');
 
               final ex = DateTime.parse(funding.expireOn)
                   .difference(DateTime.now())
@@ -64,10 +65,10 @@ class FundingScreen extends StatelessWidget {
                   int.parse((ex.substring(0, ex.indexOf(':'))));
 
               final leftDays = tempDifference ~/ 24;
-              print('차이나는 날짜만 출력 : $leftDays');
+              //print('차이나는 날짜만 출력 : $leftDays');
 
               final leftHours = tempDifference - leftDays * 24;
-              print('차이나는 시간만 출력 : $leftHours');
+              //print('차이나는 시간만 출력 : $leftHours');
 
               return SingleChildScrollView(
                 child: Center(
@@ -79,32 +80,60 @@ class FundingScreen extends StatelessWidget {
                       Column(
                         children: [
                           SizedBox(
+                            // 펀딩작성자의 프로필 사진, 닉네임
                             width: screenWidth * 0.8,
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  // TODO: 추후 inkwell로 프로필페이지 이동
-                                  radius: 20,
-                                  backgroundImage: funding.author!['image'] !=
-                                          null
-                                      ? NetworkImage(
-                                          '$baseurl${funding.author!['image']}',
-                                        )
-                                      : Image.asset(
-                                              'assets/images/default_profile.jpg')
-                                          .image,
-                                ),
-                                Text(
-                                  funding.author!['username'],
-                                  style: const TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
+                            child: InkWell(
+                              onTap: () async {
+                                // 다른 사람 펀딩이면 해당 유저의 프로필로 이동
+                                if (funding.author!['id'] !=
+                                    _userProvider.user!.id) {
+                                  await _profileProvider
+                                      .updateProfile(funding.author!['id']);
+                                  if (context.mounted) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => UserScreen(
+                                            id: funding.author!['id']),
+                                      ),
+                                    );
+                                  }
+                                } else // 내 펀딩이면 마이페이지로 이동
+                                {
+                                  if (context.mounted) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyScreen()),
+                                    );
+                                  }
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: funding.author!['image'] !=
+                                            null
+                                        ? NetworkImage(
+                                            '$baseurl${funding.author!['image']}',
+                                          )
+                                        : Image.asset(
+                                                'assets/images/default_profile.jpg')
+                                            .image,
+                                  ),
+                                  Text(
+                                    funding.author!['username'],
+                                    style: const TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 15,
                           ),
                           Container(
                             width: screenWidth * 0.8,
@@ -300,7 +329,7 @@ class FundingScreen extends StatelessWidget {
                                                         InkWell(
                                                           // 각각 유저 프로필로 이동, profileProvider로 유저 정보 불러오기
                                                           onTap: () async {
-                                                            await profileProvider
+                                                            await _profileProvider
                                                                 .updateProfile(
                                                                     remit.author
                                                                         .id);
