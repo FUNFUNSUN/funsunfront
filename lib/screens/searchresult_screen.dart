@@ -48,6 +48,42 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: false);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+
+    Future searchUserFn(value) async {
+      // 검색어 제출 시 동작할 코드 추가
+      // 검색어를 입력하고 검색 버튼(키보드의 검색/엔터 키)을 누르면 이 부분이 호출됩니다.
+
+      if (value.length < 2) {
+        showDialog(
+          context: context,
+          builder: ((context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              title: const Text('2글자 이상 입력해주세요.'),
+              actions: <Widget>[
+                InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      "확인",
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          }),
+        );
+      } else {
+        searchedUsers = await User.userSearch(username: value);
+      }
+      setState(() {});
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -64,41 +100,15 @@ class _SearchBoxState extends State<SearchBox> {
             onSubmitted: (value) async {
               // 검색어 제출 시 동작할 코드 추가
               // 검색어를 입력하고 검색 버튼(키보드의 검색/엔터 키)을 누르면 이 부분이 호출됩니다.
-
-              if (value.length < 2) {
-                showDialog(
-                  context: context,
-                  builder: ((context) {
-                    return AlertDialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      title: const Text('2글자 이상 입력해주세요.'),
-                      actions: <Widget>[
-                        InkWell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "확인",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor),
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    );
-                  }),
-                );
-              } else {
-                searchedUsers = await User.userSearch(username: value);
-              }
-              setState(() {});
+              await searchUserFn(value);
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-              suffixIcon: const Icon(Icons.search_rounded),
+              suffixIcon: IconButton(
+                  onPressed: () async {
+                    await searchUserFn(_searchController.text);
+                  },
+                  icon: const Icon(Icons.search_rounded)),
               filled: true,
               fillColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
               hintText: '검색',
