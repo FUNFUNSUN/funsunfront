@@ -8,13 +8,12 @@ class FundingCardHorizon extends StatefulWidget {
   const FundingCardHorizon({
     super.key,
     required this.sizeX,
-    // required this.fundings,
     required this.title,
     required this.fetchFunding,
   });
   final String title;
   final double sizeX;
-  // final Future<List<FundingModel>> fundings;
+
   final Future<List<FundingModel>> Function(String page) fetchFunding;
 
   @override

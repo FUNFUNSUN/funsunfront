@@ -5,80 +5,92 @@ import 'package:funsunfront/services/api_follow.dart';
 import 'package:funsunfront/services/api_funding.dart';
 import 'package:provider/provider.dart';
 
-import '../models/funding_model.dart';
 import '../widgets/fundingcard_horizon.dart';
 import '../widgets/profile.dart';
 
 class UserScreen extends StatelessWidget {
   final String id;
-  const UserScreen({
+  UserScreen({
     Key? key,
     required this.id,
   }) : super(key: key);
 
+  late UserProvider _userProvider;
+  late ProfileProvider _profileProvider;
+
+  Future<void> refreshFunction() async {
+    _userProvider.updateUser();
+    _profileProvider.updateProfile(_profileProvider.profile!.id);
+    print('done');
+  }
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+        Provider.of<UserProvider>(context, listen: true);
 
     ProfileProvider profileProvider =
         Provider.of<ProfileProvider>(context, listen: true);
-
-    final Future<List<FundingModel>> userfundings =
-        Funding.getUserFunding(page: '1', id: id);
 
     final sizeX = MediaQuery.of(context).size.width;
     // final sizeY = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            ///////////////////////유저 프로필
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(children: [
-                Profile(
-                    userimg: profileProvider.profile?.image,
-                    userName: profileProvider.profile!.username,
-                    following: profileProvider.profile!.followee,
-                    follower: profileProvider.profile!.follower),
+      body: RefreshIndicator(
+        onRefresh: refreshFunction,
+        child: LayoutBuilder(
+          builder: ((context, constraints) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  ///////////////////////유저 프로필
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(children: [
+                      Profile(
+                          userimg: profileProvider.profile?.image,
+                          userName: profileProvider.profile!.username,
+                          following: profileProvider.profile!.followee,
+                          follower: profileProvider.profile!.follower),
 
-                ////////////////////////유저 프로필 END
-                const SizedBox(
-                  height: 20,
-                ),
-                /////////////////////////내펀딩만들기 | 팔로우 버튼
-                FollowBtn(
-                    uid: profileProvider.profile!.id,
-                    currentuid: userProvider.user!.id,
-                    sizeX: sizeX),
-                const SizedBox(
-                  height: 30,
-                ),
-                FundingCardHorizon(
-                  sizeX: sizeX,
-                  fetchFunding: (page) =>
-                      Funding.getUserFunding(page: page, id: id),
-                  title: '${profileProvider.profile!.username}의 펀딩',
-                ),
-                /////////////////////////// 펀딩리스트END
-                /////////////////////////// FAQ, 로그아웃, 회원탈퇴
+                      ////////////////////////유저 프로필 END
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      /////////////////////////내펀딩만들기 | 팔로우 버튼
+                      FollowBtn(
+                          uid: profileProvider.profile!.id,
+                          currentuid: userProvider.user!.id,
+                          sizeX: sizeX),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      FundingCardHorizon(
+                        sizeX: sizeX,
+                        fetchFunding: (page) =>
+                            Funding.getUserFunding(page: page, id: id),
+                        title: '${profileProvider.profile!.username}의 펀딩',
+                      ),
+                      /////////////////////////// 펀딩리스트END
+                      /////////////////////////// FAQ, 로그아웃, 회원탈퇴
 
-                const SizedBox(
-                  height: 40,
-                )
-              ]),
-            ),
-            //////////////////////// 버튼 END
+                      const SizedBox(
+                        height: 40,
+                      )
+                    ]),
+                  ),
+                  //////////////////////// 버튼 END
 
-            //////////////////////// 펀딩 리스트
-          ],
+                  //////////////////////// 펀딩 리스트
+                ],
+              ),
+              /////////////////////////// FAQ, 로그아웃, 회원탈퇴 END
+            );
+          }),
         ),
-        /////////////////////////// FAQ, 로그아웃, 회원탈퇴 END
       ),
     );
   }

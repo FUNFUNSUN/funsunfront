@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:funsunfront/widgets/loading_circle.dart';
-import '../models/funding_model.dart';
 import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
 
@@ -11,9 +9,6 @@ class MySupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Future<List<FundingModel>> fundings =
-        Funding.getJoinedFunding(page: page);
-
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -33,27 +28,14 @@ class MySupportScreen extends StatelessWidget {
             ),
             Expanded(
               child: SizedBox(
-                width: sizeX,
-                height: sizeY,
-                child: FutureBuilder(
-                  future: fundings,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      // 데이터를 불러오는 동안 로딩 표시
-                      return const LoadingCircle();
-                    } else if (snapshot.hasError) {
-                      // 오류 표시
-                      return Text('오류: ${snapshot.error}');
-                    } else {
-                      return FundingCard(
-                        title: '서포트한 펀딩',
-                        sizeX: sizeX,
-                        fundings: snapshot.data!,
-                      );
-                    }
-                  },
-                ),
-              ),
+                  width: sizeX,
+                  height: sizeY,
+                  child: FundingCard(
+                    title: '서포트한 펀딩',
+                    sizeX: sizeX,
+                    fetchFunding: (page) =>
+                        Funding.getJoinedFunding(page: page),
+                  )),
             ),
           ],
         ),
