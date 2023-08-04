@@ -25,12 +25,12 @@ class FundingScreen extends StatelessWidget {
   late UserProvider _userProvider;
   late ProfileProvider _profileProvider;
   late FundingsProvider _fundingsProvider;
+
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
     _fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
-    _fundingsProvider.getFundingDetail(id);
 
     final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
     final screenWidth = MediaQuery.of(context).size.width;
@@ -38,7 +38,6 @@ class FundingScreen extends StatelessWidget {
 
     Future<void> refreshFunction() async {
       _fundingsProvider.getFundingDetail(id);
-      print('done');
     }
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';

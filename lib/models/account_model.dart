@@ -1,6 +1,6 @@
 class AccountModel {
   String id, email, username;
-  String? image, birthday, gender;
+  String? image, birthday, gender, bankAccount;
   int follower, followee;
 
   AccountModel.fromJson(Map<String, dynamic> json)
@@ -8,6 +8,7 @@ class AccountModel {
         email = json['email'],
         birthday = json['birthday'],
         username = json['username'],
+        bankAccount = json['bank_account'],
         image = json['image'],
         follower = json['follower'],
         gender = json['gender'],
