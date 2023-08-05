@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
+  android_intent_plus:
+    dependency: "direct main"
+    description:
+      name: android_intent_plus
+      sha256: f72ae20bb37108694f442e7ae6acbd28b453ca62ce86842f6787b784355abfe6
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
   animations:
     dependency: "direct main"
     description:
@@ -1099,7 +1107,7 @@ packages:
     source: hosted
     version: "2.4.0"
   webview_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter
       sha256: "789d52bd789373cc1e100fb634af2127e86c99cf9abde09499743270c5de8d00"
@@ -1107,7 +1115,7 @@ packages:
     source: hosted
     version: "4.2.2"
   webview_flutter_android:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter_android
       sha256: d936a09fbfd08cb78f7329e0bbacf6158fbdfe24ffc908b22444c07d295eb193
@@ -1123,7 +1131,7 @@ packages:
     source: hosted
     version: "2.4.0"
   webview_flutter_wkwebview:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter_wkwebview
       sha256: "5fa098f28b606f699e8ca52d9e4e11edbbfef65189f5f77ae92703ba5408fd25"

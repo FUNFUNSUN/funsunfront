@@ -28,7 +28,7 @@ class Remit {
     throw Error();
   }
 
-  static Future<RemitModel> postRemit(
+  static Future<bool> postRemit(
       {required String remitData, int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
@@ -43,13 +43,12 @@ class Remit {
     final response = await http.post(url, headers: headers, body: remitData);
     print(response.statusCode);
     if (response.statusCode == 201) {
-      final remit = jsonDecode(response.body);
-      return RemitModel.fromJson(remit);
+      return true;
     } else if (response.statusCode == 401) {
       await User.refreshToken();
       return postRemit(remitData: remitData);
     }
-    throw Error();
+    return false;
   }
 
   static Future<String> getPayRedirect(
@@ -60,7 +59,7 @@ class Remit {
     trigger -= 1;
     String? token = await storage.read(key: 'accessToken');
     final headers = {'Authorization': 'Bearer $token'};
-    final url = Uri.parse('$baseUrl$userid');
+    final url = Uri.parse('${baseUrl}kakaopay/ready');
     final response = await http
         .post(url, headers: headers, body: {'amount': amount.toString()});
     if (response.statusCode == 200) {
@@ -73,21 +72,42 @@ class Remit {
     throw Error();
   }
 
-  static Future<bool> getPayApprove(
-      {required String userid, int trigger = 2}) async {
+  static Future<bool> postPayApprove(
+      {required String userid,
+      required String pgToken,
+      int trigger = 2}) async {
     if (trigger == 0) {
       throw Error();
     }
     trigger -= 1;
     String? token = await storage.read(key: 'accessToken');
     final headers = {'Authorization': 'Bearer $token'};
-    final url = Uri.parse('$baseUrl$userid/approve');
+    final url = Uri.parse('${baseUrl}kakaopay/approve');
+    final response =
+        await http.post(url, headers: headers, body: {'pg_token': pgToken});
+    if (response.statusCode == 200) {
+      return true;
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      return postPayApprove(userid: userid, pgToken: pgToken);
+    }
+    return false;
+  }
+
+  static Future<bool> getPayApprove({int trigger = 2}) async {
+    if (trigger == 0) {
+      throw Error();
+    }
+    trigger -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final headers = {'Authorization': 'Bearer $token'};
+    final url = Uri.parse('${baseUrl}kakaopay/approve');
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 401) {
       await User.refreshToken();
-      return getPayApprove(userid: userid);
+      return getPayApprove();
     }
     return false;
   }
