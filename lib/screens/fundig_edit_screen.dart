@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
@@ -25,7 +25,7 @@ const List<Widget> _publics = <Widget>[
 
 class _FundingEditScreen extends State<FundingEditScreen> {
   File? editImage;
-  final picker = ImagePicker();
+
   late final List<bool> _selectedPublic =
       widget.origin.public! == true ? <bool>[true, false] : <bool>[false, true];
   late int tempPublic = widget.origin.public! ? 0 : 1;
@@ -41,7 +41,6 @@ class _FundingEditScreen extends State<FundingEditScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     editData['id'] = widget.origin.id.toString();
     editData['title'] = widget.origin.title;
