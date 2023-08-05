@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:funsunfront/models/account_model.dart';
 import 'package:funsunfront/services/api_account.dart';
 import 'package:funsunfront/widgets/date_picker.dart';
@@ -19,12 +20,22 @@ class ProfileEditScreen extends StatefulWidget {
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
-  late File _image;
+  File? _image;
   File? editImage;
-  final bankList = [];
   late UserProvider _userProvider;
+  String tempBankAccount = "";
+  String tempBank = "";
 
   ListTile _tile(String title, String image) => ListTile(
+        onTap: () {
+          setState(() {
+            tempBank = title;
+          });
+
+          print(tempBank);
+          print(title);
+          Navigator.pop(context);
+        },
         minVerticalPadding: 10,
         focusColor: Theme.of(context).primaryColorLight,
         visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
@@ -49,14 +60,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             _tile("국민", 'assets/images/bank/bank_kb.png'),
             _tile("기업", 'assets/images/bank/bank_ibk.png'),
             _tile("농협", 'assets/images/bank/bank_nh.png'),
-            // _tile("새마을", 'assets/images/bank/bank_mg.png'),
-            // _tile("산업", 'assets/images/bank/bank_su.png'),
-            // _tile("수협", 'assets/images/bank/bank_sh.png'),
             _tile("신한", 'assets/images/bank/bank_shinhan.png'),
             _tile("우리", 'assets/images/bank/bank_wr.png'),
-            // _tile("우체국", 'assets/images/bank/bank_ucg.png'),
             _tile("하나", 'assets/images/bank/bank_hn.png'),
-            // _tile("한국씨티", 'assets/images/bank/bank_hg.png'),
             _tile("SC제일", 'assets/images/bank/bank_sc.png'),
             _tile("카카오뱅크", 'assets/images/bank/bank_kko.png'),
             _tile("케이뱅크", 'assets/images/bank/bank_kBank.png'),
@@ -73,23 +79,22 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   //생일 관련
   void setBirth(DateTime birth) {
     setState(() {
-      editData['birthday'] = birth.month.toString() + birth.day.toString();
+      String strBirthMonth = birth.month.toString();
+      String strBirthDay = birth.day.toString();
+
+      if (int.parse(strBirthMonth) < 10) {
+        strBirthMonth = '0$strBirthMonth';
+      }
+      if (int.parse(strBirthDay) < 10) {
+        strBirthDay = '0$strBirthDay';
+      }
+
+      editData['birthday'] = strBirthMonth + strBirthDay;
     });
   }
 
-  Map<String, dynamic> editData = {
-    'user_name': "",
-    'birthday': "",
-    'bank_account': "",
-    // 'title': "",
-    // 'content': "",
-    // 'public': true,
-    // 'image_delete': ""
-    //뱅크어카운트
-    //생일
-    //널이면, 생성가능
-    //널 아니면 안보이게
-  };
+  Map<String, dynamic> editData = {};
+
   @override
   void initState() {
     // TODO: implement initState
@@ -101,6 +106,32 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('현재 계좌번호 : ${widget.origin.bankAccount}');
+
+    late String bankCompany;
+    late String bankNumber;
+
+    // if (widget.origin.bankAccount == null || widget.origin.bankAccount == "") {
+    //   bankCompany = "";
+    //   bankNumber = "";
+    // } else {
+    //   String bank = widget.origin.bankAccount.toString();
+    //   bankCompany = bank.substring(0, bank.indexOf(' '));
+    //   bankNumber = bank.substring(bank.indexOf(' '), bank.length);
+    // }
+
+    if (widget.origin.bankAccount.toString() == "" ||
+        widget.origin.bankAccount.toString() == "null" ||
+        widget.origin.bankAccount.toString().isEmpty) {
+      bankCompany = "";
+      bankNumber = "";
+    } else {
+      String bank = widget.origin.bankAccount.toString();
+      bankCompany = bank.substring(0, bank.indexOf(' '));
+      bankNumber = bank.substring(bank.indexOf(' '), bank.length);
+    }
+
+    //////////////////////////계좌//////////////////////////
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     DateTime tmpBirth = (widget.origin.birthday == null)
@@ -205,7 +236,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                       color: Colors.white,
                                     ),
                                     child: const Icon(
-                                      Icons.edit,
+                                      Icons.add_a_photo,
                                       size: 19,
                                     ),
                                   ),
@@ -259,7 +290,20 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                           CircleAvatar(
                               //업로드한 프로필 이미지(있으면)
                               radius: 60,
-                              backgroundImage: FileImage(editImage!)),
+                              backgroundImage: NetworkImage(
+                                  '$baseUrl${widget.origin.image}')),
+                          IconButton(
+                            onPressed: () {
+                              widget.origin.image = null;
+                              editImage = null;
+                              setState(() {
+                                showImage();
+                              });
+                            },
+                            icon: Icon(
+                                color: Theme.of(context).primaryColor,
+                                Icons.delete),
+                          ),
                           IconButton(
                             onPressed: () {
                               Navigator.push(
@@ -274,11 +318,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                             },
                             icon: Icon(
                               color: Theme.of(context).primaryColor,
-                              (_image != null)
-                                  ? Icons.delete
-                                  : Icons.add_a_photo_rounded,
+                              Icons.refresh,
                             ),
-                          )
+                          ),
                         ],
                       ),
                 const SizedBox(
@@ -366,7 +408,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       height: 5,
                     ),
                     Text(
-                      '변경할 계좌번호를 입력하세요.',
+                      '변경할 계좌번호를 입력하세요. (- 없이 숫자만 입력)',
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.6),
                         fontSize: 12,
@@ -384,10 +426,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                   barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      content: SizedBox(
-                                        width: 150,
-                                        height: 200,
-                                        child: _bankList(),
+                                      content: Scrollbar(
+                                        thumbVisibility: true,
+                                        child: SizedBox(
+                                          width: 150,
+                                          height: 200,
+                                          child: _bankList(),
+                                        ),
                                       ),
                                       actions: [
                                         TextButton(
@@ -400,27 +445,80 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                     );
                                   });
                             },
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Theme.of(context)
-                                      .primaryColorLight
-                                      .withOpacity(.5)),
-                              width: 60,
-                              height: 60,
-                              child: const Text('은행 선택'),
-                            )),
+                            child: (widget.origin.bankAccount == "" ||
+                                    widget.origin.bankAccount == null)
+                                ? (tempBank == "")
+                                    ? Container(
+                                        margin: const EdgeInsets.only(right: 5),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Theme.of(context)
+                                                .primaryColorLight
+                                                .withOpacity(.5)),
+                                        width: 160,
+                                        height: 60,
+                                        child: const Text('은행 선택'))
+                                    : Container(
+                                        margin: const EdgeInsets.only(right: 5),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Theme.of(context)
+                                                .primaryColorLight
+                                                .withOpacity(.5)),
+                                        width: 160,
+                                        height: 60,
+                                        child: Text(tempBank))
+                                : (tempBank == "")
+                                    ? Container(
+                                        margin: const EdgeInsets.only(right: 5),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Theme.of(context)
+                                                .primaryColorLight
+                                                .withOpacity(.5)),
+                                        width: 160,
+                                        height: 60,
+                                        child: Text(bankCompany))
+                                    : Container(
+                                        margin: const EdgeInsets.only(right: 5),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Theme.of(context)
+                                                .primaryColorLight
+                                                .withOpacity(.5)),
+                                        width: 160,
+                                        height: 60,
+                                        child: Text(tempBank),
+                                      )),
                         Flexible(
                           fit: FlexFit.tight,
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
                             initialValue: (widget.origin.bankAccount == null)
                                 ? ""
-                                : widget.origin.bankAccount,
+                                : bankNumber,
                             onChanged: (value) {
                               setState(() {
-                                editData['bank_account'] = value;
+                                if (widget.origin.bankAccount.toString() !=
+                                    "") {
+                                  tempBankAccount =
+                                      editData['bank_account'].toString();
+
+                                  tempBankAccount = value.toString();
+                                } else {
+                                  tempBankAccount = value.toString();
+                                }
                               });
                             },
                             decoration: InputDecoration(
@@ -447,36 +545,80 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {
-                      print(editData);
                       showDialog(
                           context: context,
                           builder: ((context) {
-                            return AlertDialog(
-                              title: const Text('정말 수정하시겠습니까?'),
-                              actions: [
-                                TextButton(
-                                    onPressed: () async {
-                                      // 유저정보 수정 API
-                                      await User.putProfile(
-                                          editData: editData, image: editImage);
-                                      //provider 수정
-                                      _userProvider.setUser(
-                                          await User.getProfile(
-                                              uid: _userProvider.user!.id));
+                            if (editData['user_name'].toString().length < 2 ||
+                                editData['user_name'].toString().length > 20) {
+                              return AlertDialog(
+                                title: const Text('이름을 확인하세요'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('닫기'))
+                                ],
+                              );
+                            } else if (editData['bank_account']
+                                        .toString()
+                                        .length >
+                                    28 ||
+                                editData['bank_account'].toString().isEmpty) {
+                              return AlertDialog(
+                                title: const Text('계좌번호를 확인하세요'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('닫기'))
+                                ],
+                              );
+                            } else {
+                              return AlertDialog(
+                                title: const Text('정말 수정하시겠습니까?'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () async {
+                                        if (tempBank.toString().isEmpty ||
+                                            tempBank.toString() == "") {
+                                          tempBank = bankCompany;
+                                        }
+                                        if (tempBankAccount
+                                                .toString()
+                                                .isEmpty ||
+                                            tempBankAccount.toString() == "") {
+                                          tempBankAccount = bankNumber;
+                                        }
 
-                                      if (context.mounted) {
+                                        editData['bank_account'] =
+                                            '$tempBank $tempBankAccount';
+
+                                        // 유저정보 수정 API
+
+                                        await User.putProfile(
+                                            editData: editData,
+                                            image: editImage);
+                                        //provider 수정
+                                        _userProvider.setUser(
+                                            await User.getProfile(
+                                                uid: _userProvider.user!.id));
+
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: const Text('확인')),
+                                  TextButton(
+                                      onPressed: () {
                                         Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                    child: const Text('확인')),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('취소')),
-                              ],
-                            );
+                                      },
+                                      child: const Text('취소')),
+                                ],
+                              );
+                            }
                           }));
                     },
                     child: const PinkBtn(
