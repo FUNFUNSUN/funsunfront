@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/services/api_remit.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../models/funding_model.dart';
+import '../widgets/kakao_pay.dart';
 
 class RemitCheckScreen extends StatelessWidget {
   Map<String, dynamic> remitMap;
@@ -18,6 +21,9 @@ class RemitCheckScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+
+    final FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(
@@ -202,18 +208,41 @@ class RemitCheckScreen extends StatelessWidget {
                                       amount: remitMap['amount'],
                                       userid: userProvider.user!.id);
 
-                                  final url = Uri.parse(req);
-                                  if (await canLaunchUrl(url)) {
-                                    await launchUrl(url,
-                                        mode: LaunchMode.externalApplication);
+                                  if (context.mounted) {
+                                    result = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => KakaoPay(
+                                                  url: req,
+                                                  uid: userProvider.user!.id,
+                                                )));
                                   }
 
-                                  result = await Remit.getPayApprove(
-                                      userid: userProvider.user!.id);
-
+                                  if (result) {
+                                    result = await Remit.getPayApprove();
+                                  }
+                                  if (result) {
+                                    result = await Remit.postRemit(
+                                        remitData: jsonEncode(remitMap));
+                                  }
                                   if (context.mounted) {
                                     result
-                                        ? Navigator.pop(context)
+                                        ? {
+                                            fundingsProvider.getFundingDetail(
+                                                remitMap['funding']),
+                                            fundingsProvider
+                                                .getJoinedfundings(),
+                                            Navigator.pop(context),
+                                            Navigator.pop(context),
+                                            Navigator.pop(context),
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return const AlertDialog(
+                                                    title: Text('결제성공!'),
+                                                  );
+                                                })
+                                          }
                                         : showDialog(
                                             context: context,
                                             builder: (context) {
