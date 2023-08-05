@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/account_model.dart';
+import 'package:funsunfront/services/api_account.dart';
+import 'package:funsunfront/widgets/date_picker.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/user_provider.dart';
 import '../widgets/image_upload.dart';
 import '../widgets/pink_btn.dart';
 
@@ -18,6 +22,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   late File _image;
   File? editImage;
   final bankList = [];
+  late UserProvider _userProvider;
 
   ListTile _tile(String title, String image) => ListTile(
         minVerticalPadding: 10,
@@ -65,6 +70,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     });
   }
 
+  //생일 관련
+  void setBirth(DateTime birth) {
+    setState(() {
+      editData['birthday'] = birth.month.toString() + birth.day.toString();
+    });
+  }
+
   Map<String, dynamic> editData = {
     'user_name': "",
     'birthday': "",
@@ -90,6 +102,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
+    DateTime tmpBirth = (widget.origin.birthday == null)
+        ? DateTime.now()
+        : DateTime.parse('1996${widget.origin.birthday!}');
+    DateTime birthMothDayOnly = DateTime(tmpBirth.month, tmpBirth.day);
 
     Widget showImage() {
       if (editImage != null) {
@@ -307,52 +324,33 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                (widget.origin.birthday == "")
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '생일을 등록하시겠습니까?',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '등록할 생일을 입력하세요.',
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(0.6),
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            initialValue: widget.origin.username,
-                            onChanged: (value) {
-                              setState(() {
-                                editData['birthday'] = value;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: const Color(0xffF4F4F4),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(15)),
-                            ),
-                          ),
-                        ],
-                      )
-                    : const SizedBox(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '생일을 수정하시겠습니까?',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      '등록할 생일을 입력하세요.',
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.6),
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DatePicker(
+                        setInfo: setBirth, defaultDate: birthMothDayOnly),
+                  ],
+                ),
                 const SizedBox(height: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -417,10 +415,12 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                         Flexible(
                           fit: FlexFit.tight,
                           child: TextFormField(
-                            initialValue: widget.origin.username,
+                            initialValue: (widget.origin.bankAccount == null)
+                                ? ""
+                                : widget.origin.bankAccount,
                             onChanged: (value) {
                               setState(() {
-                                editData['bank_acount'] = value;
+                                editData['bank_account'] = value;
                               });
                             },
                             decoration: InputDecoration(
@@ -456,6 +456,14 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                               actions: [
                                 TextButton(
                                     onPressed: () async {
+                                      // 유저정보 수정 API
+                                      await User.putProfile(
+                                          editData: editData, image: editImage);
+                                      //provider 수정
+                                      _userProvider.setUser(
+                                          await User.getProfile(
+                                              uid: _userProvider.user!.id));
+
                                       if (context.mounted) {
                                         Navigator.pop(context);
                                         Navigator.pop(context);

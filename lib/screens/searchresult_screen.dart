@@ -74,17 +74,63 @@ class _SearchBoxState extends State<SearchBox> {
   }
 
   List<Widget> getHistory() {
+    String baseUrl = 'http://projectsekai.kro.kr:5000/';
+    ProfileProvider profileProvider =
+        Provider.of<ProfileProvider>(context, listen: true);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: true);
     List<Widget> data = [];
     for (var itm in historyList) {
-      Widget column = Column(
-        children: [
-          Text(itm.toMap()['username']),
-          (itm.toMap()['image'] != null)
-              ? Text(itm.toMap()['image'])
-              : const SizedBox(),
-        ],
+      Widget historyProfile = Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 5),
+        child: InkWell(
+          onTap: () async {
+            await profileProvider.updateProfile(itm.id);
+            if (context.mounted) {
+              if (userProvider.user!.id != itm.id) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserScreen(id: itm.id),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyScreen(),
+                  ),
+                );
+              }
+            }
+          },
+          child: SizedBox(
+              height: 70,
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                ClipOval(
+                  child: Container(
+                    width: 70, // 원의 지름
+                    height: 70, // 원의 지름
+                    color: Theme.of(context).primaryColorLight,
+                    child: (itm.image != null)
+                        ? Image.network('$baseUrl${itm.image}',
+                            fit: BoxFit.cover)
+                        : Image.asset('assets/images/default_profile.jpg',
+                            fit: BoxFit.cover),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  itm.username,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ])),
+        ),
       );
-      data.add(column);
+      data.add(historyProfile);
     }
     return data;
   }
@@ -172,11 +218,9 @@ class _SearchBoxState extends State<SearchBox> {
           ),
         ),
       ), //////////////검색바END
-      body: (searchedUsers.isEmpty)
-          ? Column(
-              children: getHistory(),
-            )
-          : ListView.builder(
+      body: (searchedUsers.isNotEmpty) //검색결과가 있으면
+          ? ListView.builder(
+              //검색결과가 있으면 이니까 검색결과
               itemCount: searchedUsers.length,
               itemBuilder: (context, index) {
                 return Padding(
@@ -251,9 +295,12 @@ class _SearchBoxState extends State<SearchBox> {
                               color: Theme.of(context).primaryColorLight,
                               child: (searchedUsers[index].image != null)
                                   ? Image.network(
-                                      '$baseUrl${searchedUsers[index].image}')
+                                      '$baseUrl${searchedUsers[index].image}',
+                                      fit: BoxFit.cover,
+                                    )
                                   : Image.asset(
-                                      'assets/images/default_profile.jpg'),
+                                      'assets/images/default_profile.jpg',
+                                      fit: BoxFit.cover),
                             ),
                           ),
                           const SizedBox(
@@ -268,7 +315,17 @@ class _SearchBoxState extends State<SearchBox> {
                     ),
                   ),
                 );
-              }),
+              })
+          : //검색결과는 없음
+          (historyList.isNotEmpty) // 검색기록이 있으면
+              ? Column(
+                  //검색기록보여줌
+                  children: getHistory(),
+                )
+              : //검색 결과도 없고 검색기록도 없으면
+              const Center(
+                  child: Text('검색기록이 없습니다.'),
+                ),
     );
   }
 }
