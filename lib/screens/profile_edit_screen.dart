@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/account_model.dart';
+import 'package:funsunfront/services/api_account.dart';
 
 import '../widgets/image_upload.dart';
 import '../widgets/pink_btn.dart';
@@ -456,6 +457,10 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                               actions: [
                                 TextButton(
                                     onPressed: () async {
+                                      // 유저정보 수정 API
+                                      await User.putProfile(
+                                          editData: editData, image: editImage);
+
                                       if (context.mounted) {
                                         Navigator.pop(context);
                                         Navigator.pop(context);
