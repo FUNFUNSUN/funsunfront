@@ -219,4 +219,29 @@ class Funding {
     print(response.body);
     throw Error();
   }
+
+  static Future<bool> deleteFunding(
+      {required String id, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
+      throw Error();
+    }
+    apiCounter -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final headers = {'Authorization': 'Bearer $token'};
+    final url = Uri.parse(baseUrl);
+    final req = http.MultipartRequest('PUT', url);
+
+    req.headers.addAll(headers);
+    req.fields['id'] = id;
+
+    final response = await http.post(url, headers: headers, body: id);
+    print(response.statusCode);
+    if (response.statusCode == 204) {
+      return true;
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      return deleteFunding(id: id);
+    }
+    throw Error();
+  }
 }

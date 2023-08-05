@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/models/remit_model.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
+import 'package:funsunfront/screens/funding_delete_screen.dart';
 import 'package:funsunfront/screens/my_screen.dart';
 import 'package:funsunfront/screens/remit_screen.dart';
 import 'package:funsunfront/screens/review_screen.dart';
@@ -177,26 +178,54 @@ class FundingScreen extends StatelessWidget {
                         (funding.author!['id'] == _userProvider.user!.id)
                             ? Padding(
                                 padding: const EdgeInsets.only(right: 50),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                child: Column(
                                   children: [
-                                    const Text('수정하기'),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                FundingEditScreen(
-                                              origin: funding,
-                                            ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const Text('수정하기'),
+                                        IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        FundingEditScreen(
+                                                  origin: funding,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            size: 20,
                                           ),
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        size: 20,
-                                      ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const Text('삭제하기'),
+                                        IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    FundingDeleteScreen(
+                                                        funding.id.toString()),
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
