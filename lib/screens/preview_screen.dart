@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
-import 'package:funsunfront/services/api_funding.dart';
 import 'package:provider/provider.dart';
 
+import '../services/api_funding.dart';
 import '../widgets/achievement_rate.dart';
 import 'funding_screen.dart';
 
@@ -18,6 +18,7 @@ class PreviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    bool flag = true;
 
     DateTime KoreaDateTime = DateTime.now().add(const Duration(hours: 9));
     print('한국 시간 $KoreaDateTime');
@@ -116,25 +117,29 @@ class PreviewScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () async {
-                    // var json = jsonEncode(temp);
+                    if (flag) {
+                      flag = false;
+                      print('delay');
+                      Map<String, dynamic> postResult =
+                          await Funding.postFunding(
+                              fundingData: temp, image: image);
 
-                    Map<String, dynamic> postResult = await Funding.postFunding(
-                        fundingData: temp, image: image);
+                      if (context.mounted) {
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+                        fundingsProvider.getMyfundings(userProvider.user!.id);
+                        fundingsProvider
+                            .getFundingDetail(postResult['id'].toString());
 
-                    if (context.mounted) {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
-                      fundingsProvider.getMyfundings(userProvider.user!.id);
-                      fundingsProvider
-                          .getFundingDetail(postResult['id'].toString());
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                FundingScreen(id: postResult['id'].toString())),
-                      );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FundingScreen(
+                                  id: postResult['id'].toString())),
+                        );
+                      }
                     }
                   },
                   child: Container(
