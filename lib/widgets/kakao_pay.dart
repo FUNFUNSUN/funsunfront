@@ -62,8 +62,9 @@ class KakaoPay extends StatelessWidget {
             final pgToken = request.url.split('pg_token=')[1];
             final bool res =
                 await Remit.postPayApprove(userid: uid, pgToken: pgToken);
-
-            Navigator.pop(context, {'result': res});
+            if (context.mounted) {
+              Navigator.pop(context, {'result': res, 'message': '200'});
+            }
           }
           return NavigationDecision.navigate;
         },

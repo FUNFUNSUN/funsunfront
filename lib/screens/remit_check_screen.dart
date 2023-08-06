@@ -216,8 +216,10 @@ class RemitCheckScreen extends StatelessWidget {
                                                     url: req,
                                                     uid: userProvider.user!.id,
                                                   )));
-                                      result = res['result'];
-                                      msg = res['message'];
+                                      if (res != null) {
+                                        result = res['result'];
+                                        msg = res['message'];
+                                      }
                                     }
 
                                     if (result) {
