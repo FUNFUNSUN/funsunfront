@@ -28,7 +28,7 @@ class RemitCheckScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,7 +37,7 @@ class RemitCheckScreen extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 icon: Icon(
-                    color: Theme.of(context).primaryColor, Icons.first_page),
+                    color: Theme.of(context).primaryColor, Icons.arrow_back),
               ),
               const Text(
                 '작성한 내용을 확인해주세요',
