@@ -141,8 +141,8 @@ class User {
   }
 
   static Future<Map<String, dynamic>> putProfile(
-      {File? image,
-      required Map<String, dynamic> editData,
+      {required Map<String, dynamic> editData,
+      File? image,
       int apiCounter = 2}) async {
     if (apiCounter == 0) {
       throw Error();
@@ -154,16 +154,17 @@ class User {
     final req = http.MultipartRequest('PUT', url);
     req.headers.addAll(headers);
 
-    req.fields['user_name'] = editData['user_name'];
+    req.fields['username'] = editData['user_name'];
     req.fields['birthday'] = editData['birthday'];
     req.fields['bank_account'] = editData['bank_account'];
-
+    req.fields['image_delete'] = editData['image_delete'];
     if (image != null) {
       req.files.add(await http.MultipartFile.fromPath('image', image.path));
     }
 
     final response0 = await req.send();
     final response = await http.Response.fromStream(response0);
+
     if (response.statusCode == 200) {
       Map<String, dynamic> resBodyJson = jsonDecode(response.body);
 
