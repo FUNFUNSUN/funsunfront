@@ -202,18 +202,21 @@ class RemitCheckScreen extends StatelessWidget {
                                 onPressed: () async {
                                   // print('start');
                                   bool result = false;
+                                  String msg = '';
                                   final req = await Remit.getPayRedirect(
                                       amount: remitMap['amount'],
                                       userid: userProvider.user!.id);
 
                                   if (context.mounted) {
-                                    result = await Navigator.push(
+                                    final res = await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => KakaoPay(
                                                   url: req,
                                                   uid: userProvider.user!.id,
                                                 )));
+                                    result = res['result'];
+                                    msg = res['message'];
                                   }
 
                                   if (result) {
@@ -253,8 +256,12 @@ class RemitCheckScreen extends StatelessWidget {
                                         : showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return const AlertDialog(
-                                                title: Text('결제실패'),
+                                              return Center(
+                                                child: AlertDialog(
+                                                  title: const Center(
+                                                      child: Text('결제실패')),
+                                                  content: Text(msg),
+                                                ),
                                               );
                                             });
                                   }
@@ -274,7 +281,7 @@ class RemitCheckScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(15)),
-                    width: 400,
+                    width: screenWidth,
                     height: 50,
                     child: const Center(
                       child: Text(
