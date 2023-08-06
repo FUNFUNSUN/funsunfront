@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/followTest.dart';
 
 class Profile extends StatelessWidget {
-  final String userName;
+  final String userName, uid;
   final int following, follower;
   final String? userimg;
   final File? uploadedImage;
@@ -16,12 +18,15 @@ class Profile extends StatelessWidget {
       required this.following,
       required this.follower,
       this.userimg,
-      this.uploadedImage});
+      this.uploadedImage,
+      required this.uid});
 
   @override
   Widget build(BuildContext context) {
     String followingStr = following.toString();
     String followerStr = follower.toString();
+    ProfileProvider profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
 
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     return Row(
@@ -57,14 +62,19 @@ class Profile extends StatelessWidget {
             Row(
               children: [
                 InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
+                    onTap: () async {
+                      // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
+                      await profileProvider.updateProfile(uid);
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
                             builder: (context) => const FollowTest(
-                                  initIndex: 0,
-                                )),
-                      );
+                              initIndex: 0,
+                            ),
+                          ),
+                        );
+                      }
                     },
                     child: Text('팔로워 $followerStr명',
                         style: const TextStyle(fontSize: 12))),
@@ -81,14 +91,19 @@ class Profile extends StatelessWidget {
                   width: 20,
                 ),
                 InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
+                  onTap: () async {
+                    // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
+                    await profileProvider.updateProfile(uid);
+                    if (context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
                           builder: (context) => const FollowTest(
-                                initIndex: 1,
-                              )),
-                    );
+                            initIndex: 1,
+                          ),
+                        ),
+                      );
+                    }
                   },
                   child: Text('팔로잉 $followingStr명',
                       style: const TextStyle(fontSize: 12)),

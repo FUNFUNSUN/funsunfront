@@ -83,6 +83,13 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
               setState(() {
                 _currentIndex = index;
               });
+              if (index == 0) {
+                _fundingsProvider.getPublicFundings();
+                _fundingsProvider.getJoinedfundings();
+              }
+              if (index == 1) {
+                _fundingsProvider.getPublicFundings();
+              }
               if (index == 2) {
                 await _profileProvider.updateProfile(_userProvider.user!.id);
               }

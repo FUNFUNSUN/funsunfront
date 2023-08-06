@@ -16,8 +16,6 @@ class HomeScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
-    //init fundings
-    fundingsProvider.getPublicFundings();
 
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight.withOpacity(0.5),

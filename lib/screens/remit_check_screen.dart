@@ -57,7 +57,6 @@ class RemitCheckScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CircleAvatar(
-                    // TODO: 추후 inkwell로 프로필페이지 이동
                     radius: 50,
                     backgroundImage: targetFunding.image != null
                         ? NetworkImage(
@@ -105,7 +104,6 @@ class RemitCheckScreen extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
-                            // TODO: 추후 inkwell로 프로필페이지 이동
                             radius: 30,
                             backgroundImage: userProvider.user!.image != null
                                 ? NetworkImage(
@@ -202,7 +200,7 @@ class RemitCheckScreen extends StatelessWidget {
                           actions: [
                             TextButton(
                                 onPressed: () async {
-                                  print('start');
+                                  // print('start');
                                   bool result = false;
                                   final req = await Remit.getPayRedirect(
                                       amount: remitMap['amount'],

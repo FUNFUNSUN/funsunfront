@@ -24,10 +24,6 @@ class ExploreScreen extends StatelessWidget {
     FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
 
-    fundingsProvider.getPublicFundings();
-    fundingsProvider.getJoinedfundings();
-
-    //TODO : 정렬수정필요
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 150,

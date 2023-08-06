@@ -64,6 +64,7 @@ class UserScreen extends StatelessWidget {
                           userName: profileProvider.profile!.username,
                           following: profileProvider.profile!.followee,
                           follower: profileProvider.profile!.follower,
+                          uid: profileProvider.profile!.id,
                         ),
 
                         ////////////////////////유저 프로필 END
