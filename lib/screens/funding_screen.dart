@@ -226,7 +226,7 @@ class FundingScreen extends StatelessWidget {
                                           },
                                           child: const Row(
                                             children: [
-                                              Text('수정하기'),
+                                              Text('삭제하기'),
                                               SizedBox(width: 5),
                                               Icon(Icons.delete, size: 23),
                                             ],
