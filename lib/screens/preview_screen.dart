@@ -120,19 +120,25 @@ class PreviewScreen extends StatelessWidget {
                 child: InkWell(
                   onTap: () async {
                     if (flag) {
+                      // 실제로 펀딩 작성 버튼 누르면 실행되는 부분
                       flag = false;
-                      print('delay');
+
+                      // postResult에 API결과 담아주고
                       Map<String, dynamic> postResult =
                           await Funding.postFunding(
                               fundingData: temp, image: image);
+                      // 내 펀딩 목록에 추가해주고
+                      fundingsProvider.getMyfundings(userProvider.user!.id);
+                      // 펀딩 상세 페이지에도 추가해줌
+                      fundingsProvider
+                          .getFundingDetail(postResult['id'].toString());
+                      // 전체공개 펀딩 목록에도 추가해줌
+                      fundingsProvider.getPublicFundings();
 
                       if (context.mounted) {
+                        // 펀딩 작성 후에는 맨 밑까지 터트리고 펀딩 화면으로 이동
                         Navigator.of(context)
                             .popUntil((route) => route.isFirst);
-                        fundingsProvider.getMyfundings(userProvider.user!.id);
-                        fundingsProvider
-                            .getFundingDetail(postResult['id'].toString());
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(

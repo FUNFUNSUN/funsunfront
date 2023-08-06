@@ -21,10 +21,11 @@ class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context, listen: false);
-    // final Future<List<FundingModel>> publicfunding =
-    //     Funding.getPublicFunding(page: '1');
     FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
+    //init fundings
+    fundingsProvider.getPublicFundings();
+    fundingsProvider.getJoinedfundings();
 
     //TODO : 정렬수정필요
     return Scaffold(

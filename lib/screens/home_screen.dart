@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/screens/public_screen.dart';
 import 'package:funsunfront/widgets/fundingcard_horizon.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/fundings_provider.dart';
 import '../services/api_funding.dart';
 import 'funding_create_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  // late FundingsProvider fundingsProvider;
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: true);
+    //init fundings
+    fundingsProvider.getPublicFundings();
 
-    // fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
-    // userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
         body: SingleChildScrollView(
@@ -265,13 +268,14 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PublicScreen(
-                                      page: '1',
-                                    )),
+                              builder: (context) => const PublicScreen(
+                                page: '1',
+                              ),
+                            ),
                           );
                         }, //함수,
                         sizeX: screenWidth,
-                        // fundings: fundingsProvider.publicFundings!,
+                        //펀딩을 넘기는게 아니라 펀딩API 호출함수만 넘기면 됨
                         fetchFunding: (page) =>
                             Funding.getPublicFunding(page: page),
                         title: '     전체공개펀딩'),
