@@ -34,12 +34,14 @@ class _FundingCardHorizonState extends State<FundingCardHorizon> {
     super.initState();
     _fundings = [];
     _isLoading = true;
-
     _fetchData();
   }
 
   Future<void> _fetchData() async {
     try {
+      FundingsProvider fundingsProvider =
+          Provider.of<FundingsProvider>(context, listen: true);
+      fundingsProvider.getPublicFundings();
       final newFundings = await widget.fetchFunding(_currentPage.toString());
       setState(() {
         _fundings.addAll(newFundings);

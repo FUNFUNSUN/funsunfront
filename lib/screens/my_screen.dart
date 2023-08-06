@@ -30,7 +30,6 @@ class MyScreen extends StatelessWidget {
         .updateProfile(_userProvider.user!.id); // 팔로워 팔로잉 위젯 때문에 profile에 세팅
     _userProvider.updateUser();
     _fundingsProvider.refreshAllFundings(_userProvider.user!.id);
-    print('done');
   }
 
   @override
@@ -157,7 +156,6 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  //그냥 myFundingScreen 넣어도 되는게 fetchFunding따로 넣어줌
                                   builder: (context) => MyFundingScreen(
                                     page: '1',
                                   ),
