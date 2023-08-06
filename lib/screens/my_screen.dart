@@ -151,13 +151,14 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MyFundingScreen(
-                                          page: '1',
-                                        )),
+                                  //그냥 myFundingScreen 넣어도 되는게 fetchFunding따로 넣어줌
+                                  builder: (context) => MyFundingScreen(
+                                    page: '1',
+                                  ),
+                                ),
                               );
                             },
                             sizeX: sizeX,
-                            //fundings: fundingsProvider.myFundings!,
                             fetchFunding: (page) => Funding.getUserFunding(
                                 page: page, id: _userProvider.user!.id),
                             title: '내 펀딩',
@@ -170,9 +171,11 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const MySupportScreen(
-                                          page: '1',
-                                        )),
+                                  //그냥 mySupportScreen 넣어도 되는게 fetchFunding따로 넣어줌
+                                  builder: (context) => const MySupportScreen(
+                                    page: '1',
+                                  ),
+                                ),
                               );
                             },
                             sizeX: sizeX,
