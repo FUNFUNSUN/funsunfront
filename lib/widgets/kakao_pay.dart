@@ -44,8 +44,18 @@ class KakaoPay extends StatelessWidget {
           Uri uriParsed = Uri.parse(request.url);
           if (uriParsed.scheme == 'intent') {
             getAppUrl(request.url).then((value) async {
-              launchUrl(Uri.parse(value), mode: LaunchMode.externalApplication);
+              try {
+                await launchUrl(Uri.parse(value),
+                    mode: LaunchMode.externalApplication);
+              } on PlatformException {
+                Navigator.pop(context,
+                    {'result': false, 'message': '카카오톡이 설치되어 있지 않습니다.'});
+              } on Exception {
+                Navigator.pop(
+                    context, {'result': false, 'message': '알 수 없는 오류 발생.'});
+              }
             });
+
             return NavigationDecision.prevent;
           }
           if (request.url.contains('projectsekai')) {
@@ -53,7 +63,7 @@ class KakaoPay extends StatelessWidget {
             final bool res =
                 await Remit.postPayApprove(userid: uid, pgToken: pgToken);
 
-            Navigator.pop(context, res);
+            Navigator.pop(context, {'result': res});
           }
           return NavigationDecision.navigate;
         },
