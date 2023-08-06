@@ -115,27 +115,33 @@ class FundingScreen extends StatelessWidget {
                                     }
                                   }
                                 },
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 20,
-                                      backgroundImage: funding
-                                                  .author!['image'] !=
-                                              null
-                                          ? NetworkImage(
-                                              '$baseurl${funding.author!['image']}',
-                                            )
-                                          : Image.asset(
-                                                  'assets/images/default_profile.jpg')
-                                              .image,
-                                    ),
-                                    Text(
-                                      funding.author!['username'],
-                                      style: const TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 20,
+                                        backgroundImage: funding
+                                                    .author!['image'] !=
+                                                null
+                                            ? NetworkImage(
+                                                '$baseurl${funding.author!['image']}',
+                                              )
+                                            : Image.asset(
+                                                    'assets/images/default_profile.jpg')
+                                                .image,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        funding.author!['username'],
+                                        style: const TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -177,15 +183,16 @@ class FundingScreen extends StatelessWidget {
                         ),
                         (funding.author!['id'] == _userProvider.user!.id)
                             ? Padding(
-                                padding: const EdgeInsets.only(right: 50),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth * 0.1),
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const Text('수정하기'),
-                                        IconButton(
-                                          onPressed: () {
+                                        GestureDetector(
+                                          onTap: () {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -197,19 +204,16 @@ class FundingScreen extends StatelessWidget {
                                               ),
                                             );
                                           },
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            size: 20,
+                                          child: const Row(
+                                            children: [
+                                              Icon(Icons.edit, size: 23),
+                                              SizedBox(width: 5),
+                                              Text('수정하기'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        const Text('삭제하기'),
-                                        IconButton(
-                                          onPressed: () {
+                                        GestureDetector(
+                                          onTap: () {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -220,9 +224,12 @@ class FundingScreen extends StatelessWidget {
                                               ),
                                             );
                                           },
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            size: 20,
+                                          child: const Row(
+                                            children: [
+                                              Text('수정하기'),
+                                              SizedBox(width: 5),
+                                              Icon(Icons.delete, size: 23),
+                                            ],
                                           ),
                                         ),
                                       ],
@@ -260,23 +267,26 @@ class FundingScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
-                            child: GestureDetector(
-                              // 펀딩하기 버튼
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RemitScreen(
-                                            targetFunding: funding,
-                                          )),
-                                );
-                              },
-                              child: const PinkBtn(
-                                btnTxt: '펀딩하기',
-                              ),
-                            )),
+                        (leftDays > 0 || leftHours > 0)
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 40),
+                                child: GestureDetector(
+                                  // 펀딩하기 버튼
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RemitScreen(
+                                                targetFunding: funding,
+                                              )),
+                                    );
+                                  },
+                                  child: const PinkBtn(
+                                    btnTxt: '펀딩하기',
+                                  ),
+                                ))
+                            : const SizedBox(),
                         (funding.author!['id'] == _userProvider.user!.id)
                             ? const SizedBox()
                             : ReportIcon(funding.id!, 'funding', ''),
@@ -354,9 +364,9 @@ class FundingScreen extends StatelessWidget {
                                                 color: const Color.fromARGB(
                                                     255, 255, 159, 208),
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 20,
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          screenWidth * 0.1,
                                                       vertical: 15),
                                                   child: Column(
                                                     children: [
@@ -401,7 +411,9 @@ class FundingScreen extends StatelessWidget {
                                                               }
                                                             },
                                                             child: CircleAvatar(
-                                                              radius: 30,
+                                                              radius:
+                                                                  screenWidth *
+                                                                      0.09,
                                                               backgroundImage: remit
                                                                           .author
                                                                           .image !=
@@ -414,8 +426,9 @@ class FundingScreen extends StatelessWidget {
                                                                       .image,
                                                             ),
                                                           ),
-                                                          const SizedBox(
-                                                            width: 20,
+                                                          SizedBox(
+                                                            width: screenWidth *
+                                                                0.02,
                                                           ),
                                                           Column(
                                                             crossAxisAlignment:
@@ -428,7 +441,7 @@ class FundingScreen extends StatelessWidget {
                                                               SizedBox(
                                                                 width:
                                                                     screenWidth *
-                                                                        0.7,
+                                                                        0.6,
                                                                 child: Row(
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
@@ -446,9 +459,6 @@ class FundingScreen extends StatelessWidget {
                                                                             FontWeight.w600,
                                                                       ),
                                                                     ),
-                                                                    const SizedBox(
-                                                                      width: 70,
-                                                                    ),
                                                                     (remit.author.id.toString() ==
                                                                             _userProvider
                                                                                 .user!.id)
@@ -463,7 +473,7 @@ class FundingScreen extends StatelessWidget {
                                                               SizedBox(
                                                                 width:
                                                                     screenWidth *
-                                                                        0.7,
+                                                                        0.6,
                                                                 child: Text(
                                                                   remit.message,
                                                                   style:
