@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/models/account_model.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
@@ -9,7 +10,6 @@ import 'package:funsunfront/screens/my_screen.dart';
 import 'package:funsunfront/screens/userscreen.dart';
 import 'package:funsunfront/services/api_account.dart';
 import 'package:funsunfront/widgets/search_history.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
 class SearchResultScreen extends StatelessWidget {
@@ -39,29 +39,36 @@ class _SearchBoxState extends State<SearchBox> {
   // bool isUserExist = false; //유저 검색 시 테스트용 변수입니다.
 
   List<AccountModel> searchedUsers = [];
-  final LocalStorage localStorage = LocalStorage('historyList.json');
+  final storage = const FlutterSecureStorage();
+
+  // final LocalStorage localStorage = LocalStorage('historyList.json');
 
   LinkedList<HistoryItem> historyList = LinkedList<HistoryItem>();
+
+  Future<void> initHistory() async {
+    String? historydata = await storage.read(key: 'historyList.json');
+    if (historydata != null) {
+      final historydatas = jsonDecode(historydata);
+
+      for (var itm in historydatas) {
+        historyList.add(HistoryItem(itm['id'], itm['username'], itm['image']));
+      }
+    }
+    setState(() {});
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var historydata = localStorage.getItem('historyList.json');
-    if (historydata != null) {
-      historydata = jsonDecode(historydata);
-      for (var itm in historydata) {
-        historyList.add(HistoryItem(itm['id'], itm['username'], itm['image']));
-      }
-    }
-    print(historydata);
+    initHistory();
   }
 
   @override
   void dispose() {
     _searchController.dispose(); // 메모리 누수를 방지하기 위해 컨트롤러를 dispose합니다.
     List historydata = saveHistory();
-    localStorage.setItem('historyList.json', jsonEncode(historydata));
+    storage.write(key: 'historyList.json', value: jsonEncode(historydata));
     super.dispose();
   }
 
@@ -79,7 +86,26 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: true);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: true);
-    List<Widget> data = [];
+    List<Widget> data = [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              '검색 기록',
+              style: TextStyle(fontSize: 20),
+            ),
+            GestureDetector(
+                onTap: () {
+                  setState(() {});
+                  historyList.clear();
+                },
+                child: const Text('검색 기록 삭제'))
+          ],
+        ),
+      ),
+    ];
     for (var itm in historyList) {
       Widget historyProfile = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 5),
@@ -229,6 +255,7 @@ class _SearchBoxState extends State<SearchBox> {
                   child: InkWell(
                     onTap: () async {
                       final user = searchedUsers[index];
+                      setState(() {});
                       if (historyList.isEmpty) {
                         historyList.add(
                             HistoryItem(user.id, user.username, user.image));
@@ -261,9 +288,6 @@ class _SearchBoxState extends State<SearchBox> {
                             HistoryItem(user.id, user.username, user.image));
                       }
 
-                      for (var itm in historyList) {
-                        print(itm.toMap());
-                      }
                       await profileProvider.updateProfile(user.id);
                       if (context.mounted) {
                         if (userProvider.user!.id != user.id) {

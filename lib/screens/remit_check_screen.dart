@@ -238,8 +238,17 @@ class RemitCheckScreen extends StatelessWidget {
                                             showDialog(
                                                 context: context,
                                                 builder: (context) {
-                                                  return const AlertDialog(
-                                                    title: Text('결제성공!'),
+                                                  return AlertDialog(
+                                                    title: const Text('결제성공!'),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child:
+                                                              const Text('닫기'))
+                                                    ],
                                                   );
                                                 })
                                           }

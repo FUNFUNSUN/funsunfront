@@ -213,10 +213,10 @@ class FundingScreen extends StatelessWidget {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    FundingDeleteScreen(
-                                                        funding.id.toString()),
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        FundingDeleteScreen(
+                                                            funding),
                                               ),
                                             );
                                           },
