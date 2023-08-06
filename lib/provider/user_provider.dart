@@ -6,7 +6,7 @@ import 'package:funsunfront/models/account_model.dart';
 import '../services/api_account.dart';
 
 class UserProvider extends ChangeNotifier {
-  String? _logged = 'loading';
+  String? _logged = '';
   String? get logged => _logged;
 
   AccountModel? _user;
