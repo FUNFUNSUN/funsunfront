@@ -20,11 +20,14 @@ class ProfileEditScreen extends StatefulWidget {
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
-  File? _image;
   File? editImage;
   late UserProvider _userProvider;
   String tempBankAccount = "";
   String tempBank = "";
+  late DateTime birthMothDayOnly;
+
+  late String? bankCompany;
+  late String? bankNumber;
 
   ListTile _tile(String title, String image) => ListTile(
         onTap: () {
@@ -73,6 +76,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   void setImage(File uploadedImage) {
     setState(() {
       editImage = uploadedImage;
+      widget.origin.image = null;
     });
   }
 
@@ -102,23 +106,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     editData['user_name'] = widget.origin.username;
     editData['birthday'] = widget.origin.birthday;
     editData['bank_account'] = widget.origin.bankAccount;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    print('현재 계좌번호 : ${widget.origin.bankAccount}');
-
-    late String bankCompany;
-    late String bankNumber;
-
-    // if (widget.origin.bankAccount == null || widget.origin.bankAccount == "") {
-    //   bankCompany = "";
-    //   bankNumber = "";
-    // } else {
-    //   String bank = widget.origin.bankAccount.toString();
-    //   bankCompany = bank.substring(0, bank.indexOf(' '));
-    //   bankNumber = bank.substring(bank.indexOf(' '), bank.length);
-    // }
+    editData['image_delete'] = "";
 
     if (widget.origin.bankAccount.toString() == "" ||
         widget.origin.bankAccount.toString() == "null" ||
@@ -126,18 +114,24 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       bankCompany = "";
       bankNumber = "";
     } else {
-      String bank = widget.origin.bankAccount.toString();
+      String bank = widget.origin.bankAccount!;
       bankCompany = bank.substring(0, bank.indexOf(' '));
       bankNumber = bank.substring(bank.indexOf(' '), bank.length);
     }
+  }
 
-    //////////////////////////계좌//////////////////////////
+  @override
+  Widget build(BuildContext context) {
+    print('생일 ${widget.origin.birthday}');
+
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     _userProvider = Provider.of<UserProvider>(context, listen: false);
+
     DateTime tmpBirth = (widget.origin.birthday == null)
         ? DateTime.now()
         : DateTime.parse('1996${widget.origin.birthday!}');
-    DateTime birthMothDayOnly = DateTime(tmpBirth.month, tmpBirth.day);
+
+    birthMothDayOnly = DateTime(tmpBirth.year, tmpBirth.month, tmpBirth.day);
 
     Widget showImage() {
       if (editImage != null) {
@@ -314,7 +308,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                     setImage: setImage,
                                   ),
                                 ),
-                              ).then((res) => setState(() {}));
+                              ).then((res) => setState(() {
+                                    widget.origin.image = null;
+                                  }));
                             },
                             icon: Icon(
                               color: Theme.of(context).primaryColor,
@@ -389,8 +385,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    DatePicker(
-                        setInfo: setBirth, defaultDate: birthMothDayOnly),
+                    DatePicker(setInfo: setBirth, defaultDate: DateTime.now()),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -446,7 +441,10 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                   });
                             },
                             child: (widget.origin.bankAccount == "" ||
-                                    widget.origin.bankAccount == null)
+                                    widget.origin.bankAccount == null ||
+                                    widget.origin.bankAccount
+                                        .toString()
+                                        .isEmpty)
                                 ? (tempBank == "")
                                     ? Container(
                                         margin: const EdgeInsets.only(right: 5),
@@ -484,7 +482,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                                 .withOpacity(.5)),
                                         width: 160,
                                         height: 60,
-                                        child: Text(bankCompany))
+                                        child: Text(bankCompany.toString()))
                                     : Container(
                                         margin: const EdgeInsets.only(right: 5),
                                         alignment: Alignment.center,
@@ -545,6 +543,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {
+                      if (editImage == null && widget.origin.image == null) {
+                        editData['image_delete'] = 'delete';
+                      }
                       showDialog(
                           context: context,
                           builder: ((context) {
@@ -583,13 +584,14 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                       onPressed: () async {
                                         if (tempBank.toString().isEmpty ||
                                             tempBank.toString() == "") {
-                                          tempBank = bankCompany;
+                                          tempBank = bankCompany.toString();
                                         }
                                         if (tempBankAccount
                                                 .toString()
                                                 .isEmpty ||
                                             tempBankAccount.toString() == "") {
-                                          tempBankAccount = bankNumber;
+                                          tempBankAccount =
+                                              bankNumber.toString();
                                         }
 
                                         editData['bank_account'] =
