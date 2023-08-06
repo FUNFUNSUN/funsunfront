@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:funsunfront/models/account_model.dart';
 import 'package:funsunfront/services/api_account.dart';
-import 'package:funsunfront/widgets/date_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:wheel_chooser/wheel_chooser.dart';
 
 import '../provider/user_provider.dart';
 import '../widgets/image_upload.dart';
@@ -25,6 +25,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   String tempBankAccount = "";
   String tempBank = "";
   late DateTime birthMothDayOnly;
+  late int initialMonth;
+  late int initialDay;
+
+  late int editMonth;
+  late int editDay;
 
   late String? bankCompany;
   late String? bankNumber;
@@ -80,23 +85,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     });
   }
 
-  //생일 관련
-  void setBirth(DateTime birth) {
-    setState(() {
-      String strBirthMonth = birth.month.toString();
-      String strBirthDay = birth.day.toString();
-
-      if (int.parse(strBirthMonth) < 10) {
-        strBirthMonth = '0$strBirthMonth';
-      }
-      if (int.parse(strBirthDay) < 10) {
-        strBirthDay = '0$strBirthDay';
-      }
-
-      editData['birthday'] = strBirthMonth + strBirthDay;
-    });
-  }
-
   Map<String, dynamic> editData = {};
 
   @override
@@ -117,6 +105,17 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       String bank = widget.origin.bankAccount!;
       bankCompany = bank.substring(0, bank.indexOf(' '));
       bankNumber = bank.substring(bank.indexOf(' '), bank.length);
+    }
+
+    if (widget.origin.birthday == null) {
+      initialMonth = 6;
+      initialDay = 4;
+    } else {
+      initialMonth = int.parse(widget.origin.birthday!.substring(0, 2));
+      initialDay = int.parse(widget.origin.birthday!.substring(2, 4));
+
+      editMonth = initialMonth;
+      editDay = initialDay;
     }
   }
 
@@ -385,7 +384,44 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    DatePicker(setInfo: setBirth, defaultDate: DateTime.now()),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          WheelChooser.integer(
+                            onValueChanged: (p0) {
+                              editMonth = p0;
+                            },
+                            initValue: initialMonth,
+                            itemSize: 35,
+                            selectTextStyle: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                            maxValue: 12,
+                            minValue: 1,
+                            listHeight: 80,
+                            listWidth: 50,
+                            isInfinite: true,
+                          ),
+                          const Text('월'),
+                          WheelChooser.integer(
+                            onValueChanged: (p0) {
+                              editDay = p0;
+                            },
+                            initValue: initialDay,
+                            itemSize: 35,
+                            selectTextStyle: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                            maxValue: 31,
+                            minValue: 1,
+                            listHeight: 80,
+                            listWidth: 50,
+                            isInfinite: true,
+                          ),
+                          const Text('일')
+                        ],
+                      ),
+                    )
+                    //DatePicker(setInfo: setBirth, defaultDate: DateTime.now()),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -455,7 +491,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                             color: Theme.of(context)
                                                 .primaryColorLight
                                                 .withOpacity(.5)),
-                                        width: 160,
+                                        width: 100,
                                         height: 60,
                                         child: const Text('은행 선택'))
                                     : Container(
@@ -467,7 +503,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                             color: Theme.of(context)
                                                 .primaryColorLight
                                                 .withOpacity(.5)),
-                                        width: 160,
+                                        width: 100,
                                         height: 60,
                                         child: Text(tempBank))
                                 : (tempBank == "")
@@ -480,7 +516,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                             color: Theme.of(context)
                                                 .primaryColorLight
                                                 .withOpacity(.5)),
-                                        width: 160,
+                                        width: 100,
                                         height: 60,
                                         child: Text(bankCompany.toString()))
                                     : Container(
@@ -543,6 +579,21 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {
+                      String editMonthStr;
+                      String editDayStr;
+                      if (editMonth < 10) {
+                        editMonthStr = '0$editMonth';
+                      } else {
+                        editMonthStr = editMonth.toString();
+                      }
+                      if (editDay < 10) {
+                        editDayStr = '0$editDay';
+                      } else {
+                        editDayStr = editDay.toString();
+                      }
+                      editData['birthday'] = '$editMonthStr$editDayStr';
+                      print('${editData['birthday']}');
+
                       if (editImage == null && widget.origin.image == null) {
                         editData['image_delete'] = 'delete';
                       }
@@ -593,12 +644,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                           tempBankAccount =
                                               bankNumber.toString();
                                         }
-
                                         editData['bank_account'] =
                                             '$tempBank $tempBankAccount';
-
                                         // 유저정보 수정 API
-
                                         await User.putProfile(
                                             editData: editData,
                                             image: editImage);
@@ -606,7 +654,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                         _userProvider.setUser(
                                             await User.getProfile(
                                                 uid: _userProvider.user!.id));
-
                                         if (context.mounted) {
                                           Navigator.pop(context);
                                           Navigator.pop(context);

@@ -20,7 +20,7 @@ class ReportIcon extends StatelessWidget {
         // print(report['target']);
         // print(report['type']);
         // print(report['message']);
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ReportScreen(
@@ -30,13 +30,14 @@ class ReportIcon extends StatelessWidget {
         );
       },
       child: const SizedBox(
-        height: 50,
+        height: 30,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.campaign_outlined,
               color: Colors.grey,
+              size: 20,
             ),
             SizedBox(
               width: 5,
@@ -45,7 +46,7 @@ class ReportIcon extends StatelessWidget {
               '신고하기',
               style: TextStyle(
                 color: Colors.grey,
-                fontSize: 16,
+                fontSize: 12,
               ),
             ),
           ],

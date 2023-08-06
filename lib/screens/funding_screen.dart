@@ -384,11 +384,7 @@ class FundingScreen extends StatelessWidget {
                                                                         remit
                                                                             .author
                                                                             .id);
-                                                                await _profileProvider
-                                                                    .updateProfile(
-                                                                        remit
-                                                                            .author
-                                                                            .id);
+
                                                                 if (context
                                                                     .mounted) {
                                                                   Navigator

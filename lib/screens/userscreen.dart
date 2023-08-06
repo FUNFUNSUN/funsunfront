@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/fundingcard_horizon.dart';
 import '../widgets/profile.dart';
+import '../widgets/report_icon.dart';
 
 class UserScreen extends StatelessWidget {
   final String id;
@@ -47,18 +48,23 @@ class UserScreen extends StatelessWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
                     ///////////////////////유저 프로필
                     Padding(
                       padding: const EdgeInsets.all(30.0),
                       child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ReportIcon(
+                                profileProvider.profile!.id, 'account', ''),
+                          ],
+                        ),
                         Profile(
-                            userimg: profileProvider.profile?.image,
-                            userName: profileProvider.profile!.username,
-                            following: profileProvider.profile!.followee,
-                            follower: profileProvider.profile!.follower),
+                          userimg: profileProvider.profile?.image,
+                          userName: profileProvider.profile!.username,
+                          following: profileProvider.profile!.followee,
+                          follower: profileProvider.profile!.follower,
+                        ),
 
                         ////////////////////////유저 프로필 END
                         const SizedBox(
@@ -69,6 +75,7 @@ class UserScreen extends StatelessWidget {
                             uid: profileProvider.profile!.id,
                             currentuid: userProvider.user!.id,
                             sizeX: sizeX),
+
                         const SizedBox(
                           height: 30,
                         ),
