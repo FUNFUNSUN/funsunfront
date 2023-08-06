@@ -123,9 +123,13 @@ class ExploreScreen extends StatelessWidget {
                       final publicfundings = snapshot.data;
                       publicfundings!;
                       return (publicfundings.isEmpty)
-                          ? const Center(
-                              child: Text('공개된 펀딩이 없습니다.'),
-                            )
+                          ? Container(
+                              alignment: Alignment.center,
+                              height: 145,
+                              child: const Text(
+                                '공개 작성된 펀딩이 없습니다.',
+                                style: TextStyle(fontSize: 13),
+                              ))
                           : SingleChildScrollView(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
