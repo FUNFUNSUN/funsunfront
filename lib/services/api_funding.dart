@@ -229,19 +229,15 @@ class Funding {
     String? token = await storage.read(key: 'accessToken');
     final headers = {'Authorization': 'Bearer $token'};
     final url = Uri.parse(baseUrl);
-    final req = http.MultipartRequest('PUT', url);
 
-    req.headers.addAll(headers);
-    req.fields['id'] = id;
-
-    final response = await http.post(url, headers: headers, body: id);
+    final response = await http.delete(url, headers: headers, body: {'id': id});
     print(response.statusCode);
-    if (response.statusCode == 204) {
+    if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 401) {
       await User.refreshToken();
       return deleteFunding(id: id);
     }
-    throw Error();
+    return false;
   }
 }
