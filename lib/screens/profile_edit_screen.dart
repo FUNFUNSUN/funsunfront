@@ -603,9 +603,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                             editData: editData,
                                             image: editImage);
                                         //provider 수정
-                                        _userProvider.setUser(
-                                            await User.getProfile(
-                                                uid: _userProvider.user!.id));
+                                        _userProvider.updateUser();
 
                                         if (context.mounted) {
                                           Navigator.pop(context);

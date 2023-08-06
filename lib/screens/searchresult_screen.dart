@@ -86,7 +86,26 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: true);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: true);
-    List<Widget> data = [];
+    List<Widget> data = [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              '검색 기록',
+              style: TextStyle(fontSize: 20),
+            ),
+            GestureDetector(
+                onTap: () {
+                  setState(() {});
+                  historyList.clear();
+                },
+                child: const Text('검색 기록 삭제'))
+          ],
+        ),
+      ),
+    ];
     for (var itm in historyList) {
       Widget historyProfile = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 5),
