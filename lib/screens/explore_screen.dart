@@ -23,7 +23,7 @@ class ExploreScreen extends StatelessWidget {
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
-    //init fundings
+
     fundingsProvider.getPublicFundings();
     fundingsProvider.getJoinedfundings();
 
@@ -122,76 +122,84 @@ class ExploreScreen extends StatelessWidget {
                     } else if (snapshot.hasData) {
                       final publicfundings = snapshot.data;
                       publicfundings!;
-                      return SingleChildScrollView(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                fundingsProvider.getFundingDetail(
-                                    publicfundings[0].id.toString());
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => (FundingScreen(
-                                          id: publicfundings[0]
-                                              .id
-                                              .toString()))),
-                                );
-                              },
-                              child: Container(
-                                //첫번째 펀딩
-                                width: 145,
-                                height: 145,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: (publicfundings[0].image != null)
-                                    ? Image.network(
-                                        '$imgBaseUrl${publicfundings[0].image}',
-                                        fit: BoxFit.cover)
-                                    : Image.asset(
-                                        'assets/images/default_funding.jpg',
-                                        fit: BoxFit.cover,
-                                      ),
+                      return (publicfundings.isEmpty)
+                          ? const Center(
+                              child: Text('공개된 펀딩이 없습니다.'),
+                            )
+                          : SingleChildScrollView(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      fundingsProvider.getFundingDetail(
+                                          publicfundings[0].id.toString());
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                (FundingScreen(
+                                                    id: publicfundings[0]
+                                                        .id
+                                                        .toString()))),
+                                      );
+                                    },
+                                    child: Container(
+                                      //첫번째 펀딩
+                                      width: 145,
+                                      height: 145,
+                                      clipBehavior: Clip.hardEdge,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: (publicfundings[0].image != null)
+                                          ? Image.network(
+                                              '$imgBaseUrl${publicfundings[0].image}',
+                                              fit: BoxFit.cover)
+                                          : Image.asset(
+                                              'assets/images/default_funding.jpg',
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      fundingsProvider.getFundingDetail(
+                                          publicfundings[1].id.toString());
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                (FundingScreen(
+                                                    id: publicfundings[1]
+                                                        .id
+                                                        .toString()))),
+                                      );
+                                    },
+                                    child: Container(
+                                      //두번째 펀딩
+                                      width: 145,
+                                      height: 145,
+                                      clipBehavior: Clip.hardEdge,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: (publicfundings[1].image != null)
+                                          ? Image.network(
+                                              '$imgBaseUrl${publicfundings[1].image}',
+                                              fit: BoxFit.cover)
+                                          : Image.asset(
+                                              'assets/images/default_funding.jpg',
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                fundingsProvider.getFundingDetail(
-                                    publicfundings[1].id.toString());
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => (FundingScreen(
-                                          id: publicfundings[1]
-                                              .id
-                                              .toString()))),
-                                );
-                              },
-                              child: Container(
-                                //두번째 펀딩
-                                width: 145,
-                                height: 145,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: (publicfundings[1].image != null)
-                                    ? Image.network(
-                                        '$imgBaseUrl${publicfundings[1].image}',
-                                        fit: BoxFit.cover)
-                                    : Image.asset(
-                                        'assets/images/default_funding.jpg',
-                                        fit: BoxFit.cover,
-                                      ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                            );
                     }
                     return const Center(child: CircularProgressIndicator());
                   },
