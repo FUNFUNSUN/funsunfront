@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/funding_model.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/services/api_funding.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/achievement_rate.dart';
 
@@ -14,6 +16,8 @@ class FundingDeleteScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: false);
 
     final ex =
         DateTime.parse(funding.expireOn).difference(DateTime.now()).toString();
@@ -126,6 +130,9 @@ class FundingDeleteScreen extends StatelessWidget {
                                         id: funding.id.toString());
                                     if (res) {
                                       if (context.mounted) {
+                                        fundingsProvider.refreshAllFundings(
+                                            funding.author!['id'].toString());
+
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                         Navigator.pop(context);

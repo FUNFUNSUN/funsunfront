@@ -38,7 +38,6 @@ class FundingsProvider extends ChangeNotifier {
     _myFundings = Funding.getUserFunding(page: '1', id: uid);
     _joinedFundings = Funding.getJoinedFunding(page: '1');
     _publicFundings = Funding.getPublicFunding(page: '1');
-
     notifyListeners();
   }
 
