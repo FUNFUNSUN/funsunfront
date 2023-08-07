@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../provider/fundings_provider.dart';
 import '../provider/profile_provider.dart';
 import '../provider/user_provider.dart';
-import '../services/api_funding.dart';
 import '../widgets/fundingcard_horizon.dart';
 import 'myfunding_screen.dart';
 import 'mysupport_screen.dart';
@@ -154,6 +153,7 @@ class MyScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 30.0),
                           child: FundingCardHorizon(
+                            fundingType: 'myFunding',
                             routeFunction: () {
                               Navigator.push(
                                 context,
@@ -165,14 +165,15 @@ class MyScreen extends StatelessWidget {
                               );
                             },
                             sizeX: sizeX,
-                            fetchFunding: (page) => Funding.getUserFunding(
-                                page: page, id: _userProvider.user!.id),
+                            // fetchFunding: (page) => Funding.getUserFunding(
+                            //     page: page, id: _userProvider.user!.id),
                             title: '내 펀딩',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 30.0, top: 35),
                           child: FundingCardHorizon(
+                            fundingType: 'mySupport',
                             routeFunction: () {
                               Navigator.push(
                                 context,
@@ -185,8 +186,8 @@ class MyScreen extends StatelessWidget {
                               );
                             },
                             sizeX: sizeX,
-                            fetchFunding: (page) =>
-                                Funding.getJoinedFunding(page: page),
+                            // fetchFunding: (page) =>
+                            //     Funding.getJoinedFunding(page: page),
                             title: '서포트한 펀딩',
                           ),
                         ),
