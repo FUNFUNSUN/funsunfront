@@ -17,22 +17,19 @@ class UserScreen extends StatelessWidget {
     required this.id,
   }) : super(key: key);
 
-  late UserProvider _userProvider;
-  late ProfileProvider _profileProvider;
+  late UserProvider userProvider;
+  late ProfileProvider profileProvider;
 
   Future<void> refreshFunction() async {
-    _userProvider.updateUser();
-    _profileProvider.updateProfile(_profileProvider.profile!.id);
-    print('done');
+    userProvider.updateUser();
+    profileProvider.updateProfile(profileProvider.profile!.id);
+    print('refreshed');
   }
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: true);
-
-    ProfileProvider profileProvider =
-        Provider.of<ProfileProvider>(context, listen: true);
+    userProvider = Provider.of<UserProvider>(context, listen: true);
+    profileProvider = Provider.of<ProfileProvider>(context, listen: true);
 
     final sizeX = MediaQuery.of(context).size.width;
     // final sizeY = MediaQuery.of(context).size.height;

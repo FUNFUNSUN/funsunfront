@@ -30,6 +30,7 @@ class MyScreen extends StatelessWidget {
         .updateProfile(_userProvider.user!.id); // 팔로워 팔로잉 위젯 때문에 profile에 세팅
     _userProvider.updateUser();
     _fundingsProvider.refreshAllFundings(_userProvider.user!.id);
+    print('refreshed');
   }
 
   @override
