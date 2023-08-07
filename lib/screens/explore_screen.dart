@@ -27,6 +27,7 @@ class ExploreScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 150,
         elevation: 0.0,
         backgroundColor: Colors.white,
