@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/user_provider.dart';
 import '../widgets/fundingcard.dart';
 
 class MyFundingScreen extends StatelessWidget {
-  MyFundingScreen({super.key, required this.page});
+  const MyFundingScreen({super.key, required this.page});
 
   final String page;
-  late UserProvider _userProvider;
 
   @override
   Widget build(BuildContext context) {
-    _userProvider = Provider.of<UserProvider>(context, listen: false);
-
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
     return Scaffold(
