@@ -27,16 +27,42 @@ class Profile extends StatelessWidget {
     String followerStr = follower.toString();
     ProfileProvider profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
-
+    final screenWidth = MediaQuery.of(context).size.width;
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     return Row(
       children: [
         (uploadedImage == null)
             ? (userimg != null)
-                ? CircleAvatar(
-                    //유저 프로필 이미지
-                    radius: 55,
-                    backgroundImage: NetworkImage('$baseUrl$userimg'))
+                ? InkWell(
+                    onLongPress: () {
+                      // _showProfileImg(BuildContext context) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: SizedBox(
+                              width: screenWidth * 0.7,
+                              height: screenWidth * 0.7,
+                              child: Image.network('$baseUrl$userimg'),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // 다이얼로그 닫기
+                                },
+                                child: const Text('닫기'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      // }
+                    },
+                    child: CircleAvatar(
+                        //유저 프로필 이미지
+                        radius: 55,
+                        backgroundImage: NetworkImage('$baseUrl$userimg')),
+                  )
                 : const CircleAvatar(
                     //디폴트 프로필 이미지
                     radius: 55,
