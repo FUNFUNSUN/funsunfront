@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
 
 class MySupportScreen extends StatelessWidget {
@@ -31,10 +30,9 @@ class MySupportScreen extends StatelessWidget {
                   width: sizeX,
                   height: sizeY,
                   child: FundingCard(
+                    fundingType: 'mySupport',
                     title: '서포트한 펀딩',
                     sizeX: sizeX,
-                    fetchFunding: (page) =>
-                        Funding.getJoinedFunding(page: page),
                   )),
             ),
           ],

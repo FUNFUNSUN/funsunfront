@@ -5,216 +5,231 @@ import 'package:provider/provider.dart';
 import '../models/funding_model.dart';
 import '../provider/fundings_provider.dart';
 import '../screens/funding_screen.dart';
+import 'loading_circle.dart';
 
-class FundingCard extends StatefulWidget {
+class FundingCard extends StatelessWidget {
   const FundingCard({
     super.key,
     required this.sizeX,
     required this.title,
-    required this.fetchFunding,
+    required this.fundingType,
+
+    ///'mySupport', 'myFunding', 'public', 'userFunding'
   });
-
-  final Future<List<FundingModel>> Function(String page) fetchFunding;
-
   final double sizeX;
   final String title;
-
-  @override
-  State<FundingCard> createState() => _FundingCardState();
-}
-
-class _FundingCardState extends State<FundingCard> {
-  final imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
-  late List<FundingModel> _fundings;
-  bool _isLoading = false;
-  int _currentPage = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    _fundings = [];
-    _isLoading = true;
-
-    _fetchData();
-  }
-
-  Future<void> _fetchData() async {
-    try {
-      final newFundings = await widget.fetchFunding(_currentPage.toString());
-      setState(() {
-        _fundings.addAll(newFundings);
-        _isLoading = false;
-        _currentPage++;
-      });
-    } catch (error) {
-      setState(() {
-        _isLoading = false;
-      });
-      print('Error fetching fundings: $error');
-    }
-  }
+  final String fundingType;
 
   @override
   Widget build(BuildContext context) {
+    const imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
     FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
-    return (_fundings.isNotEmpty)
-        ? NotificationListener<ScrollNotification>(
-            onNotification: (scrollInfo) {
-              if (!_isLoading &&
-                  scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent) {
-                _fetchData();
-                return true;
-              }
-              return false;
-            },
-            child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
-              itemCount: _fundings.length,
-              physics: const AlwaysScrollableScrollPhysics(),
 
-              // shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-                childAspectRatio: 1 / 1.6, //item 의 가로 1, 세로 1 의 비율
-                mainAxisSpacing: 10, //수평 Padding
-                crossAxisSpacing: 10,
+    Future<List<FundingModel>>? fetchFunding(String fundingType) {
+      switch (fundingType) {
+        case 'mySupport':
+          return fundingsProvider.joinedFundings;
+        case 'myFunding':
+          return fundingsProvider.myFundings;
+        case 'public':
+          return fundingsProvider.publicFundings;
+        case 'userFunding':
+          return fundingsProvider.myFundings;
+        default:
+          return Future<List<FundingModel>>.value([]);
+      }
+    }
+
+    return FutureBuilder<List<FundingModel>>(
+        future: fetchFunding(fundingType),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingCircle();
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                '$title이 없습니다.',
+                style: const TextStyle(
+                  fontSize: 13,
+                ),
               ),
-              itemBuilder: (BuildContext context, int index) {
-                //만료확인변수
-                final bool isExpired = DateTime.parse(_fundings[index].expireOn)
-                    .isBefore(DateTime.now());
-                return InkWell(
-                    onTap: () {
-                      fundingsProvider
-                          .getFundingDetail(_fundings[index].id.toString());
+            );
+          } else {
+            List<FundingModel> fundings = snapshot.data!;
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FundingScreen(
-                                  id: _fundings[index].id.toString(),
-                                )),
-                      );
+            return (fundings.isNotEmpty)
+                ? NotificationListener<ScrollNotification>(
+                    onNotification: (scrollInfo) {
+                      if (scrollInfo.metrics.pixels ==
+                          scrollInfo.metrics.maxScrollExtent) {
+                        return true;
+                      }
+                      return false;
                     },
-                    child: Stack(
-                      children: [
-                        Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 0,
-                                    blurRadius: 5.0,
-                                    offset: const Offset(1, .8))
-                              ]),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 8,
-                                child: SizedBox(
-                                  width: widget.sizeX,
-                                  child: FittedBox(
-                                    fit: BoxFit.cover,
-                                    child: (_fundings[index].image != null)
-                                        ? Image.network(
-                                            '$imgBaseUrl${_fundings[index].image}',
-                                            //펀딩이미지
+                    child: GridView.builder(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
+                      itemCount: fundings.length,
+                      physics: const AlwaysScrollableScrollPhysics(),
+
+                      // shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+                        childAspectRatio: 1 / 1.6, //item 의 가로 1, 세로 1 의 비율
+                        mainAxisSpacing: 10, //수평 Padding
+                        crossAxisSpacing: 10,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        //만료확인변수
+                        final bool isExpired =
+                            DateTime.parse(fundings[index].expireOn)
+                                .isBefore(DateTime.now());
+                        return InkWell(
+                            onTap: () {
+                              fundingsProvider.getFundingDetail(
+                                  fundings[index].id.toString());
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FundingScreen(
+                                          id: fundings[index].id.toString(),
+                                        )),
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                Container(
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 0,
+                                            blurRadius: 5.0,
+                                            offset: const Offset(1, .8))
+                                      ]),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        flex: 8,
+                                        child: SizedBox(
+                                          width: sizeX,
+                                          child: FittedBox(
                                             fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
-                                            'assets/images/default_funding.jpg',
-                                            fit: BoxFit.cover,
+                                            child:
+                                                (fundings[index].image != null)
+                                                    ? Image.network(
+                                                        '$imgBaseUrl${fundings[index].image}',
+                                                        //펀딩이미지
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : Image.asset(
+                                                        'assets/images/default_funding.jpg',
+                                                        fit: BoxFit.cover,
+                                                      ),
                                           ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          _fundings[index].title,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500),
                                         ),
-                                        Row(
-                                          children: [
-                                            Column(
+                                      ),
+                                      Expanded(
+                                        flex: 4,
+                                        child: Container(
+                                          color: Colors.white,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                const Text(
-                                                  '펀딩종료일',
-                                                  style: TextStyle(
-                                                    fontSize: 11,
-                                                  ),
-                                                ),
                                                 Text(
+                                                  fundings[index].title,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: const TextStyle(
-                                                    fontSize: 12,
-                                                  ),
-                                                  DateFormat.yMMMd('en_US')
-                                                      .format(DateTime.parse(
-                                                          _fundings[index]
-                                                              .expireOn)),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                                 ),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        const Text(
+                                                          '펀딩종료일',
+                                                          style: TextStyle(
+                                                            fontSize: 11,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 12,
+                                                          ),
+                                                          DateFormat.yMMMd(
+                                                                  'en_US')
+                                                              .format(DateTime
+                                                                  .parse(fundings[
+                                                                          index]
+                                                                      .expireOn)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )
                                               ],
                                             ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        (isExpired == true)
-                            ? Positioned(
-                                top: 5,
-                                right: 5,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Theme.of(context)
-                                          .primaryColorLight
-                                          .withOpacity(0.6)),
-                                  child: const Text(
-                                    '만료된 \n펀딩',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 10),
-                                  ),
-                                ))
-                            : const SizedBox(
-                                width: 10,
-                              ),
-                      ],
-                    ));
-              },
-            ),
-          )
-        : Center(
-            child: Text('${widget.title}이 없습니다.'),
-          );
+                                (isExpired == true)
+                                    ? Positioned(
+                                        top: 5,
+                                        right: 5,
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              color: Theme.of(context)
+                                                  .primaryColorLight
+                                                  .withOpacity(0.6)),
+                                          child: const Text(
+                                            '만료된 \n펀딩',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 10),
+                                          ),
+                                        ))
+                                    : const SizedBox(
+                                        width: 10,
+                                      ),
+                              ],
+                            ));
+                      },
+                    ),
+                  )
+                : Center(
+                    child: Text('$title이 없습니다.'),
+                  );
+          }
+        });
   }
 }

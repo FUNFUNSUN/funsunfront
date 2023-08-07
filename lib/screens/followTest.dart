@@ -3,6 +3,7 @@ import 'package:funsunfront/screens/userscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../models/account_model.dart';
+import '../provider/fundings_provider.dart';
 import '../provider/profile_provider.dart';
 import '../services/api_follow.dart';
 import '../widgets/loading_circle.dart';
@@ -14,8 +15,8 @@ class FollowTest extends StatefulWidget {
   _FollowTestState createState() => _FollowTestState();
 }
 
-// late UserProvider _userProvider;
 late ProfileProvider _profileProvider;
+late FundingsProvider _fundingsProvider;
 
 class _FollowTestState extends State<FollowTest>
     with SingleTickerProviderStateMixin {
@@ -44,6 +45,7 @@ class _FollowTestState extends State<FollowTest>
   @override
   Widget build(BuildContext context) {
     _profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    _fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -108,6 +110,8 @@ class FollowerWidget extends StatelessWidget {
                             onTap: () async {
                               final id = followerLists[index].id;
                               await _profileProvider.updateProfile(id);
+                              _fundingsProvider
+                                  .getMyfundings(_profileProvider.profile!.id);
                               if (context.mounted) {
                                 Navigator.push(
                                   context,
@@ -190,6 +194,8 @@ class FolloweeWidget extends StatelessWidget {
                             onTap: () async {
                               final id = followeeLists[index].id;
                               await _profileProvider.updateProfile(id);
+                              _fundingsProvider
+                                  .getMyfundings(_profileProvider.profile!.id);
                               if (context.mounted) {
                                 Navigator.push(
                                   context,

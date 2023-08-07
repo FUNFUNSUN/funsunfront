@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../services/api_funding.dart';
 import '../widgets/fundingcard.dart';
 
 class PublicScreen extends StatelessWidget {
@@ -32,10 +31,9 @@ class PublicScreen extends StatelessWidget {
                   width: sizeX,
                   height: sizeY,
                   child: FundingCard(
+                    fundingType: 'public',
                     title: '전체공개펀딩',
                     sizeX: sizeX,
-                    fetchFunding: (page) =>
-                        Funding.getPublicFunding(page: page),
                   )),
             ),
           ],

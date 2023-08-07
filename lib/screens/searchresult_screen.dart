@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/models/account_model.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/my_screen.dart';
@@ -32,8 +33,6 @@ class SearchBox extends StatefulWidget {
 }
 
 class _SearchBoxState extends State<SearchBox> {
-  List<dynamic> searchHistory = []; // 가상의 검색 기록 데이터
-
   final TextEditingController _searchController =
       TextEditingController(); // 검색어 입력을 제어하는 컨트롤러
 
@@ -89,6 +88,8 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: true);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: true);
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: true);
     List<Widget> data = [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 5),
@@ -115,6 +116,7 @@ class _SearchBoxState extends State<SearchBox> {
         child: InkWell(
           onTap: () async {
             await profileProvider.updateProfile(itm.id);
+            fundingsProvider.getMyfundings(itm.id);
             if (context.mounted) {
               if (userProvider.user!.id != itm.id) {
                 Navigator.push(
@@ -171,6 +173,8 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: false);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: false);
 
     Future searchUserFn(value) async {
       // 검색어 제출 시 동작할 코드 추가
@@ -253,6 +257,7 @@ class _SearchBoxState extends State<SearchBox> {
             if (widget.isSubmit && searchedUsers.isNotEmpty) //검색했고, 결과 있음
             {
               //검색결과
+
               return ListView.builder(
                   //검색결과가 있으면 이니까 검색결과
                   itemCount: searchedUsers.length,
@@ -297,8 +302,11 @@ class _SearchBoxState extends State<SearchBox> {
                           }
 
                           await profileProvider.updateProfile(user.id);
+
                           if (context.mounted) {
                             if (userProvider.user!.id != user.id) {
+                              fundingsProvider
+                                  .getMyfundings(profileProvider.profile!.id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -306,6 +314,8 @@ class _SearchBoxState extends State<SearchBox> {
                                 ),
                               );
                             } else {
+                              fundingsProvider
+                                  .getMyfundings(userProvider.user!.id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -354,7 +364,7 @@ class _SearchBoxState extends State<SearchBox> {
               return const Center(
                 child: Text('검색결과가 없습니다.'),
               );
-            } else if (searchHistory.isNotEmpty) //검색안했고 기록 있으면
+            } else if (historyList.isNotEmpty) //검색안했고 기록 있으면
             {
               //검색기록
               return Column(
