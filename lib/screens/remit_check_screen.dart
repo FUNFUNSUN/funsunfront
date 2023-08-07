@@ -200,6 +200,12 @@ class RemitCheckScreen extends StatelessWidget {
                             title: const Text('정말 펀딩하시겠습니까?'),
                             actions: [
                               TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('취소')),
+                              TextButton(
                                   onPressed: () async {
                                     // print('start');
                                     bool result = false;
@@ -271,12 +277,6 @@ class RemitCheckScreen extends StatelessWidget {
                                     }
                                   },
                                   child: const Text('확인')),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('취소')),
                             ],
                           );
                         });

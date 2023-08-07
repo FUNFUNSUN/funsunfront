@@ -71,7 +71,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
             index: _currentIndex,
             children: [
               ExploreScreen(),
-              const HomeScreen(),
+              HomeScreen(),
               MyScreen(),
             ],
           ),
