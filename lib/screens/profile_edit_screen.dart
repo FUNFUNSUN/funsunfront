@@ -95,17 +95,22 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     editData['bank_account'] = widget.origin.bankAccount;
     editData['image_delete'] = "";
 
-    if (widget.origin.bankAccount.toString() == "" ||
-        widget.origin.bankAccount.toString().isEmpty) {
+    if (widget.origin.bankAccount == null) {
       bankCompany = "";
       bankNumber = "";
     } else {
       String bank = widget.origin.bankAccount!;
       List splitBank = bank.split(' ');
-      bankCompany = splitBank[0];
-      tempBank = bankCompany!;
-      bankNumber = splitBank[1];
-      tempBankAccount = bankNumber!;
+      try {
+        bankCompany = splitBank[0];
+        tempBank = bankCompany!;
+        bankNumber = splitBank[1];
+        tempBankAccount = bankNumber!;
+      } catch (e) {
+        tempBank = "";
+        tempBankAccount = "";
+      }
+
       print(tempBank);
       print(tempBankAccount);
     }
