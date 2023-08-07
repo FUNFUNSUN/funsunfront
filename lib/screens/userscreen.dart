@@ -83,8 +83,6 @@ class UserScreen extends StatelessWidget {
                         FundingCardHorizon(
                           fundingType: 'userFunding',
                           sizeX: sizeX,
-                          // fetchFunding: (page) =>
-                          //     Funding.getUserFunding(page: page, id: id),
                           title: '${profileProvider.profile!.username}의 펀딩',
                         ),
                         /////////////////////////// 펀딩리스트END

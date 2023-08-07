@@ -279,11 +279,8 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                             );
-                          }, //함수,
+                          },
                           sizeX: screenWidth,
-                          //펀딩을 넘기는게 아니라 펀딩API 호출함수만 넘기면 됨
-                          // fetchFunding: (page) =>
-                          //     Funding.getPublicFunding(page: page),
                           title: '     전체공개펀딩'),
                     ),
                     Container(

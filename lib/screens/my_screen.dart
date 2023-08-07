@@ -158,15 +158,13 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MyFundingScreen(
+                                  builder: (context) => const MyFundingScreen(
                                     page: '1',
                                   ),
                                 ),
                               );
                             },
                             sizeX: sizeX,
-                            // fetchFunding: (page) => Funding.getUserFunding(
-                            //     page: page, id: _userProvider.user!.id),
                             title: '내 펀딩',
                           ),
                         ),
@@ -178,7 +176,6 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  //그냥 mySupportScreen 넣어도 되는게 fetchFunding따로 넣어줌
                                   builder: (context) => const MySupportScreen(
                                     page: '1',
                                   ),
@@ -186,8 +183,6 @@ class MyScreen extends StatelessWidget {
                               );
                             },
                             sizeX: sizeX,
-                            // fetchFunding: (page) =>
-                            //     Funding.getJoinedFunding(page: page),
                             title: '서포트한 펀딩',
                           ),
                         ),
