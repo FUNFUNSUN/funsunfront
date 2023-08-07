@@ -70,10 +70,10 @@ class UserScreen extends StatelessWidget {
                         ),
                         /////////////////////////내펀딩만들기 | 팔로우 버튼
                         FollowBtn(
-                            uid: profileProvider.profile!.id,
-                            currentuid: userProvider.user!.id,
-                            sizeX: sizeX),
-
+                          uid: profileProvider.profile!.id,
+                          currentuid: userProvider.user!.id,
+                          sizeX: sizeX,
+                        ),
                         const SizedBox(
                           height: 30,
                         ),
