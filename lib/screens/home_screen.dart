@@ -4,7 +4,6 @@ import 'package:funsunfront/widgets/fundingcard_horizon.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/fundings_provider.dart';
-import '../services/api_funding.dart';
 import 'funding_create_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -270,6 +269,7 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       color: Colors.white,
                       child: FundingCardHorizon(
+                          fundingType: 'public',
                           routeFunction: () {
                             Navigator.push(
                               context,
@@ -282,8 +282,8 @@ class HomeScreen extends StatelessWidget {
                           }, //함수,
                           sizeX: screenWidth,
                           //펀딩을 넘기는게 아니라 펀딩API 호출함수만 넘기면 됨
-                          fetchFunding: (page) =>
-                              Funding.getPublicFunding(page: page),
+                          // fetchFunding: (page) =>
+                          //     Funding.getPublicFunding(page: page),
                           title: '     전체공개펀딩'),
                     ),
                     Container(

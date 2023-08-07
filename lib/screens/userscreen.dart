@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/services/api_follow.dart';
-import 'package:funsunfront/services/api_funding.dart';
 import 'package:funsunfront/widgets/bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -78,9 +77,10 @@ class UserScreen extends StatelessWidget {
                           height: 30,
                         ),
                         FundingCardHorizon(
+                          fundingType: 'userFunding',
                           sizeX: sizeX,
-                          fetchFunding: (page) =>
-                              Funding.getUserFunding(page: page, id: id),
+                          // fetchFunding: (page) =>
+                          //     Funding.getUserFunding(page: page, id: id),
                           title: '${profileProvider.profile!.username}의 펀딩',
                         ),
                         /////////////////////////// 펀딩리스트END
