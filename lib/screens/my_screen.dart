@@ -39,6 +39,7 @@ class MyScreen extends StatelessWidget {
     _userProvider = Provider.of<UserProvider>(context, listen: true);
     _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
     final sizeX = MediaQuery.of(context).size.width;
+    int sunCnt = 0;
     // final sizeY = MediaQuery.of(context).size.height;
 
     void logout() async {
@@ -238,6 +239,7 @@ class MyScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Row(
+                            //로그아웃 및 탈퇴
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               InkWell(
@@ -262,6 +264,51 @@ class MyScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              IconButton(
+                                  onPressed: () {
+                                    if (sunCnt < 4) {
+                                      sunCnt++;
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(
+                                                  width: sizeX * 0.7,
+                                                  child: Image.network(
+                                                      'https://blogpfthumb-phinf.pstatic.net/MjAyMzAxMTdfMjIx/MDAxNjczOTQ1NDc2MzE5.bWG6m1D4IPYP9Vt6UWjzHB5N49V6OR4tYAsBzto7-rkg.R6Vff_l6qAilZIpiFd_uIe-2fj6z92zMXrSTcPwxLlog.PNG.7116won/profileImage.png'),
+                                                ),
+                                                const Text(
+                                                  '원윤선.. 그녀는 2주사이\n미친 성장을 보여주었다.\n나는 그대가 자랑스럽다.',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // 다이얼로그 닫기
+                                                },
+                                                child: const Text('닫기'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                  icon: const Icon(
+                                    Icons.question_mark,
+                                    size: 15,
+                                    color: Colors.white,
+                                  )),
                               InkWell(
                                 onTap: () async {
                                   Navigator.push(

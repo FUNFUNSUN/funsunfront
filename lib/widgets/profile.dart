@@ -35,7 +35,6 @@ class Profile extends StatelessWidget {
             ? (userimg != null)
                 ? InkWell(
                     onLongPress: () {
-                      // _showProfileImg(BuildContext context) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -56,7 +55,6 @@ class Profile extends StatelessWidget {
                           );
                         },
                       );
-                      // }
                     },
                     child: CircleAvatar(
                         //유저 프로필 이미지
