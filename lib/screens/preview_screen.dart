@@ -76,7 +76,7 @@ class PreviewScreen extends StatelessWidget {
                           image: FileImage(image!),
                           fit: BoxFit.cover,
                         )
-                      : Image.asset('assets/images/default_profile.jpg',
+                      : Image.asset('assets/images/default_funding.jpg',
                           fit: BoxFit.cover),
                 ),
                 const SizedBox(

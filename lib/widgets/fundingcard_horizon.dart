@@ -31,19 +31,16 @@ class FundingCardHorizon extends StatelessWidget {
         Provider.of<FundingsProvider>(context, listen: true);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+
     Future<List<FundingModel>>? fetchFunding(String fundingType) {
       switch (fundingType) {
         case 'mySupport':
-          fundingsProvider.getJoinedfundings();
           return fundingsProvider.joinedFundings;
         case 'myFunding':
-          fundingsProvider.getMyfundings(userProvider.user!.id);
           return fundingsProvider.myFundings;
         case 'public':
-          fundingsProvider.getPublicFundings();
           return fundingsProvider.publicFundings;
         case 'userFunding':
-          fundingsProvider.getMyfundings(profileProvider.profile!.id);
           return fundingsProvider.myFundings;
         default:
           return Future<List<FundingModel>>.value([]);
