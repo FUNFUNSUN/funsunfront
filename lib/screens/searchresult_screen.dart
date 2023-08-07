@@ -33,8 +33,6 @@ class SearchBox extends StatefulWidget {
 }
 
 class _SearchBoxState extends State<SearchBox> {
-  List<dynamic> searchHistory = []; // 가상의 검색 기록 데이터
-
   final TextEditingController _searchController =
       TextEditingController(); // 검색어 입력을 제어하는 컨트롤러
 
@@ -259,6 +257,7 @@ class _SearchBoxState extends State<SearchBox> {
             if (widget.isSubmit && searchedUsers.isNotEmpty) //검색했고, 결과 있음
             {
               //검색결과
+
               return ListView.builder(
                   //검색결과가 있으면 이니까 검색결과
                   itemCount: searchedUsers.length,
@@ -365,7 +364,7 @@ class _SearchBoxState extends State<SearchBox> {
               return const Center(
                 child: Text('검색결과가 없습니다.'),
               );
-            } else if (searchHistory.isNotEmpty) //검색안했고 기록 있으면
+            } else if (historyList.isNotEmpty) //검색안했고 기록 있으면
             {
               //검색기록
               return Column(
