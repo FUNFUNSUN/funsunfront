@@ -38,22 +38,12 @@ class _FundingCardHorizonState extends State<FundingCardHorizon> {
   }
 
   Future<void> _fetchData() async {
-    try {
-      FundingsProvider fundingsProvider =
-          Provider.of<FundingsProvider>(context, listen: true);
-      fundingsProvider.getPublicFundings();
-      final newFundings = await widget.fetchFunding(_currentPage.toString());
-      setState(() {
-        _fundings.addAll(newFundings);
-        _isLoading = false;
-        _currentPage++;
-      });
-    } catch (error) {
-      setState(() {
-        _isLoading = false;
-      });
-      print('Error fetching fundings: $error');
-    }
+    final newFundings = await widget.fetchFunding(_currentPage.toString());
+    setState(() {
+      _fundings.addAll(newFundings);
+      _isLoading = false;
+      _currentPage++;
+    });
   }
 
   @override
