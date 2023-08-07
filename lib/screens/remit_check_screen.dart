@@ -162,7 +162,7 @@ class RemitCheckScreen extends StatelessWidget {
                   height: 20,
                 ),
                 const Text(
-                  '내가 펀딩할 금액',
+                  '내가 서포트할 금액',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 const Text(
@@ -192,12 +192,11 @@ class RemitCheckScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    print('tap');
                     showDialog(
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text('정말 펀딩하시겠습니까?'),
+                            title: const Text('정말 서포트하시겠습니까?'),
                             actions: [
                               TextButton(
                                   onPressed: () {

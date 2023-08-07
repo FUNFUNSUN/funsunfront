@@ -469,10 +469,6 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                             'expire_on': tempDate.toIso8601String(),
                             'public': tempPublicBool
                           };
-                          print(tempDate);
-
-                          print('API 호출은 됐음');
-                          // print(postResult);
 
                           Navigator.push(
                             context,

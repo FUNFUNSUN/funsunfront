@@ -25,6 +25,7 @@ const List<Widget> _publics = <Widget>[
 
 class _FundingEditScreen extends State<FundingEditScreen> {
   File? editImage;
+  bool imgdel = false;
 
   late final List<bool> _selectedPublic =
       widget.origin.public! == true ? <bool>[true, false] : <bool>[false, true];
@@ -177,6 +178,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
+                                      imgdel = false;
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute<void>(
@@ -226,6 +228,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                             children: [
                               IconButton(
                                 onPressed: () {
+                                  imgdel = false;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute<void>(
@@ -242,6 +245,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                               ),
                               IconButton(
                                 onPressed: () {
+                                  imgdel = true;
                                   originImage = null;
                                   editImage = null;
                                   setState(() {
@@ -371,7 +375,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {
-                      if (editImage == null && originImage == null) {
+                      if (imgdel) {
                         editData['image_delete'] = 'delete';
                       }
                       bool tempPublicBool = widget.origin.public!
@@ -382,10 +386,6 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                               ? false
                               : true;
                       editData['public'] = tempPublicBool;
-
-                      print(editData);
-                      print('edit데이터id =${editData['id']}');
-                      print(widget.origin.id);
 
                       if (editData['text'].toString().length > 20 ||
                           editData['text'].toString().length < 2) {
@@ -435,7 +435,6 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                                                 editData: editData,
                                                 image: editImage);
 
-                                        print('put요청 이후');
                                         fundingsProvider.getFundingDetail(
                                             widget.origin.id.toString());
                                         fundingsProvider.getMyfundings(

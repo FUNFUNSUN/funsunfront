@@ -25,7 +25,7 @@ class PreviewScreen extends StatelessWidget {
     //print('펀딩시간 ${DateTime.parse(temp['expire_on'])}');
 
     final ex =
-        DateTime.parse(temp['expire_on']).difference(KoreaDateTime).toString();
+        DateTime.parse(temp['expire_on']).difference(DateTime.now()).toString();
 
     int tempDifference = int.parse((ex.substring(0, ex.indexOf(':'))));
 

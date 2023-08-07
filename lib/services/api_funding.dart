@@ -163,6 +163,8 @@ class Funding {
     req.fields['public'] = jsonEncode(editData['public']);
     req.fields['image_delete'] = editData['image_delete'];
 
+    print(editData['title']);
+
     if (image != null) {
       req.files.add(await http.MultipartFile.fromPath('image', image.path));
     }
@@ -172,7 +174,7 @@ class Funding {
     print(response.statusCode);
     if (response.statusCode == 200) {
       Map<String, dynamic> resBodyJson = jsonDecode(response.body);
-
+      print(resBodyJson);
       return resBodyJson;
     } else if (response.statusCode == 401) {
       await User.refreshToken();
