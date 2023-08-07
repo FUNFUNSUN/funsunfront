@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/funding_model.dart';
+import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,8 @@ class FundingCardHorizon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
+    ProfileProvider profileProvider =
+        Provider.of<ProfileProvider>(context, listen: true);
     FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
     UserProvider userProvider =
@@ -39,6 +42,9 @@ class FundingCardHorizon extends StatelessWidget {
         case 'public':
           fundingsProvider.getPublicFundings();
           return fundingsProvider.publicFundings;
+        case 'userFunding':
+          fundingsProvider.getMyfundings(profileProvider.profile!.id);
+          return fundingsProvider.myFundings;
         default:
           return Future<List<FundingModel>>.value([]);
       }
