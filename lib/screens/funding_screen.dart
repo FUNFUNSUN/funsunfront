@@ -95,6 +95,9 @@ class FundingScreen extends StatelessWidget {
                                       _userProvider.user!.id) {
                                     await _profileProvider
                                         .updateProfile(funding.author!['id']);
+                                    //해당 유저의 펀딩
+                                    _fundingsProvider
+                                        .getMyfundings(funding.author!['id']);
                                     if (context.mounted) {
                                       Navigator.push(
                                         context,
@@ -394,7 +397,11 @@ class FundingScreen extends StatelessWidget {
                                                                         remit
                                                                             .author
                                                                             .id);
-
+                                                                _fundingsProvider
+                                                                    .getMyfundings(
+                                                                        remit
+                                                                            .author
+                                                                            .id);
                                                                 if (context
                                                                     .mounted) {
                                                                   Navigator

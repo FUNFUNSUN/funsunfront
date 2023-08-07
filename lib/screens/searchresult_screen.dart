@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:funsunfront/models/account_model.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/my_screen.dart';
@@ -89,6 +90,8 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: true);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: true);
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: true);
     List<Widget> data = [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 5),
@@ -115,6 +118,7 @@ class _SearchBoxState extends State<SearchBox> {
         child: InkWell(
           onTap: () async {
             await profileProvider.updateProfile(itm.id);
+            fundingsProvider.getMyfundings(itm.id);
             if (context.mounted) {
               if (userProvider.user!.id != itm.id) {
                 Navigator.push(
@@ -171,6 +175,8 @@ class _SearchBoxState extends State<SearchBox> {
         Provider.of<ProfileProvider>(context, listen: false);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: false);
 
     Future searchUserFn(value) async {
       // 검색어 제출 시 동작할 코드 추가
@@ -297,8 +303,11 @@ class _SearchBoxState extends State<SearchBox> {
                           }
 
                           await profileProvider.updateProfile(user.id);
+
                           if (context.mounted) {
                             if (userProvider.user!.id != user.id) {
+                              fundingsProvider
+                                  .getMyfundings(profileProvider.profile!.id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -306,6 +315,8 @@ class _SearchBoxState extends State<SearchBox> {
                                 ),
                               );
                             } else {
+                              fundingsProvider
+                                  .getMyfundings(userProvider.user!.id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

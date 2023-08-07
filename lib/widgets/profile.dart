@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,8 @@ class Profile extends StatelessWidget {
     String followerStr = follower.toString();
     ProfileProvider profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
+    FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: false);
     final screenWidth = MediaQuery.of(context).size.width;
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     return Row(
@@ -89,6 +92,8 @@ class Profile extends StatelessWidget {
                     onTap: () async {
                       // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
                       await profileProvider.updateProfile(uid);
+                      fundingsProvider
+                          .getMyfundings(profileProvider.profile!.id);
                       if (context.mounted) {
                         Navigator.push(
                           context,
@@ -118,6 +123,8 @@ class Profile extends StatelessWidget {
                   onTap: () async {
                     // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
                     await profileProvider.updateProfile(uid);
+                    fundingsProvider.getMyfundings(profileProvider.profile!.id);
+
                     if (context.mounted) {
                       Navigator.push(
                         context,

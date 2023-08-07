@@ -5,6 +5,7 @@ import 'package:funsunfront/services/api_follow.dart';
 import 'package:funsunfront/widgets/bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 
+import '../provider/fundings_provider.dart';
 import '../widgets/fundingcard_horizon.dart';
 import '../widgets/profile.dart';
 import '../widgets/report_icon.dart';
@@ -18,10 +19,12 @@ class UserScreen extends StatelessWidget {
 
   late UserProvider userProvider;
   late ProfileProvider profileProvider;
+  late FundingsProvider fundingsProvider;
 
   Future<void> refreshFunction() async {
     userProvider.updateUser();
     profileProvider.updateProfile(profileProvider.profile!.id);
+    fundingsProvider.getMyfundings(profileProvider.profile!.id);
     print('refreshed');
   }
 
@@ -29,6 +32,7 @@ class UserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context, listen: true);
     profileProvider = Provider.of<ProfileProvider>(context, listen: true);
+    fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
 
     final sizeX = MediaQuery.of(context).size.width;
     // final sizeY = MediaQuery.of(context).size.height;
