@@ -110,8 +110,8 @@ class FollowerWidget extends StatelessWidget {
                             onTap: () async {
                               final id = followerLists[index].id;
                               await _profileProvider.updateProfile(id);
-                              _fundingsProvider
-                                  .getMyfundings(_profileProvider.profile!.id);
+                              _fundingsProvider.getMyfundings(
+                                  _profileProvider.profile!.id, 1);
                               if (context.mounted) {
                                 Navigator.push(
                                   context,
@@ -196,8 +196,8 @@ class FolloweeWidget extends StatelessWidget {
                             onTap: () async {
                               final id = followeeLists[index].id;
                               await _profileProvider.updateProfile(id);
-                              _fundingsProvider
-                                  .getMyfundings(_profileProvider.profile!.id);
+                              _fundingsProvider.getMyfundings(
+                                  _profileProvider.profile!.id, 1);
                               if (context.mounted) {
                                 Navigator.push(
                                   context,

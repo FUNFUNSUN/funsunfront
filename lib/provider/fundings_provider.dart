@@ -19,23 +19,23 @@ class FundingsProvider extends ChangeNotifier {
   Future<FundingModel>? _fundingDetail;
   Future<FundingModel>? get fundingDetail => _fundingDetail;
 
-  void getMyfundings(String uid) {
-    _myFundings = Funding.getUserFunding(page: '1', id: uid);
+  void getMyfundings(String uid, int page) {
+    _myFundings = Funding.getUserFunding(page: page.toString(), id: uid);
     notifyListeners();
   }
 
-  void getJoinedfundings() {
-    _joinedFundings = Funding.getJoinedFunding(page: '1');
+  void getJoinedfundings(int page) {
+    _joinedFundings = Funding.getJoinedFunding(page: page.toString());
     notifyListeners();
   }
 
-  void getPublicFundings() {
-    _publicFundings = Funding.getPublicFunding(page: '1');
+  void getPublicFundings(int page) {
+    _publicFundings = Funding.getPublicFunding(page: page.toString());
     notifyListeners();
   }
 
-  void getFriendFundings() {
-    _friendFundings = Funding.getFriendFunding(page: '1');
+  void getFriendFundings(int page) {
+    _friendFundings = Funding.getFriendFunding(page: page.toString());
     notifyListeners();
   }
 

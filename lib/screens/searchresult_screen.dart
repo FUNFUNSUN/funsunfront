@@ -116,7 +116,7 @@ class _SearchBoxState extends State<SearchBox> {
         child: InkWell(
           onTap: () async {
             await profileProvider.updateProfile(itm.id);
-            fundingsProvider.getMyfundings(itm.id);
+            fundingsProvider.getMyfundings(itm.id, 1);
             if (context.mounted) {
               if (userProvider.user!.id != itm.id) {
                 Navigator.push(
@@ -307,8 +307,8 @@ class _SearchBoxState extends State<SearchBox> {
 
                           if (context.mounted) {
                             if (userProvider.user!.id != user.id) {
-                              fundingsProvider
-                                  .getMyfundings(profileProvider.profile!.id);
+                              fundingsProvider.getMyfundings(
+                                  profileProvider.profile!.id, 1);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -316,8 +316,8 @@ class _SearchBoxState extends State<SearchBox> {
                                 ),
                               );
                             } else {
-                              fundingsProvider
-                                  .getMyfundings(userProvider.user!.id);
+                              fundingsProvider.getMyfundings(
+                                  userProvider.user!.id, 1);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

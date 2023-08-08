@@ -15,8 +15,8 @@ class ExploreScreen extends StatelessWidget {
   var historyList = ListQueue();
 
   Future<void> refreshFunction() async {
-    fundingsProvider.getPublicFundings();
-    fundingsProvider.getJoinedfundings();
+    fundingsProvider.getPublicFundings(1);
+    fundingsProvider.getJoinedfundings(1);
     print('refreshed');
   }
 

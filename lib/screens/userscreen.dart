@@ -24,7 +24,7 @@ class UserScreen extends StatelessWidget {
   Future<void> refreshFunction() async {
     userProvider.updateUser();
     profileProvider.updateProfile(profileProvider.profile!.id);
-    fundingsProvider.getMyfundings(profileProvider.profile!.id);
+    fundingsProvider.getMyfundings(profileProvider.profile!.id, 1);
     print('refreshed');
   }
 

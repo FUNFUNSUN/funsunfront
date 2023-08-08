@@ -306,7 +306,7 @@ class _ReviewScreen extends State<ReviewScreen> {
                                         fundingsProvider.getFundingDetail(
                                             widget.origin.id.toString());
                                         fundingsProvider.getMyfundings(
-                                            widget.origin.author!['id']);
+                                            widget.origin.author!['id'], 1);
                                         if (context.mounted) {
                                           Navigator.pop(context);
                                           Navigator.pop(context);

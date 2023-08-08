@@ -134,12 +134,13 @@ class PreviewScreen extends StatelessWidget {
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);
                           // 내 펀딩 목록에 추가해주고
-                          fundingsProvider.getMyfundings(userProvider.user!.id);
+                          fundingsProvider.getMyfundings(
+                              userProvider.user!.id, 1);
                           // 펀딩 상세 페이지에도 추가해줌
                           fundingsProvider
                               .getFundingDetail(postResult['id'].toString());
                           // 전체공개 펀딩 목록에도 추가해줌
-                          fundingsProvider.getPublicFundings();
+                          fundingsProvider.getPublicFundings(1);
                           Navigator.push(
                             context,
                             MaterialPageRoute(

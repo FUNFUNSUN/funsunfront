@@ -8,7 +8,7 @@ import '../screens/funding_screen.dart';
 import 'loading_circle.dart';
 
 class FundingCard extends StatelessWidget {
-  const FundingCard({
+  FundingCard({
     super.key,
     required this.sizeX,
     required this.title,
@@ -19,6 +19,7 @@ class FundingCard extends StatelessWidget {
   final double sizeX;
   final String title;
   final String fundingType;
+  int page = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +78,6 @@ class FundingCard extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
                       itemCount: fundings.length,
                       physics: const AlwaysScrollableScrollPhysics(),
-
-                      // shrinkWrap: true,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, //1 개의 행에 보여줄 item 개수

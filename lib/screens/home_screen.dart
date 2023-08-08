@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   late FundingsProvider fundingsProvider;
 
   Future<void> refreshFunction() async {
-    fundingsProvider.getFriendFundings();
+    fundingsProvider.getFriendFundings(1);
     print('refreshed');
   }
 

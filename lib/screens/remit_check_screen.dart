@@ -240,7 +240,7 @@ class RemitCheckScreen extends StatelessWidget {
                                               fundingsProvider.getFundingDetail(
                                                   remitMap['funding']),
                                               fundingsProvider
-                                                  .getJoinedfundings(),
+                                                  .getJoinedfundings(1),
                                               Navigator.pop(context),
                                               Navigator.pop(context),
                                               Navigator.pop(context),

@@ -92,8 +92,8 @@ class Profile extends StatelessWidget {
                     onTap: () async {
                       // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
                       await profileProvider.updateProfile(uid);
-                      fundingsProvider
-                          .getMyfundings(profileProvider.profile!.id);
+                      fundingsProvider.getMyfundings(
+                          profileProvider.profile!.id, 1);
                       if (context.mounted) {
                         Navigator.push(
                           context,
@@ -123,7 +123,8 @@ class Profile extends StatelessWidget {
                   onTap: () async {
                     // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
                     await profileProvider.updateProfile(uid);
-                    fundingsProvider.getMyfundings(profileProvider.profile!.id);
+                    fundingsProvider.getMyfundings(
+                        profileProvider.profile!.id, 1);
 
                     if (context.mounted) {
                       Navigator.push(

@@ -38,10 +38,10 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
       user = await User.accessTokenLogin();
       _userProvider.setLogin("logged");
       _userProvider.setUser(user);
-      _fundingsProvider.getMyfundings(_userProvider.user!.id);
-      _fundingsProvider.getJoinedfundings();
-      _fundingsProvider.getPublicFundings();
-      _fundingsProvider.getFriendFundings();
+      _fundingsProvider.getMyfundings(_userProvider.user!.id, 1);
+      _fundingsProvider.getJoinedfundings(1);
+      _fundingsProvider.getPublicFundings(1);
+      _fundingsProvider.getFriendFundings(1);
 
       print(await _fundingsProvider.friendFundings);
       _profileProvider.updateProfile(_userProvider.user!.id);
@@ -87,11 +87,11 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
                 _currentIndex = index;
               });
               if (index == 0) {
-                _fundingsProvider.getPublicFundings();
-                _fundingsProvider.getJoinedfundings();
+                _fundingsProvider.getPublicFundings(1);
+                _fundingsProvider.getJoinedfundings(1);
               }
               if (index == 1) {
-                _fundingsProvider.getFriendFundings();
+                _fundingsProvider.getFriendFundings(1);
               }
               if (index == 2) {
                 await _profileProvider.updateProfile(_userProvider.user!.id);
