@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/widgets/fundingcardTest.dart';
+import 'package:provider/provider.dart';
 
 class AllFundingsScreen extends StatelessWidget {
   const AllFundingsScreen({
@@ -17,6 +19,7 @@ class AllFundingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final sizeX = MediaQuery.of(context).size.width;
     final sizeY = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 50, left: 15, right: 15),

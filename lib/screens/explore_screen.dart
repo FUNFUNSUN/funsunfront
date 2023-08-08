@@ -91,6 +91,7 @@ class ExploreScreen extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
+                          fundingsProvider.clearAllFundings();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -237,6 +238,7 @@ class ExploreScreen extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
+                          fundingsProvider.clearAllFundings();
                           Navigator.push(
                             context,
                             MaterialPageRoute(

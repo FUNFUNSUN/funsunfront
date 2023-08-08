@@ -273,7 +273,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AllFundingsScreen(
+                                builder: (context) => AllFundingsScreen(
                                   title: '친구들의 펀딩',
                                   fundingType: 'friendFunding',
                                   page: '1',

@@ -70,6 +70,13 @@ class FundingCard extends StatelessWidget {
                     onNotification: (scrollInfo) {
                       if (scrollInfo.metrics.pixels ==
                           scrollInfo.metrics.maxScrollExtent) {
+                        page++;
+
+                        fundingsProvider.getPublicFundings(1);
+
+                        fundingsProvider.setAllFundings(() {
+                          fundingsProvider.getPublicFundings(page);
+                        });
                         return true;
                       }
                       return false;

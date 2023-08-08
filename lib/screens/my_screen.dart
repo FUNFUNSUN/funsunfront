@@ -157,7 +157,7 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const AllFundingsScreen(
+                                  builder: (context) => AllFundingsScreen(
                                     title: '내 펀딩',
                                     fundingType: 'myFunding',
                                     page: '1',
@@ -177,7 +177,7 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const AllFundingsScreen(
+                                  builder: (context) => AllFundingsScreen(
                                     title: '서포트한 펀딩',
                                     fundingType: 'mySupport',
                                     page: '1',
