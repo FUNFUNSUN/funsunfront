@@ -269,7 +269,7 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       color: Colors.white,
                       child: FundingCardHorizon(
-                          fundingType: 'public',
+                          fundingType: 'friendFunding',
                           routeFunction: () {
                             Navigator.push(
                               context,
@@ -281,7 +281,7 @@ class HomeScreen extends StatelessWidget {
                             );
                           },
                           sizeX: screenWidth,
-                          title: '     전체공개펀딩'),
+                          title: '     친구들의 펀딩'),
                     ),
                     Container(
                       color: Colors.white,

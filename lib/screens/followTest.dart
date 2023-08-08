@@ -135,7 +135,9 @@ class FollowerWidget extends StatelessWidget {
                                       child: (followerLists[index].image !=
                                               null)
                                           ? Image.network(
-                                              '$baseurl${followerLists[index].image}')
+                                              '$baseurl${followerLists[index].image}',
+                                              fit: BoxFit.cover,
+                                            )
                                           : Image.asset(
                                               'assets/images/default_profile.jpg'),
                                     ),
@@ -219,7 +221,9 @@ class FolloweeWidget extends StatelessWidget {
                                       child: (followeeLists[index].image !=
                                               null)
                                           ? Image.network(
-                                              '$baseurl${followeeLists[index].image}')
+                                              '$baseurl${followeeLists[index].image}',
+                                              fit: BoxFit.cover,
+                                            )
                                           : Image.asset(
                                               'assets/images/default_profile.jpg'),
                                     ),

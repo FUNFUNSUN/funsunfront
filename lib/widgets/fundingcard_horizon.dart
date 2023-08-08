@@ -36,6 +36,8 @@ class FundingCardHorizon extends StatelessWidget {
           return fundingsProvider.publicFundings;
         case 'userFunding':
           return fundingsProvider.myFundings;
+        case 'friendFunding':
+          return fundingsProvider.friendFundings;
         default:
           return Future<List<FundingModel>>.value([]);
       }
