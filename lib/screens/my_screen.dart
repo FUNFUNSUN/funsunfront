@@ -260,53 +260,58 @@ class MyScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              IconButton(
-                                  onPressed: () {
-                                    if (sunCnt < 4) {
-                                      sunCnt++;
-                                    } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                SizedBox(
-                                                  width: sizeX * 0.9,
-                                                  child: Image.asset(
-                                                    'assets/images/kitty_thumbsup.png',
-                                                    fit: BoxFit.cover,
-                                                  ),
+                              InkWell(
+                                onLongPress: () {
+                                  if (sunCnt > 5) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              SizedBox(
+                                                width: sizeX * 0.9,
+                                                child: Image.asset(
+                                                  'assets/images/kitty_thumbsup.png',
+                                                  fit: BoxFit.cover,
                                                 ),
-                                                const Text(
-                                                  '원윤선.. 그녀는 2주사이\n미친 성장을 보여주었다.\n나는 그대가 자랑스럽다.',
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // 다이얼로그 닫기
-                                                },
-                                                child: const Text('닫기'),
+                                              ),
+                                              const Text(
+                                                '원윤선.. 그녀는 2주사이\n미친 성장을 보여주었다.\n나는 그대가 자랑스럽다.',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ],
-                                          );
-                                        },
-                                      );
-                                    }
-                                  },
-                                  icon: const Icon(
-                                    Icons.question_mark,
-                                    size: 15,
-                                    color: Colors.white,
-                                  )),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // 다이얼로그 닫기
+                                              },
+                                              child: const Text('닫기'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                },
+                                child: IconButton(
+                                    onPressed: () {
+                                      if (sunCnt < 4) {
+                                        sunCnt++;
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.question_mark,
+                                      size: 15,
+                                      color: Colors.white,
+                                    )),
+                              ),
                               InkWell(
                                 onTap: () async {
                                   Navigator.push(
