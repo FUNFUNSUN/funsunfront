@@ -4,7 +4,7 @@ class FundingModel {
   final bool? public;
   // true 전체공개
   final String title, expireOn;
-  final String? createdOn, content, image, review, reviewImage;
+  final String? createdOn, content, image, review, reviewImage, authorName;
   final Map<String, dynamic>? author;
 
   FundingModel.fromJson(Map<String, dynamic> json)
@@ -19,7 +19,8 @@ class FundingModel {
         image = json['image'],
         author = json['author'],
         review = json['review'],
-        reviewImage = json['review_image'];
+        reviewImage = json['review_image'],
+        authorName = json['author_name'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

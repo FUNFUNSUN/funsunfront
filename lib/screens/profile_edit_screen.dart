@@ -110,9 +110,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         tempBank = "";
         tempBankAccount = "";
       }
-
-      print(tempBank);
-      print(tempBankAccount);
     }
 
     if (widget.origin.birthday == null) {
@@ -129,8 +126,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('생일 ${widget.origin.birthday}');
-
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     _userProvider = Provider.of<UserProvider>(context, listen: false);
 
@@ -313,9 +308,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                     setImage: setImage,
                                   ),
                                 ),
-                              ).then((res) => setState(() {
-                                    widget.origin.image = null;
-                                  }));
+                              ).then((res) => setState(() {}));
                             },
                             icon: Icon(
                               color: Theme.of(context).primaryColor,

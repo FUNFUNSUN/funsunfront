@@ -94,7 +94,7 @@ class FundingCardTest extends StatelessWidget {
               itemCount: fundings.length,
               physics: const AlwaysScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+                crossAxisCount: 1, //1 개의 행에 보여줄 item 개수
                 childAspectRatio: 1 / 1.6, //item 의 가로 1, 세로 1 의 비율
                 mainAxisSpacing: 10, //수평 Padding
                 crossAxisSpacing: 10,
@@ -103,6 +103,7 @@ class FundingCardTest extends StatelessWidget {
                 //만료확인변수
                 final bool isExpired = DateTime.parse(fundings[index].expireOn)
                     .isBefore(DateTime.now());
+                final bool public = fundings[index].public!;
                 return InkWell(
                     onTap: () {
                       fundingsProvider
@@ -169,28 +170,38 @@ class FundingCardTest extends StatelessWidget {
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500),
                                         ),
-                                        Row(
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                            Row(
+                                              // mainAxisAlignment:
+                                              //     MainAxisAlignment.end,
                                               children: [
-                                                const Text(
-                                                  '펀딩종료일',
-                                                  style: TextStyle(
-                                                    fontSize: 11,
-                                                  ),
+                                                const Icon(
+                                                  Icons.person_outline_sharp,
+                                                  size: 17,
                                                 ),
                                                 Text(
-                                                  style: const TextStyle(
-                                                    fontSize: 12,
-                                                  ),
-                                                  DateFormat.yMMMd('en_US')
-                                                      .format(DateTime.parse(
-                                                          fundings[index]
-                                                              .expireOn)),
-                                                ),
+                                                    '${fundings[index].authorName}'),
                                               ],
+                                            ),
+                                            const SizedBox(
+                                              height: 2,
+                                            ),
+                                            const Text(
+                                              '펀딩종료일',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                              ),
+                                            ),
+                                            Text(
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                              ),
+                                              DateFormat.yMMMd('en_US').format(
+                                                  DateTime.parse(fundings[index]
+                                                      .expireOn)),
                                             ),
                                           ],
                                         )
@@ -202,30 +213,57 @@ class FundingCardTest extends StatelessWidget {
                             ],
                           ),
                         ),
-                        (isExpired == true)
-                            ? Positioned(
-                                top: 5,
-                                right: 5,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Theme.of(context)
-                                          .primaryColorLight
-                                          .withOpacity(0.6)),
-                                  child: const Text(
-                                    '만료된 \n펀딩',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 10),
-                                  ),
-                                ))
-                            : const SizedBox(
-                                width: 10,
-                              ),
+                        Positioned(
+                          top: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                (public == true)
+                                    ? const SizedBox()
+                                    : Container(
+                                        alignment: Alignment.center,
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            //윤선아
+                                            color: Colors.lightBlue.shade200
+                                                .withOpacity(0.6)),
+                                        child: const Text(
+                                          '친구의\n비밀펀딩',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 10),
+                                        ),
+                                      ),
+                                (isExpired == true)
+                                    ? Container(
+                                        alignment: Alignment.center,
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: Theme.of(context)
+                                                .primaryColorLight
+                                                .withOpacity(0.6)),
+                                        child: const Text(
+                                          '만료된 \n펀딩',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 10),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ],
+                            ),
+                          ),
+                        )
                       ],
                     ));
               },

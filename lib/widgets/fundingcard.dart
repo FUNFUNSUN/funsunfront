@@ -97,6 +97,7 @@ class FundingCard extends StatelessWidget {
                         final bool isExpired =
                             DateTime.parse(fundings[index].expireOn)
                                 .isBefore(DateTime.now());
+
                         return InkWell(
                             onTap: () {
                               fundingsProvider.getFundingDetail(
@@ -195,7 +196,7 @@ class FundingCard extends StatelessWidget {
                                                       ],
                                                     ),
                                                   ],
-                                                )
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -204,31 +205,6 @@ class FundingCard extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                (isExpired == true)
-                                    ? Positioned(
-                                        top: 5,
-                                        right: 5,
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: Theme.of(context)
-                                                  .primaryColorLight
-                                                  .withOpacity(0.6)),
-                                          child: const Text(
-                                            '만료된 \n펀딩',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 10),
-                                          ),
-                                        ))
-                                    : const SizedBox(
-                                        width: 10,
-                                      ),
                               ],
                             ));
                       },

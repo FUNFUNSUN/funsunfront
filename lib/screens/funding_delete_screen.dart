@@ -166,23 +166,27 @@ class FundingDeleteScreen extends StatelessWidget {
                   },
                   child: Center(
                     child: Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(15)),
-                        width: 400,
-                        height: 50,
-                        child: const Center(
-                          child: Text(
-                            '삭제하기',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20,
-                                color: Colors.white),
-                          ),
-                        )),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(15)),
+                      width: 400,
+                      height: 50,
+                      child: const Center(
+                        child: Text(
+                          '삭제하기',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 30,
+              )
             ]),
           ),
         ),
