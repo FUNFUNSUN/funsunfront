@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../widgets/fundingcard.dart';
 
-class FriendFundingScreen extends StatelessWidget {
-  const FriendFundingScreen({super.key, this.page = '1'});
+class AllFundingsScreen extends StatelessWidget {
+  const AllFundingsScreen({
+    super.key,
+    this.page = '1',
+    required this.title,
+    required this.fundingType,
+  });
 
   final String page;
+  final String title;
+  final String fundingType;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +24,9 @@ class FriendFundingScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '친구들의 펀딩',
-              style: TextStyle(
+            Text(
+              title,
+              style: const TextStyle(
                 fontSize: 20,
               ),
             ),
@@ -31,8 +38,8 @@ class FriendFundingScreen extends StatelessWidget {
                   width: sizeX,
                   height: sizeY,
                   child: FundingCard(
-                    fundingType: 'friendFunding',
-                    title: '친구들의 펀딩',
+                    fundingType: fundingType,
+                    title: title,
                     sizeX: sizeX,
                   )),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:funsunfront/screens/all_fundings_screen.dart';
 import 'package:funsunfront/screens/dropout_confirm_screen.dart';
 import 'package:funsunfront/screens/funding_create_screen.dart';
 import 'package:funsunfront/screens/faq_screen.dart';
@@ -11,8 +12,6 @@ import '../provider/fundings_provider.dart';
 import '../provider/profile_provider.dart';
 import '../provider/user_provider.dart';
 import '../widgets/fundingcard_horizon.dart';
-import 'myfunding_screen.dart';
-import 'mysupport_screen.dart';
 
 // ignore: must_be_immutable
 class MyScreen extends StatelessWidget {
@@ -158,7 +157,9 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const MyFundingScreen(
+                                  builder: (context) => const AllFundingsScreen(
+                                    title: '내 펀딩',
+                                    fundingType: 'myFunding',
                                     page: '1',
                                   ),
                                 ),
@@ -176,7 +177,9 @@ class MyScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const MySupportScreen(
+                                  builder: (context) => const AllFundingsScreen(
+                                    title: '서포트한 펀딩',
+                                    fundingType: 'mySupport',
                                     page: '1',
                                   ),
                                 ),

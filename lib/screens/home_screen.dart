@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:funsunfront/screens/friend_funding_screen.dart';
+import 'package:funsunfront/screens/all_fundings_screen.dart';
 import 'package:funsunfront/widgets/fundingcard_horizon.dart';
 import 'package:provider/provider.dart';
-
 import '../provider/fundings_provider.dart';
 import 'funding_create_screen.dart';
 
@@ -274,7 +273,9 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const FriendFundingScreen(
+                                builder: (context) => const AllFundingsScreen(
+                                  title: '친구들의 펀딩',
+                                  fundingType: 'friendFunding',
                                   page: '1',
                                 ),
                               ),

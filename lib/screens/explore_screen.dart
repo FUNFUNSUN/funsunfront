@@ -2,12 +2,11 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
+import 'package:funsunfront/screens/all_fundings_screen.dart';
 import 'package:funsunfront/screens/funding_screen.dart';
-import 'package:funsunfront/screens/public_screen.dart';
+
 import 'package:funsunfront/screens/searchresult_screen.dart';
 import 'package:provider/provider.dart';
-
-import 'mysupport_screen.dart';
 
 class ExploreScreen extends StatelessWidget {
   ExploreScreen({super.key});
@@ -95,7 +94,9 @@ class ExploreScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PublicScreen(
+                                builder: (context) => const AllFundingsScreen(
+                                      title: '전체공개펀딩',
+                                      fundingType: 'public',
                                       page: '1',
                                     )),
                           );
@@ -239,7 +240,9 @@ class ExploreScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const MySupportScreen(
+                                builder: (context) => const AllFundingsScreen(
+                                      title: '서포트한 펀딩',
+                                      fundingType: 'mySupport',
                                       page: '1',
                                     )),
                           );
