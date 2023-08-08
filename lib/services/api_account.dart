@@ -167,7 +167,7 @@ class User {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> resBodyJson = jsonDecode(response.body);
-
+      print(resBodyJson);
       return resBodyJson;
     } else if (response.statusCode == 401) {
       await User.refreshToken();

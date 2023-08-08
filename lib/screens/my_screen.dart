@@ -71,7 +71,7 @@ class MyScreen extends StatelessWidget {
                               following: _userProvider.user!.followee,
                               follower: _userProvider.user!.follower,
                               // 업로드한 이미지 있으면,
-                              uploadedImage: _userProvider.profileImage,
+                              //uploadedImage: _userProvider.profileImage,
                               // 팔로워 팔로잉 위젯 때문에 profile에 세팅
                               uid: _userProvider.user!.id,
                             ),

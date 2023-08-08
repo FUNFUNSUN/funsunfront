@@ -33,8 +33,8 @@ class FundingScreen extends StatelessWidget {
     _userProvider = Provider.of<UserProvider>(context, listen: false);
     _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
     _fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
-
     final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
+
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -286,7 +286,7 @@ class FundingScreen extends StatelessWidget {
                                     );
                                   },
                                   child: const PinkBtn(
-                                    btnTxt: '펀딩하기',
+                                    btnTxt: '서포트하기',
                                   ),
                                 ))
                             : const SizedBox(),

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/account_model.dart';
 
@@ -11,7 +9,7 @@ class UserProvider extends ChangeNotifier {
 
   AccountModel? _user;
   AccountModel? get user => _user;
-
+/*
   File? _profileImage;
   File? get profileImage => _profileImage;
 
@@ -19,6 +17,7 @@ class UserProvider extends ChangeNotifier {
     _profileImage = image;
     notifyListeners();
   }
+  */
 
   void setLogin(String status) {
     _logged = status;
@@ -32,6 +31,11 @@ class UserProvider extends ChangeNotifier {
 
   void updateUser() async {
     _user = await User.accessTokenLogin();
+    if (_user!.image != null) {
+      _user!.image =
+          '${_user!.image}?v=${DateTime.now().millisecondsSinceEpoch}';
+    }
+
     notifyListeners();
   }
 }

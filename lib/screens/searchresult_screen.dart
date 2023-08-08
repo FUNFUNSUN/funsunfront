@@ -279,12 +279,14 @@ class _SearchBoxState extends State<SearchBox> {
                                 duplicate = item;
                               }
                             }
-                            if (duplicate != null) {
+                            if (duplicate != null && historyList.length == 1) {
                               historyList.remove(duplicate);
+                              historyList.add(HistoryItem(
+                                  user.id, user.username, user.image));
+                            } else {
+                              historyList.first.insertBefore(HistoryItem(
+                                  user.id, user.username, user.image));
                             }
-
-                            historyList.first.insertBefore(HistoryItem(
-                                user.id, user.username, user.image));
                           } else {
                             HistoryItem? duplicate;
                             for (var item in historyList) {

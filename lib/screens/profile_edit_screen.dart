@@ -27,6 +27,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   late DateTime birthMothDayOnly;
   late int initialMonth;
   late int initialDay;
+  bool imgdel = false;
 
   late int editMonth;
   late int editDay;
@@ -40,8 +41,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             tempBank = title;
           });
 
-          print(tempBank);
-          print(title);
           Navigator.pop(context);
         },
         minVerticalPadding: 10,
@@ -96,15 +95,24 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     editData['bank_account'] = widget.origin.bankAccount;
     editData['image_delete'] = "";
 
-    if (widget.origin.bankAccount.toString() == "" ||
-        widget.origin.bankAccount.toString() == "null" ||
-        widget.origin.bankAccount.toString().isEmpty) {
+    if (widget.origin.bankAccount == null) {
       bankCompany = "";
       bankNumber = "";
     } else {
       String bank = widget.origin.bankAccount!;
-      bankCompany = bank.substring(0, bank.indexOf(' '));
-      bankNumber = bank.substring(bank.indexOf(' '), bank.length);
+      List splitBank = bank.split(' ');
+      try {
+        bankCompany = splitBank[0];
+        tempBank = bankCompany!;
+        bankNumber = splitBank[1];
+        tempBankAccount = bankNumber!;
+      } catch (e) {
+        tempBank = "";
+        tempBankAccount = "";
+      }
+
+      print(tempBank);
+      print(tempBankAccount);
     }
 
     if (widget.origin.birthday == null) {
@@ -125,12 +133,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     _userProvider = Provider.of<UserProvider>(context, listen: false);
-
-    DateTime tmpBirth = (widget.origin.birthday == null)
-        ? DateTime.now()
-        : DateTime.parse('1996${widget.origin.birthday!}');
-
-    birthMothDayOnly = DateTime(tmpBirth.year, tmpBirth.month, tmpBirth.day);
 
     Widget showImage() {
       if (editImage != null) {
@@ -247,6 +249,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
+                                      imgdel = false;
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute<void>(
@@ -264,6 +267,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () {
+                                      imgdel = true;
                                       editImage = null;
                                       setState(() {
                                         showImage();
@@ -287,6 +291,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                   '$baseUrl${widget.origin.image}')),
                           IconButton(
                             onPressed: () {
+                              imgdel = true;
                               widget.origin.image = null;
                               editImage = null;
                               setState(() {
@@ -299,6 +304,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                           ),
                           IconButton(
                             onPressed: () {
+                              imgdel = false;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute<void>(
@@ -451,87 +457,56 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     Row(
                       children: [
                         InkWell(
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      content: Scrollbar(
-                                        thumbVisibility: true,
-                                        child: SizedBox(
-                                          width: 150,
-                                          height: 200,
-                                          child: _bankList(),
-                                        ),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Scrollbar(
+                                      thumbVisibility: true,
+                                      child: SizedBox(
+                                        width: 150,
+                                        height: 200,
+                                        child: _bankList(),
                                       ),
-                                      actions: [
-                                        TextButton(
-                                          child: const Text('확인'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  });
-                            },
-                            child: (widget.origin.bankAccount == "" ||
-                                    widget.origin.bankAccount == null ||
-                                    widget.origin.bankAccount
-                                        .toString()
-                                        .isEmpty)
-                                ? (tempBank == "")
-                                    ? Container(
-                                        margin: const EdgeInsets.only(right: 5),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: Theme.of(context)
-                                                .primaryColorLight
-                                                .withOpacity(.5)),
-                                        width: 100,
-                                        height: 60,
-                                        child: const Text('은행 선택'))
-                                    : Container(
-                                        margin: const EdgeInsets.only(right: 5),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: Theme.of(context)
-                                                .primaryColorLight
-                                                .withOpacity(.5)),
-                                        width: 100,
-                                        height: 60,
-                                        child: Text(tempBank))
-                                : (tempBank == "")
-                                    ? Container(
-                                        margin: const EdgeInsets.only(right: 5),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: Theme.of(context)
-                                                .primaryColorLight
-                                                .withOpacity(.5)),
-                                        width: 100,
-                                        height: 60,
-                                        child: Text(bankCompany.toString()))
-                                    : Container(
-                                        margin: const EdgeInsets.only(right: 5),
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: Theme.of(context)
-                                                .primaryColorLight
-                                                .withOpacity(.5)),
-                                        width: 160,
-                                        height: 60,
-                                        child: Text(tempBank),
-                                      )),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('확인'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          child: (tempBank == "")
+                              ? Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Theme.of(context)
+                                          .primaryColorLight
+                                          .withOpacity(.5)),
+                                  width: 100,
+                                  height: 60,
+                                  child: const Text('은행 선택'))
+                              : Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Theme.of(context)
+                                          .primaryColorLight
+                                          .withOpacity(.5)),
+                                  width: 100,
+                                  height: 60,
+                                  child: Text(tempBank),
+                                ),
+                        ),
                         Flexible(
                           fit: FlexFit.tight,
                           child: TextFormField(
@@ -539,20 +514,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
                             ],
-                            initialValue: (widget.origin.bankAccount == null)
-                                ? ""
-                                : bankNumber,
+                            initialValue: tempBankAccount,
                             onChanged: (value) {
                               setState(() {
-                                if (widget.origin.bankAccount.toString() !=
-                                    "") {
-                                  tempBankAccount =
-                                      editData['bank_account'].toString();
-
-                                  tempBankAccount = value.toString();
-                                } else {
-                                  tempBankAccount = value.toString();
-                                }
+                                tempBankAccount = value.toString();
+                                print(tempBankAccount);
                               });
                             },
                             decoration: InputDecoration(
@@ -581,6 +547,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     onTap: () async {
                       String editMonthStr;
                       String editDayStr;
+                      editData['bank_account'] = '$tempBank $tempBankAccount';
+                      print(editData['bank_account']);
                       if (editMonth < 10) {
                         editMonthStr = '0$editMonth';
                       } else {
@@ -594,7 +562,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       editData['birthday'] = '$editMonthStr$editDayStr';
                       print('${editData['birthday']}');
 
-                      if (editImage == null && widget.origin.image == null) {
+                      if (imgdel) {
                         editData['image_delete'] = 'delete';
                       }
                       showDialog(
@@ -633,26 +601,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                 actions: [
                                   TextButton(
                                       onPressed: () async {
-                                        if (tempBank.toString().isEmpty ||
-                                            tempBank.toString() == "") {
-                                          tempBank = bankCompany.toString();
-                                        }
-                                        if (tempBankAccount
-                                                .toString()
-                                                .isEmpty ||
-                                            tempBankAccount.toString() == "") {
-                                          tempBankAccount =
-                                              bankNumber.toString();
-                                        }
-                                        editData['bank_account'] =
-                                            '$tempBank $tempBankAccount';
                                         // 유저정보 수정 API
                                         await User.putProfile(
                                             editData: editData,
                                             image: editImage);
                                         //provider 수정
                                         _userProvider.updateUser();
-
+                                        print(editData['bank_account']);
                                         if (context.mounted) {
                                           Navigator.pop(context);
                                           Navigator.pop(context);

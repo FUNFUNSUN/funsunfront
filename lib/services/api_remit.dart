@@ -24,6 +24,8 @@ class Remit {
     } else if (response.statusCode == 401) {
       await User.refreshToken();
       getRemit(id: id, page: page, apiCounter: apiCounter);
+    } else if (response.statusCode == 204) {
+      return List.empty();
     }
     throw Error();
   }

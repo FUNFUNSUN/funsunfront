@@ -57,7 +57,7 @@ class _RemitScreenState extends State<RemitScreen> {
                             fontSize: 20, fontWeight: FontWeight.w400),
                       ),
                       const Text(
-                        '님에게 펀딩하기',
+                        '님 서포트하기',
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -70,7 +70,7 @@ class _RemitScreenState extends State<RemitScreen> {
 
               // Text(widget.targetFunding.id.toString()),
               const Text(
-                '펀딩할 금액을 입력하세요',
+                '서포트할 금액을 입력하세요',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w900,
@@ -147,7 +147,7 @@ class _RemitScreenState extends State<RemitScreen> {
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(15)),
-                  hintText: '생일축하해! 너의 생일을 축하하는 마음으로, \n너에게 펀딩했어!',
+                  hintText: '생일축하해! 너의 생일을 축하하는 마음으로, \n널 서포트했어!',
                 ),
                 controller: tempMessage,
               ),
@@ -207,7 +207,7 @@ class _RemitScreenState extends State<RemitScreen> {
                     }
                   },
                   child: const PinkBtn(
-                    btnTxt: '펀딩하기',
+                    btnTxt: '서포트하기',
                   ),
                 ),
               ),
