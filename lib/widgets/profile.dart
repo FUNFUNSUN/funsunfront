@@ -5,7 +5,7 @@ import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/followTest.dart';
+import '../screens/follow_screen.dart';
 
 class Profile extends StatelessWidget {
   final String userName, uid;
@@ -98,7 +98,7 @@ class Profile extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const FollowTest(
+                            builder: (context) => const FollowScreen(
                               initIndex: 0,
                             ),
                           ),
@@ -129,7 +129,7 @@ class Profile extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const FollowTest(
+                          builder: (context) => const FollowScreen(
                             initIndex: 1,
                           ),
                         ),

@@ -8,17 +8,17 @@ import '../provider/profile_provider.dart';
 import '../services/api_follow.dart';
 import '../widgets/loading_circle.dart';
 
-class FollowTest extends StatefulWidget {
-  const FollowTest({super.key, required this.initIndex});
+class FollowScreen extends StatefulWidget {
+  const FollowScreen({super.key, required this.initIndex});
   final int initIndex;
   @override
-  _FollowTestState createState() => _FollowTestState();
+  _FollowScreenState createState() => _FollowScreenState();
 }
 
 late ProfileProvider _profileProvider;
 late FundingsProvider _fundingsProvider;
 
-class _FollowTestState extends State<FollowTest>
+class _FollowScreenState extends State<FollowScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late int currentPageIndex;
