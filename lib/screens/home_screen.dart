@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:funsunfront/screens/public_screen.dart';
+import 'package:funsunfront/screens/friend_funding_screen.dart';
 import 'package:funsunfront/widgets/fundingcard_horizon.dart';
 import 'package:provider/provider.dart';
 
@@ -274,7 +274,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const PublicScreen(
+                                builder: (context) => const FriendFundingScreen(
                                   page: '1',
                                 ),
                               ),

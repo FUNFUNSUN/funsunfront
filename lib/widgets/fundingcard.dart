@@ -14,7 +14,7 @@ class FundingCard extends StatelessWidget {
     required this.title,
     required this.fundingType,
 
-    ///'mySupport', 'myFunding', 'public', 'userFunding'
+    ///'mySupport', 'myFunding', 'public', 'userFunding', 'friendFunding'
   });
   final double sizeX;
   final String title;
@@ -36,6 +36,8 @@ class FundingCard extends StatelessWidget {
           return fundingsProvider.publicFundings;
         case 'userFunding':
           return fundingsProvider.myFundings;
+        case 'friendFunding':
+          return fundingsProvider.friendFundings;
         default:
           return Future<List<FundingModel>>.value([]);
       }
