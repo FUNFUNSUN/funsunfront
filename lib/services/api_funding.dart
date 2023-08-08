@@ -56,6 +56,30 @@ class Funding {
     throw Error();
   }
 
+  static Future<List<FundingModel>> getFriendFunding(
+      {required String page, int apiCounter = 2}) async {
+    if (apiCounter == 0) {
+      throw Error();
+    }
+    apiCounter -= 1;
+    String? token = await storage.read(key: 'accessToken');
+    final url = Uri.parse('${baseUrl}following?page=$page');
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> fundingList = jsonDecode(response.body);
+      return fundingList
+          .map((funding) => FundingModel.fromJson(funding))
+          .toList();
+    } else if (response.statusCode == 401) {
+      await User.refreshToken();
+      getPublicFunding(page: page, apiCounter: apiCounter);
+    }
+    throw Error();
+  }
+
   static Future<List<FundingModel>> getUserFunding(
       {required String page, required String id, int apiCounter = 2}) async {
     if (apiCounter == 0) {
