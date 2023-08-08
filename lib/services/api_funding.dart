@@ -63,6 +63,7 @@ class Funding {
     }
     apiCounter -= 1;
     String? token = await storage.read(key: 'accessToken');
+
     final url = Uri.parse('${baseUrl}following?page=$page');
     final headers = {
       'Authorization': 'Bearer $token',

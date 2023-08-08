@@ -30,6 +30,7 @@ class KakaoLoginButton extends StatelessWidget {
       _fundingsProvider.getMyfundings(_userProvider.user!.id);
       _fundingsProvider.getJoinedfundings();
       _fundingsProvider.getPublicFundings();
+      _fundingsProvider.getFriendFundings();
       _profileProvider.updateProfile(_userProvider.user!.id);
     }
   }

@@ -41,6 +41,9 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
       _fundingsProvider.getMyfundings(_userProvider.user!.id);
       _fundingsProvider.getJoinedfundings();
       _fundingsProvider.getPublicFundings();
+      _fundingsProvider.getFriendFundings();
+
+      print(await _fundingsProvider.friendFundings);
       _profileProvider.updateProfile(_userProvider.user!.id);
     } else {
       _userProvider.setLogin("");
@@ -88,7 +91,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
                 _fundingsProvider.getJoinedfundings();
               }
               if (index == 1) {
-                _fundingsProvider.getPublicFundings();
+                _fundingsProvider.getFriendFundings();
               }
               if (index == 2) {
                 await _profileProvider.updateProfile(_userProvider.user!.id);
