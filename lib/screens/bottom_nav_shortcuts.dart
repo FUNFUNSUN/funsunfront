@@ -95,6 +95,8 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
               }
               if (index == 2) {
                 await _profileProvider.updateProfile(_userProvider.user!.id);
+                _fundingsProvider.getMyfundings(_userProvider.user!.id, 1);
+                _fundingsProvider.getJoinedfundings(1);
               }
             },
             items: const [

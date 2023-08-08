@@ -1,9 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/screens/all_fundings_screen.dart';
-import 'package:funsunfront/screens/funding_screen.dart';
 
 import 'package:funsunfront/screens/searchresult_screen.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,7 @@ class ExploreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
     double sizeX = MediaQuery.of(context).size.width;
+    // refreshFunction();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
