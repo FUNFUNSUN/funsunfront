@@ -273,9 +273,11 @@ class MyScreen extends StatelessWidget {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 SizedBox(
-                                                  width: sizeX * 0.7,
-                                                  child: Image.network(
-                                                      'https://blogpfthumb-phinf.pstatic.net/MjAyMzAxMTdfMjIx/MDAxNjczOTQ1NDc2MzE5.bWG6m1D4IPYP9Vt6UWjzHB5N49V6OR4tYAsBzto7-rkg.R6Vff_l6qAilZIpiFd_uIe-2fj6z92zMXrSTcPwxLlog.PNG.7116won/profileImage.png'),
+                                                  width: sizeX * 0.9,
+                                                  child: Image.asset(
+                                                    'assets/images/kitty_thumbsup.png',
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                                 const Text(
                                                   '원윤선.. 그녀는 2주사이\n미친 성장을 보여주었다.\n나는 그대가 자랑스럽다.',
