@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
-import 'package:funsunfront/provider/user_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
 import '../provider/fundings_provider.dart';
@@ -32,9 +32,6 @@ class FundingCard extends StatefulWidget {
 class _FundingCardState extends State<FundingCard> {
   int page = 1;
   List<FundingModel> fundings = [];
-  FundingsProvider fundingsProvider = FundingsProvider();
-  UserProvider userProvider = UserProvider();
-  ProfileProvider profileProvider = ProfileProvider();
   late String? uid;
 
   Future<List<FundingModel>>? fetchFunding(
@@ -106,6 +103,14 @@ class _FundingCardState extends State<FundingCard> {
   @override
   Widget build(BuildContext context) {
     const imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
+    final ProfileProvider profileProvider =
+        Provider.of<ProfileProvider>(context, listen: true);
+    final FundingsProvider fundingsProvider =
+        Provider.of<FundingsProvider>(context, listen: true);
+
+    // Future<void> setAuthorId(authorId) async {
+    //   await profileProvider.updateProfile(authorId);
+    // }
 
     return (fundings.isNotEmpty)
         ? NotificationListener<ScrollNotification>(
@@ -136,7 +141,11 @@ class _FundingCardState extends State<FundingCard> {
                 final bool isExpired = DateTime.parse(fundings[index].expireOn)
                     .isBefore(DateTime.now());
                 final bool public = fundings[index].public!;
-                final String? imgUrl = fundings[index].image;
+                // TODO : 처리중
+                // String authorId = fundings[index].author!['id'];
+                // setAuthorId(authorId);
+                // String? imgUrl = profileProvider.profile!.image;
+                String? imgUrl = '';
                 return InkWell(
                     onTap: () {
                       fundingsProvider
@@ -258,7 +267,7 @@ class _FundingCardState extends State<FundingCard> {
                           ),
                         ),
                         Positioned(
-                          top: 0,
+                          top: 50,
                           child: Padding(
                             padding: const EdgeInsets.all(5),
                             child: Row(
@@ -277,7 +286,7 @@ class _FundingCardState extends State<FundingCard> {
                                             color: Colors.lightBlue.shade200
                                                 .withOpacity(0.6)),
                                         child: const Text(
-                                          '친구의\n비밀펀딩',
+                                          '친구공개\n펀딩',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w600,
