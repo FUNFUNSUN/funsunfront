@@ -13,12 +13,14 @@ class FundingCardHorizon extends StatelessWidget {
     required this.title,
     this.routeFunction,
     required this.fundingType,
+    this.uid,
   }) : super(key: key);
 
   final String title;
   final double sizeX;
   final Function? routeFunction;
   final String fundingType;
+  final String? uid;
 
   @override
   Widget build(BuildContext context) {

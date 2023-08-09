@@ -16,9 +16,6 @@ class FundingsProvider extends ChangeNotifier {
   Future<List<FundingModel>>? _friendFundings;
   Future<List<FundingModel>>? get friendFundings => _friendFundings;
 
-  // final List<FundingModel> _allFundings = [];
-  // List<FundingModel>? get allFundings => _allFundings;
-
   Future<FundingModel>? _fundingDetail;
   Future<FundingModel>? get fundingDetail => _fundingDetail;
 
@@ -54,18 +51,4 @@ class FundingsProvider extends ChangeNotifier {
     _fundingDetail = Funding.getFunding(id: id);
     notifyListeners();
   }
-
-  // void setAllFundings(Function fetchFn) async {
-  //   List<FundingModel> tmpFunding = await fetchFn();
-
-  //   _allFundings.addAll(tmpFunding);
-
-  //   tmpFunding.clear();
-  //   notifyListeners();
-  // }
-
-  // void clearAllFundings() {
-  //   _allFundings.clear();
-  //   notifyListeners();
-  // }
 }

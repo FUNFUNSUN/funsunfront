@@ -11,11 +11,13 @@ class AllFundingsScreen extends StatelessWidget {
     this.page = '1',
     required this.title,
     required this.fundingType,
+    this.uid,
   });
 
   final String page;
   final String title;
   final String fundingType;
+  final String? uid;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class AllFundingsScreen extends StatelessWidget {
       onWillPop: () async {
         await profileProvider.updateProfile(user!.id);
         fundingsProvider.refreshAllFundings(user.id); // pop할 때 메소드 호출
-        print('굥선이가 뒤로가기를 눌렀다');
+
         return true; // 페이지를 pop 허용
       },
       child: Scaffold(
@@ -56,6 +58,7 @@ class AllFundingsScreen extends StatelessWidget {
                       fundingType: fundingType,
                       title: title,
                       sizeX: sizeX,
+                      uid: (uid != null) ? uid : '',
                     )),
               ),
             ],

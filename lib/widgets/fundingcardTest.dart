@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
 import '../provider/fundings_provider.dart';
@@ -17,12 +16,14 @@ class FundingCardTest extends StatefulWidget {
     required this.sizeX,
     required this.title,
     required this.fundingType,
+    this.uid,
 
     ///'mySupport', 'myFunding', 'public', 'userFunding', 'friendFunding'
   });
   final double sizeX;
   final String title;
   final String fundingType;
+  final String? uid;
 
   @override
   State<FundingCardTest> createState() => _FundingCardTestState();
@@ -31,9 +32,10 @@ class FundingCardTest extends StatefulWidget {
 class _FundingCardTestState extends State<FundingCardTest> {
   int page = 1;
   List<FundingModel> fundings = [];
-  late FundingsProvider fundingsProvider;
-  late UserProvider userProvider;
-  late ProfileProvider profileProvider;
+  FundingsProvider fundingsProvider = FundingsProvider();
+  UserProvider userProvider = UserProvider();
+  ProfileProvider profileProvider = ProfileProvider();
+  late String? uid;
 
   Future<List<FundingModel>>? fetchFunding(
       //fundingType에 따라 다른 api 호출
@@ -44,16 +46,16 @@ class _FundingCardTestState extends State<FundingCardTest> {
         return await Funding.getJoinedFunding(page: page.toString());
       case 'myFunding':
         return await Funding.getUserFunding(
-            page: page.toString(), id: userProvider.user!.id);
+            page: page.toString(), id: widget.uid!);
       case 'public':
         return await Funding.getPublicFunding(page: page.toString());
       case 'userFunding':
         return await Funding.getUserFunding(
-            page: page.toString(), id: profileProvider.profile!.id);
+            page: page.toString(), id: widget.uid!);
       case 'friendFunding':
         return await Funding.getFriendFunding(page: page.toString());
       default:
-        return Future<List<FundingModel>>.value([]);
+        return [];
     }
   }
 
@@ -66,14 +68,14 @@ class _FundingCardTestState extends State<FundingCardTest> {
         break;
       case 'myFunding':
         tmpFunding = await Funding.getUserFunding(
-            page: page.toString(), id: userProvider.user!.id);
+            page: page.toString(), id: widget.uid!);
         break;
       case 'public':
         tmpFunding = await Funding.getPublicFunding(page: page.toString());
         break;
       case 'userFunding':
         tmpFunding = await Funding.getUserFunding(
-            page: page.toString(), id: profileProvider.profile!.id);
+            page: page.toString(), id: widget.uid!);
         break;
       case 'friendFunding':
         tmpFunding = await Funding.getFriendFunding(page: page.toString());
@@ -104,9 +106,6 @@ class _FundingCardTestState extends State<FundingCardTest> {
   @override
   Widget build(BuildContext context) {
     const imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
-    fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
-    userProvider = Provider.of<UserProvider>(context, listen: false);
-    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
 
     return (fundings.isNotEmpty)
         ? NotificationListener<ScrollNotification>(

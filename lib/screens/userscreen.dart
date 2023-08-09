@@ -84,6 +84,7 @@ class UserScreen extends StatelessWidget {
                           fundingType: 'userFunding',
                           sizeX: sizeX,
                           title: '${profileProvider.profile!.username}의 펀딩',
+                          uid: profileProvider.profile!.id,
                         ),
                         /////////////////////////// 펀딩리스트END
                         /////////////////////////// FAQ, 로그아웃, 회원탈퇴
