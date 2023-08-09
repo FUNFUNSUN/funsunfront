@@ -76,8 +76,8 @@ class MyScreen extends StatelessWidget {
                             ),
                             Positioned(
                               //프로필 수정버튼
-                              bottom: 10,
-                              left: 90,
+                              bottom: sizeX * 0.015,
+                              left: sizeX * 0.18,
                               child: InkWell(
                                 onTap: () {
                                   Navigator.push(
@@ -89,8 +89,8 @@ class MyScreen extends StatelessWidget {
                                   );
                                 },
                                 child: Container(
-                                  width: 20,
-                                  height: 20,
+                                  width: 25,
+                                  height: 25,
                                   decoration: BoxDecoration(
                                     boxShadow: const <BoxShadow>[
                                       BoxShadow(
@@ -104,7 +104,7 @@ class MyScreen extends StatelessWidget {
                                   ),
                                   child: const Icon(
                                     Icons.settings,
-                                    size: 15,
+                                    size: 20,
                                   ),
                                 ),
                               ),

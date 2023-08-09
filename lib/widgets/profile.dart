@@ -76,10 +76,7 @@ class Profile extends StatelessWidget {
             children: [
               Text(
                 '$userName님',
-                style: const TextStyle(fontSize: 20),
-              ),
-              const SizedBox(
-                height: 8,
+                style: const TextStyle(fontSize: 23),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -101,19 +98,16 @@ class Profile extends StatelessWidget {
                           );
                         }
                       },
-                      child: Text('팔로워 $followerStr명',
-                          style: const TextStyle(fontSize: 12))),
-                  const SizedBox(
-                    width: 20,
-                  ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('팔로워 $followerStr명',
+                            style: const TextStyle(fontSize: 15)),
+                      )),
                   Text(
                     '|',
                     style: TextStyle(
                       color: Colors.black.withOpacity(0.6),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 20,
                   ),
                   InkWell(
                     onTap: () async {
@@ -133,8 +127,11 @@ class Profile extends StatelessWidget {
                         );
                       }
                     },
-                    child: Text('팔로잉 $followingStr명',
-                        style: const TextStyle(fontSize: 12)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('팔로잉 $followingStr명',
+                          style: const TextStyle(fontSize: 15)),
+                    ),
                   ),
                 ],
               ),
