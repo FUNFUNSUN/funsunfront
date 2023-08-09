@@ -52,8 +52,8 @@ class FundingCardHorizon extends StatelessWidget {
             (routeFunction != null)
                 ? IconButton(
                     onPressed: () {
-                      print('윤선이랑 오늘은 꼭 맛난거먹기');
-                      fundingsProvider.clearAllFundings();
+                      // horizon에서 플러스 버튼 눌리면 = fundingCard 포함 페이지로 이동
+
                       routeFunction!();
                     },
                     icon: const Icon(

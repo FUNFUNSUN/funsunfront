@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -6,8 +9,9 @@ import 'package:provider/provider.dart';
 import '../models/funding_model.dart';
 import '../provider/fundings_provider.dart';
 import '../screens/funding_screen.dart';
+import '../services/api_funding.dart';
 
-class FundingCardTest extends StatelessWidget {
+class FundingCardTest extends StatefulWidget {
   FundingCardTest({
     super.key,
     required this.sizeX,
@@ -19,71 +23,100 @@ class FundingCardTest extends StatelessWidget {
   final double sizeX;
   final String title;
   final String fundingType;
+
+  @override
+  State<FundingCardTest> createState() => _FundingCardTestState();
+}
+
+class _FundingCardTestState extends State<FundingCardTest> {
   int page = 1;
+  List<FundingModel> fundings = [];
+  late FundingsProvider fundingsProvider;
+  late UserProvider userProvider;
+  late ProfileProvider profileProvider;
+
+  Future<List<FundingModel>>? fetchFunding(
+      //fundingType에 따라 다른 api 호출
+      String fundingType,
+      int page) async {
+    switch (fundingType) {
+      case 'mySupport':
+        return await Funding.getJoinedFunding(page: page.toString());
+      case 'myFunding':
+        return await Funding.getUserFunding(
+            page: page.toString(), id: userProvider.user!.id);
+      case 'public':
+        return await Funding.getPublicFunding(page: page.toString());
+      case 'userFunding':
+        return await Funding.getUserFunding(
+            page: page.toString(), id: profileProvider.profile!.id);
+      case 'friendFunding':
+        return await Funding.getFriendFunding(page: page.toString());
+      default:
+        return Future<List<FundingModel>>.value([]);
+    }
+  }
+
+  void getMoreFn(String fundingType, int page) async {
+    List<FundingModel> tmpFunding;
+
+    switch (fundingType) {
+      case 'mySupport':
+        tmpFunding = await Funding.getJoinedFunding(page: page.toString());
+        break;
+      case 'myFunding':
+        tmpFunding = await Funding.getUserFunding(
+            page: page.toString(), id: userProvider.user!.id);
+        break;
+      case 'public':
+        tmpFunding = await Funding.getPublicFunding(page: page.toString());
+        break;
+      case 'userFunding':
+        tmpFunding = await Funding.getUserFunding(
+            page: page.toString(), id: profileProvider.profile!.id);
+        break;
+      case 'friendFunding':
+        tmpFunding = await Funding.getFriendFunding(page: page.toString());
+        break;
+      default:
+        tmpFunding = [];
+        break;
+    }
+    setState(() {
+      fundings.addAll(tmpFunding);
+    });
+  }
+
+  void initFunding() async {
+    List<FundingModel>? tmpFundings =
+        await fetchFunding(widget.fundingType, page);
+    setState(() {
+      fundings.addAll(tmpFundings!);
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    initFunding();
+  }
 
   @override
   Widget build(BuildContext context) {
     const imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
-    FundingsProvider fundingsProvider =
-        Provider.of<FundingsProvider>(context, listen: true);
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-
-    Future<List<FundingModel>>? fetchFunding(String fundingType) {
-      switch (fundingType) {
-        case 'mySupport':
-          return fundingsProvider.joinedFundings;
-        case 'myFunding':
-          return fundingsProvider.myFundings;
-        case 'public':
-          return fundingsProvider.publicFundings;
-        case 'userFunding':
-          return fundingsProvider.myFundings;
-        case 'friendFunding':
-          return fundingsProvider.friendFundings;
-        default:
-          return Future<List<FundingModel>>.value([]);
-      }
-    }
-
-    void getMoreFn(String fundingType, int page) {
-      switch (fundingType) {
-        case 'mySupport':
-          fundingsProvider.getJoinedfundings(page);
-          fundingsProvider.setAllFundings(() => fetchFunding(fundingType));
-          break;
-        case 'myFunding':
-          fundingsProvider.getMyfundings(userProvider.user!.id, page);
-          fundingsProvider.setAllFundings(() => fetchFunding(fundingType));
-          break;
-        case 'public':
-          fundingsProvider.getPublicFundings(page);
-          fundingsProvider.setAllFundings(() => fetchFunding(fundingType));
-          break;
-        case 'userFunding':
-          fundingsProvider.getMyfundings(userProvider.user!.id, page);
-          fundingsProvider.setAllFundings(() => fetchFunding(fundingType));
-          break;
-        case 'friendFunding':
-          fundingsProvider.getFriendFundings(page);
-          fundingsProvider.setAllFundings(() => fetchFunding(fundingType));
-          break;
-        default:
-          fundingsProvider.clearAllFundings();
-          break;
-      }
-    }
-
-    fundingsProvider.setAllFundings(() => fetchFunding(fundingType));
-    List<FundingModel> fundings = fundingsProvider.allFundings!;
+    fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    profileProvider = Provider.of<ProfileProvider>(context, listen: false);
 
     return (fundings.isNotEmpty)
         ? NotificationListener<ScrollNotification>(
             onNotification: (scrollInfo) {
               if (scrollInfo.metrics.pixels ==
                   scrollInfo.metrics.maxScrollExtent) {
-                page++;
-                getMoreFn(fundingType, page);
+                setState(() {
+                  page++;
+                });
+                getMoreFn(widget.fundingType, page);
 
                 return true;
               }
@@ -163,8 +196,8 @@ class FundingCardTest extends StatelessWidget {
                               Expanded(
                                 flex: 5,
                                 child: SizedBox(
-                                  width: sizeX,
-                                  height: sizeX,
+                                  width: widget.sizeX,
+                                  height: widget.sizeX,
                                   child: (fundings[index].image != null)
                                       ? Image.network(
                                           '$imgBaseUrl${fundings[index].image}',
@@ -180,7 +213,7 @@ class FundingCardTest extends StatelessWidget {
                               Expanded(
                                 flex: 2,
                                 child: Container(
-                                  width: sizeX,
+                                  width: widget.sizeX,
                                   color: Colors.white,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -282,7 +315,7 @@ class FundingCardTest extends StatelessWidget {
             ),
           )
         : Center(
-            child: Text('$title이 없습니다.'),
+            child: Text('${widget.title}이 없습니다.'),
           );
   }
 }
