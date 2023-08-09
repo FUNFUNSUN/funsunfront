@@ -98,14 +98,15 @@ class _SearchBoxState extends State<SearchBox> {
           children: [
             const Text(
               '검색 기록',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 15),
             ),
             GestureDetector(
-                onTap: () {
-                  setState(() {});
-                  historyList.clear();
-                },
-                child: const Text('검색 기록 삭제'))
+              onTap: () {
+                setState(() {});
+                historyList.clear();
+              },
+              child: const Icon(size: 20, Icons.delete, color: Colors.grey),
+            ),
           ],
         ),
       ),
@@ -143,8 +144,8 @@ class _SearchBoxState extends State<SearchBox> {
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 ClipOval(
                   child: Container(
-                    width: 70, // 원의 지름
-                    height: 70, // 원의 지름
+                    width: 50, // 원의 지름
+                    height: 50, // 원의 지름
                     color: Theme.of(context).primaryColorLight,
                     child: (itm.image != null)
                         ? Image.network('$baseUrl${itm.image}',
@@ -216,6 +217,7 @@ class _SearchBoxState extends State<SearchBox> {
     // 유저 검색 히스토리
 
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           toolbarHeight: 150,
@@ -255,113 +257,136 @@ class _SearchBoxState extends State<SearchBox> {
           ),
         ), //////////////검색바END
         body: Container(
+          color: Colors.white,
           child: (() {
             if (widget.isSubmit && searchedUsers.isNotEmpty) //검색했고, 결과 있음
             {
               //검색결과
+              return SingleChildScrollView(
+                physics: const ScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      child: Text('검색결과', style: TextStyle(fontSize: 15)),
+                    ),
+                    Container(
+                      child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          //검색결과가 있으면 이니까 검색결과
+                          itemCount: searchedUsers.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 5),
+                              child: InkWell(
+                                onTap: () async {
+                                  final user = searchedUsers[index];
+                                  setState(() {});
+                                  if (historyList.isEmpty) {
+                                    historyList.add(HistoryItem(
+                                        user.id, user.username, user.image));
+                                  } else if (historyList.length < 5) {
+                                    HistoryItem? duplicate;
+                                    for (var item in historyList) {
+                                      if (item.id == user.id) {
+                                        duplicate = item;
+                                      }
+                                    }
+                                    if (duplicate != null &&
+                                        historyList.length == 1) {
+                                      historyList.remove(duplicate);
+                                      historyList.add(HistoryItem(
+                                          user.id, user.username, user.image));
+                                    } else {
+                                      historyList.first.insertBefore(
+                                          HistoryItem(user.id, user.username,
+                                              user.image));
+                                    }
+                                  } else {
+                                    HistoryItem? duplicate;
+                                    for (var item in historyList) {
+                                      if (item.id == user.id) {
+                                        duplicate = item;
+                                      }
+                                    }
+                                    if (duplicate != null) {
+                                      historyList.remove(duplicate);
+                                    }
 
-              return ListView.builder(
-                  //검색결과가 있으면 이니까 검색결과
-                  itemCount: searchedUsers.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 5),
-                      child: InkWell(
-                        onTap: () async {
-                          final user = searchedUsers[index];
-                          setState(() {});
-                          if (historyList.isEmpty) {
-                            historyList.add(HistoryItem(
-                                user.id, user.username, user.image));
-                          } else if (historyList.length < 5) {
-                            HistoryItem? duplicate;
-                            for (var item in historyList) {
-                              if (item.id == user.id) {
-                                duplicate = item;
-                              }
-                            }
-                            if (duplicate != null && historyList.length == 1) {
-                              historyList.remove(duplicate);
-                              historyList.add(HistoryItem(
-                                  user.id, user.username, user.image));
-                            } else {
-                              historyList.first.insertBefore(HistoryItem(
-                                  user.id, user.username, user.image));
-                            }
-                          } else {
-                            HistoryItem? duplicate;
-                            for (var item in historyList) {
-                              if (item.id == user.id) {
-                                duplicate = item;
-                              }
-                            }
-                            if (duplicate != null) {
-                              historyList.remove(duplicate);
-                            }
+                                    historyList.remove(historyList.last);
+                                    historyList.first.insertBefore(HistoryItem(
+                                        user.id, user.username, user.image));
+                                  }
 
-                            historyList.remove(historyList.last);
-                            historyList.first.insertBefore(HistoryItem(
-                                user.id, user.username, user.image));
-                          }
+                                  await profileProvider.updateProfile(user.id);
 
-                          await profileProvider.updateProfile(user.id);
-
-                          if (context.mounted) {
-                            if (userProvider.user!.id != user.id) {
-                              fundingsProvider.getMyfundings(
-                                  profileProvider.profile!.id, 1);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => UserScreen(id: user.id),
-                                ),
-                              );
-                            } else {
-                              fundingsProvider.getMyfundings(
-                                  userProvider.user!.id, 1);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyScreen(),
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        child: SizedBox(
-                          height: 70,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ClipOval(
-                                child: Container(
-                                  width: 70, // 원의 지름
-                                  height: 70, // 원의 지름
-                                  color: Theme.of(context).primaryColorLight,
-                                  child: (searchedUsers[index].image != null)
-                                      ? Image.network(
-                                          '$baseUrl${searchedUsers[index].image}',
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.asset(
-                                          'assets/images/default_profile.jpg',
-                                          fit: BoxFit.cover),
+                                  if (context.mounted) {
+                                    if (userProvider.user!.id != user.id) {
+                                      fundingsProvider.getMyfundings(
+                                          profileProvider.profile!.id, 1);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              UserScreen(id: user.id),
+                                        ),
+                                      );
+                                    } else {
+                                      fundingsProvider.getMyfundings(
+                                          userProvider.user!.id, 1);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MyScreen(),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                                child: SizedBox(
+                                  height: 70,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ClipOval(
+                                        child: Container(
+                                          width: 50, // 원의 지름
+                                          height: 50, // 원의 지름
+                                          color: Theme.of(context)
+                                              .primaryColorLight,
+                                          child: (searchedUsers[index].image !=
+                                                  null)
+                                              ? Image.network(
+                                                  '$baseUrl${searchedUsers[index].image}',
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.asset(
+                                                  'assets/images/default_profile.jpg',
+                                                  fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      Text(
+                                        searchedUsers[index].username,
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                searchedUsers[index].username,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  });
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              );
             } else if (widget.isSubmit && searchedUsers.isEmpty) //검색했지만 결과없음
             {
               //검색결과없음
@@ -371,8 +396,11 @@ class _SearchBoxState extends State<SearchBox> {
             } else if (historyList.isNotEmpty) //검색안했고 기록 있으면
             {
               //검색기록
-              return Column(
-                children: getHistory(),
+              return Container(
+                color: Colors.white,
+                child: Column(
+                  children: getHistory(),
+                ),
               );
             } else //검색안했고 기록 없으면
             {
