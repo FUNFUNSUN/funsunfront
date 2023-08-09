@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 import '../models/account_model.dart';
 import '../provider/fundings_provider.dart';
 import '../provider/profile_provider.dart';
+import '../provider/user_provider.dart';
 import '../services/api_follow.dart';
 import '../widgets/loading_circle.dart';
+import 'my_screen.dart';
 
 class FollowScreen extends StatefulWidget {
   const FollowScreen({super.key, required this.initIndex});
@@ -17,6 +19,7 @@ class FollowScreen extends StatefulWidget {
 
 late ProfileProvider _profileProvider;
 late FundingsProvider _fundingsProvider;
+late UserProvider _userProvider;
 
 class _FollowScreenState extends State<FollowScreen>
     with SingleTickerProviderStateMixin {
@@ -77,7 +80,7 @@ class FollowerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // _userProvider = Provider.of<UserProvider>(context, listen: true);
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
     _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
 
     final Future<List<AccountModel>> followerList =
@@ -113,12 +116,21 @@ class FollowerWidget extends StatelessWidget {
                               _fundingsProvider.getMyfundings(
                                   _profileProvider.profile!.id, 1);
                               if (context.mounted) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UserScreen(id: id),
-                                  ),
-                                );
+                                if (id != _userProvider.user!.id) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => UserScreen(id: id),
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyScreen(),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: SizedBox(
@@ -165,6 +177,7 @@ class FolloweeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
+    _userProvider = Provider.of<UserProvider>(context, listen: false);
 
     final Future<List<AccountModel>> followeeList =
         Follow.getFolloweeList(id: _profileProvider.profile!.id);
@@ -199,12 +212,21 @@ class FolloweeWidget extends StatelessWidget {
                               _fundingsProvider.getMyfundings(
                                   _profileProvider.profile!.id, 1);
                               if (context.mounted) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UserScreen(id: id),
-                                  ),
-                                );
+                                if (id != _userProvider.user!.id) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => UserScreen(id: id),
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyScreen(),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: SizedBox(

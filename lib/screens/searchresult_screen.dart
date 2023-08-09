@@ -119,6 +119,8 @@ class _SearchBoxState extends State<SearchBox> {
             fundingsProvider.getMyfundings(itm.id, 1);
             if (context.mounted) {
               if (userProvider.user!.id != itm.id) {
+                // 검색한 유저가 본인이 아닐 경우
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
