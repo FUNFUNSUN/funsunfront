@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../services/kakao_login_button.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -7,14 +8,20 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color(0xFFFDC0DB),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(50.0),
+          child: SizedBox(
+            width: screenWidth,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: screenHeight * 0.08,
+                ),
                 const Text(
                   '즐거운\n펀딩플랫폼\nFunSun',
                   style: TextStyle(

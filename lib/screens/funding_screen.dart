@@ -127,7 +127,7 @@ class FundingScreen extends StatelessWidget {
                                       Row(
                                         children: [
                                           CircleAvatar(
-                                            radius: 20,
+                                            radius: 17,
                                             backgroundImage: funding
                                                         .author!['image'] !=
                                                     null
@@ -144,7 +144,7 @@ class FundingScreen extends StatelessWidget {
                                           Text(
                                             funding.author!['username'],
                                             style: const TextStyle(
-                                                fontSize: 30,
+                                                fontSize: 20,
                                                 fontWeight: FontWeight.w400),
                                           ),
                                         ],

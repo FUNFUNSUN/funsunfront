@@ -103,8 +103,10 @@ class HomeScreen extends StatelessWidget {
                 Column(
                   children: [
                     Container(
-                      padding:
-                          const EdgeInsets.only(top: 20, left: 30, right: 30),
+                      padding: EdgeInsets.only(
+                          top: 20,
+                          left: screenWidth * 0.07,
+                          right: screenWidth * 0.07),
                       width: screenWidth,
                       height: screenHeight * 0.64,
                       decoration: const BoxDecoration(
@@ -136,34 +138,37 @@ class HomeScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: const Color(0xffF5F7FB)),
-                                width: 100,
-                                height: 100,
+                                width: screenWidth * 0.2,
+                                height: screenWidth * 0.2,
                                 child: Image.asset(
                                     'assets/images/three_gifts.png'),
                               ),
-                              const SizedBox(
-                                width: 20,
+                              SizedBox(
+                                width: screenWidth * 0.02,
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '함께 모여 특별한 선물 준비',
-                                    style: TextStyle(
-                                      fontSize: 14.5,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black.withOpacity(0.8),
+                              SizedBox(
+                                width: screenWidth - screenWidth * 0.4,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '함께 모여 특별한 선물 준비',
+                                      style: TextStyle(
+                                        fontSize: 14.5,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black.withOpacity(0.8),
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  const Text(
-                                    '소중한 사람들과 함께 특별한 선물을 \n준비할 수 있도록 도와줍니다.',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
+                                    const Text(
+                                      '소중한 사람들과 함께 특별한 선물을 준비할 수 있도록 도와줍니다.',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -177,34 +182,36 @@ class HomeScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: const Color(0xffF5F7FB)),
-                                width: 100,
-                                height: 100,
+                                width: screenWidth * 0.2,
+                                height: screenWidth * 0.2,
                                 child:
                                     Image.asset('assets/images/touch_coin.png'),
                               ),
-                              const SizedBox(
-                                width: 20,
+                              SizedBox(
+                                width: screenWidth * 0.02,
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '실시간 상태 확인',
-                                    style: TextStyle(
-                                      fontSize: 14.5,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black.withOpacity(0.8),
+                              SizedBox(
+                                width: screenWidth - screenWidth * 0.4,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '실시간 상태 확인',
+                                      style: TextStyle(
+                                        fontSize: 14.5,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black.withOpacity(0.8),
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  const Text(
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(fontSize: 12),
-                                      '펀딩 진행 상태를 실시간으로 확인하고\n모든 과정을 투명하게 관리하세요'),
-                                ],
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
+                                    const Text(
+                                        style: TextStyle(fontSize: 12),
+                                        '펀딩 진행 상태를 실시간으로 확인하고 모든 과정을 투명하게 관리하세요.'),
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -218,33 +225,36 @@ class HomeScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: const Color(0xffF5F7FB)),
-                                width: 100,
-                                height: 100,
+                                width: screenWidth * 0.2,
+                                height: screenWidth * 0.2,
                                 child: Image.asset(
                                     'assets/images/hands_w_heart.png'),
                               ),
-                              const SizedBox(
-                                width: 20,
+                              SizedBox(
+                                width: screenWidth * 0.02,
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '감동의 공유',
-                                    style: TextStyle(
-                                      fontSize: 14.5,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black.withOpacity(0.8),
+                              SizedBox(
+                                width: screenWidth - screenWidth * 0.4,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '감동의 공유',
+                                      style: TextStyle(
+                                        fontSize: 14.5,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black.withOpacity(0.8),
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  const Text(
-                                      style: TextStyle(fontSize: 12),
-                                      '펀딩이 완료되면 특별한 순간을 \n후기로 공유할 수 있습니다\n더 많은 이들에게 감동을 전하세요!'),
-                                ],
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
+                                    const Text(
+                                        style: TextStyle(fontSize: 12),
+                                        '펀딩이 완료되면 특별한 순간을 후기로 공유할 수 있습니다. \n더 많은 이들에게 감동을 전하세요!'),
+                                  ],
+                                ),
                               )
                             ],
                           ),

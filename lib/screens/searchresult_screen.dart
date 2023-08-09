@@ -240,6 +240,9 @@ class _SearchBoxState extends State<SearchBox> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                 suffixIcon: IconButton(
                     onPressed: () async {
+                      setState(() {
+                        widget.isSubmit = true;
+                      });
                       await searchUserFn(_searchController.text);
                     },
                     icon: const Icon(Icons.search_rounded)),

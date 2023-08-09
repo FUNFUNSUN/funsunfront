@@ -44,19 +44,21 @@ class TermsScreen extends StatelessWidget {
                           builder: (context) => PreviewScreen(temp, image)),
                     );
                   },
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xffD9D9D9),
-                          borderRadius: BorderRadius.circular(15)),
-                      width: 400,
-                      height: 50,
-                      child: const Center(
-                        child: Text(
-                          '다음',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 15),
-                        ),
-                      )),
+                  child: Center(
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: const Color(0xffD9D9D9),
+                            borderRadius: BorderRadius.circular(15)),
+                        width: 400,
+                        height: 50,
+                        child: const Center(
+                          child: Text(
+                            '다음',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
+                        )),
+                  ),
                 )
               ],
             ),

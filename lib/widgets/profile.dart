@@ -33,116 +33,113 @@ class Profile extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        (uploadedImage == null)
-            ? (userimg != null)
-                ? InkWell(
-                    onLongPress: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: SizedBox(
-                              width: screenWidth * 0.7,
-                              height: screenWidth * 0.7,
-                              child: Image.network('$baseUrl$userimg'),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(); // 다이얼로그 닫기
-                                },
-                                child: const Text('닫기'),
-                              ),
-                            ],
-                          );
-                        },
+        (userimg != null)
+            ? InkWell(
+                onLongPress: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: SizedBox(
+                          width: screenWidth * 0.7,
+                          height: screenWidth * 0.7,
+                          child: Image.network('$baseUrl$userimg'),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 다이얼로그 닫기
+                            },
+                            child: const Text('닫기'),
+                          ),
+                        ],
                       );
                     },
-                    child: CircleAvatar(
-                        //유저 프로필 이미지
-                        radius: 55,
-                        backgroundImage: NetworkImage('$baseUrl$userimg')),
-                  )
-                : const CircleAvatar(
-                    //디폴트 프로필 이미지
-                    radius: 55,
-                    backgroundImage:
-                        AssetImage('assets/images/default_profile.jpg'))
+                  );
+                },
+                child: CircleAvatar(
+                    //유저 프로필 이미지
+                    radius: screenWidth * 0.12,
+                    backgroundImage: NetworkImage('$baseUrl$userimg')),
+              )
             : CircleAvatar(
-                //업로드한 프로필 이미지(있으면)
-                radius: 60,
-                backgroundImage: FileImage(uploadedImage!)),
-        const SizedBox(
-          width: 20,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$userName님',
-              style: const TextStyle(fontSize: 17),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                InkWell(
+                //디폴트 프로필 이미지
+                radius: screenWidth * 0.12,
+                backgroundImage:
+                    const AssetImage('assets/images/default_profile.jpg')),
+        SizedBox(
+          width: screenWidth - screenWidth * 0.38,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                '$userName님',
+                style: const TextStyle(fontSize: 20),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                      onTap: () async {
+                        // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
+                        await profileProvider.updateProfile(uid);
+                        fundingsProvider.getMyfundings(
+                            profileProvider.profile!.id, 1);
+                        if (context.mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const FollowScreen(
+                                initIndex: 0,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text('팔로워 $followerStr명',
+                          style: const TextStyle(fontSize: 12))),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    '|',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  InkWell(
                     onTap: () async {
                       // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
                       await profileProvider.updateProfile(uid);
                       fundingsProvider.getMyfundings(
                           profileProvider.profile!.id, 1);
+
                       if (context.mounted) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const FollowScreen(
-                              initIndex: 0,
+                              initIndex: 1,
                             ),
                           ),
                         );
                       }
                     },
-                    child: Text('팔로워 $followerStr명',
-                        style: const TextStyle(fontSize: 12))),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  '|',
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(0.6),
+                    child: Text('팔로잉 $followingStr명',
+                        style: const TextStyle(fontSize: 12)),
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                InkWell(
-                  onTap: () async {
-                    // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
-                    await profileProvider.updateProfile(uid);
-                    fundingsProvider.getMyfundings(
-                        profileProvider.profile!.id, 1);
-
-                    if (context.mounted) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const FollowScreen(
-                            initIndex: 1,
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  child: Text('팔로잉 $followingStr명',
-                      style: const TextStyle(fontSize: 12)),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );

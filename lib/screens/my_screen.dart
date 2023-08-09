@@ -59,7 +59,7 @@ class MyScreen extends StatelessWidget {
                   children: [
                     ///////////////////////유저 프로필
                     Padding(
-                      padding: const EdgeInsets.all(30.0),
+                      padding: EdgeInsets.all(sizeX * 0.07),
                       child: Column(
                         children: [
                           Stack(children: [
