@@ -10,8 +10,8 @@ import '../provider/fundings_provider.dart';
 import '../screens/funding_screen.dart';
 import '../services/api_funding.dart';
 
-class FundingCardTest extends StatefulWidget {
-  FundingCardTest({
+class FundingCard extends StatefulWidget {
+  FundingCard({
     super.key,
     required this.sizeX,
     required this.title,
@@ -26,10 +26,10 @@ class FundingCardTest extends StatefulWidget {
   final String? uid;
 
   @override
-  State<FundingCardTest> createState() => _FundingCardTestState();
+  State<FundingCard> createState() => _FundingCardState();
 }
 
-class _FundingCardTestState extends State<FundingCardTest> {
+class _FundingCardState extends State<FundingCard> {
   int page = 1;
   List<FundingModel> fundings = [];
   FundingsProvider fundingsProvider = FundingsProvider();

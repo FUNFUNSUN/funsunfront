@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
-import 'package:funsunfront/widgets/fundingcardTest.dart';
+import 'package:funsunfront/widgets/fundingcard.dart';
 import 'package:provider/provider.dart';
 
 class AllFundingsScreen extends StatelessWidget {
@@ -54,7 +54,7 @@ class AllFundingsScreen extends StatelessWidget {
                 child: SizedBox(
                     width: sizeX,
                     height: sizeY,
-                    child: FundingCardTest(
+                    child: FundingCard(
                       fundingType: fundingType,
                       title: title,
                       sizeX: sizeX,
