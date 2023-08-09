@@ -188,9 +188,11 @@ class _FundingCardState extends State<FundingCard> {
                                           children: [
                                             CircleAvatar(
                                               radius: 15,
-                                              backgroundImage: (imgUrl != null)
+                                              backgroundImage: (fundings[index]
+                                                          .author!['image'] !=
+                                                      null)
                                                   ? NetworkImage(
-                                                      '$imgBaseUrl$imgUrl',
+                                                      '$imgBaseUrl${fundings[index].author!['image']}',
                                                     )
                                                   : Image.asset(
                                                           'assets/images/default_profile.jpg')
@@ -200,7 +202,7 @@ class _FundingCardState extends State<FundingCard> {
                                               width: 8,
                                             ),
                                             Text(
-                                                '${fundings[index].authorName}'),
+                                                '${fundings[index].author!['username']}'),
                                           ],
                                         ),
                                         (public)

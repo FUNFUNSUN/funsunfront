@@ -89,7 +89,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  '펀딩 이름을 입력해주세요',
+                  '펀딩 이름을 수정하세요',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -139,7 +139,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   height: 5,
                 ),
                 Text(
-                  '수정하고싶지 않다면 넘어가도 돼요.',
+                  '수정하고싶지 않다면 넘어가요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 12,
@@ -278,7 +278,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   height: 30,
                 ),
                 const Text(
-                  '펀딩의 목적을 수정해주세요',
+                  '펀딩의 목적을 수정하세요',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -288,7 +288,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   height: 5,
                 ),
                 Text(
-                  '센스있는 이름으로 특별한 펀딩을 만들어보세요.',
+                  '센스있는 문장으로 펀딩을 소개해보세요.',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 12,
@@ -336,7 +336,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                   height: 5,
                 ),
                 Text(
-                  '나중에 수정 가능해요.',
+                  'Private은 친구만 보여요!',
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.6),
                     fontSize: 13,

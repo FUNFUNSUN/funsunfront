@@ -49,6 +49,8 @@ class Funding {
       return fundingList
           .map((funding) => FundingModel.fromJson(funding))
           .toList();
+    } else if (response.statusCode == 204) {
+      return [];
     } else if (response.statusCode == 401) {
       await User.refreshToken();
       getPublicFunding(page: page, apiCounter: apiCounter);
@@ -74,9 +76,11 @@ class Funding {
       return fundingList
           .map((funding) => FundingModel.fromJson(funding))
           .toList();
+    } else if (response.statusCode == 204) {
+      return [];
     } else if (response.statusCode == 401) {
       await User.refreshToken();
-      getPublicFunding(page: page, apiCounter: apiCounter);
+      getFriendFunding(page: page, apiCounter: apiCounter);
     }
     throw Error();
   }
@@ -99,6 +103,8 @@ class Funding {
       return fundingList
           .map((funding) => FundingModel.fromJson(funding))
           .toList();
+    } else if (response.statusCode == 204) {
+      return [];
     } else if (response.statusCode == 401) {
       await User.refreshToken();
       getUserFunding(page: page, id: id, apiCounter: apiCounter);
@@ -123,6 +129,8 @@ class Funding {
       return fundingList
           .map((funding) => FundingModel.fromJson(funding))
           .toList();
+    } else if (response.statusCode == 204) {
+      return [];
     } else if (response.statusCode == 401) {
       await User.refreshToken();
       getJoinedFunding(page: page, apiCounter: apiCounter);

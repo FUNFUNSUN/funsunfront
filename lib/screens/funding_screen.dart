@@ -121,28 +121,50 @@ class FundingScreen extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      CircleAvatar(
-                                        radius: 20,
-                                        backgroundImage: funding
-                                                    .author!['image'] !=
-                                                null
-                                            ? NetworkImage(
-                                                '$baseurl${funding.author!['image']}',
-                                              )
-                                            : Image.asset(
-                                                    'assets/images/default_profile.jpg')
-                                                .image,
+                                      Row(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 20,
+                                            backgroundImage: funding
+                                                        .author!['image'] !=
+                                                    null
+                                                ? NetworkImage(
+                                                    '$baseurl${funding.author!['image']}',
+                                                  )
+                                                : Image.asset(
+                                                        'assets/images/default_profile.jpg')
+                                                    .image,
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            funding.author!['username'],
+                                            style: const TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        funding.author!['username'],
-                                        style: const TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.w400),
-                                      ),
+                                      (funding.public!)
+                                          ? const Text('')
+                                          : Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10),
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.lock,
+                                                    size: 15,
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                  const Text(' 친구공개'),
+                                                ],
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -241,6 +263,9 @@ class FundingScreen extends StatelessWidget {
                                 ),
                               )
                             : const SizedBox(),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 50),
