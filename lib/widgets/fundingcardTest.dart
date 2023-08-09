@@ -95,7 +95,7 @@ class FundingCardTest extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1, //1 개의 행에 보여줄 item 개수
-                childAspectRatio: 1 / 1.6, //item 의 가로 1, 세로 1 의 비율
+                childAspectRatio: 1 / 1.4, //item 의 가로 1, 세로 1 의 비율
                 mainAxisSpacing: 10, //수평 Padding
                 crossAxisSpacing: 10,
               ),
@@ -104,6 +104,7 @@ class FundingCardTest extends StatelessWidget {
                 final bool isExpired = DateTime.parse(fundings[index].expireOn)
                     .isBefore(DateTime.now());
                 final bool public = fundings[index].public!;
+                final String? imgUrl = fundings[index].image;
                 return InkWell(
                     onTap: () {
                       fundingsProvider
@@ -133,27 +134,53 @@ class FundingCardTest extends StatelessWidget {
                           child: Column(
                             children: [
                               Expanded(
-                                flex: 8,
-                                child: SizedBox(
-                                  width: sizeX,
-                                  child: FittedBox(
-                                    fit: BoxFit.cover,
-                                    child: (fundings[index].image != null)
-                                        ? Image.network(
-                                            '$imgBaseUrl${fundings[index].image}',
-                                            //펀딩이미지
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
-                                            'assets/images/default_funding.jpg',
-                                            fit: BoxFit.cover,
-                                          ),
+                                flex: 1,
+                                child: Container(
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 15,
+                                          backgroundImage: (imgUrl != null)
+                                              ? NetworkImage(
+                                                  '$imgBaseUrl$imgUrl',
+                                                )
+                                              : Image.asset(
+                                                      'assets/images/default_profile.jpg')
+                                                  .image,
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text('${fundings[index].authorName}'),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                               Expanded(
-                                flex: 4,
+                                flex: 5,
+                                child: SizedBox(
+                                  width: sizeX,
+                                  height: sizeX,
+                                  child: (fundings[index].image != null)
+                                      ? Image.network(
+                                          '$imgBaseUrl${fundings[index].image}',
+                                          //펀딩이미지
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'assets/images/default_funding.jpg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
                                 child: Container(
+                                  width: sizeX,
                                   color: Colors.white,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -161,43 +188,28 @@ class FundingCardTest extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         Text(
                                           fundings[index].title,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600),
                                         ),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Row(
-                                              // mainAxisAlignment:
-                                              //     MainAxisAlignment.end,
-                                              children: [
-                                                const Icon(
-                                                  Icons.person_outline_sharp,
-                                                  size: 17,
-                                                ),
-                                                Text(
-                                                    '${fundings[index].authorName}'),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 2,
-                                            ),
                                             const Text(
                                               '펀딩종료일',
                                               style: TextStyle(
-                                                fontSize: 11,
+                                                fontSize: 15,
                                               ),
                                             ),
                                             Text(
                                               style: const TextStyle(
-                                                fontSize: 12,
+                                                fontSize: 16,
                                               ),
                                               DateFormat.yMMMd('en_US').format(
                                                   DateTime.parse(fundings[index]
