@@ -181,21 +181,44 @@ class _FundingCardState extends State<FundingCard> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 15,
-                                          backgroundImage: (imgUrl != null)
-                                              ? NetworkImage(
-                                                  '$imgBaseUrl$imgUrl',
-                                                )
-                                              : Image.asset(
-                                                      'assets/images/default_profile.jpg')
-                                                  .image,
+                                        Row(
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 15,
+                                              backgroundImage: (imgUrl != null)
+                                                  ? NetworkImage(
+                                                      '$imgBaseUrl$imgUrl',
+                                                    )
+                                                  : Image.asset(
+                                                          'assets/images/default_profile.jpg')
+                                                      .image,
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                                '${fundings[index].authorName}'),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text('${fundings[index].authorName}'),
+                                        (public)
+                                            ? const Text('')
+                                            : Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.lock,
+                                                      size: 15,
+                                                      color: Colors.grey[700],
+                                                    ),
+                                                    const Text(' 친구공개'),
+                                                  ],
+                                                ),
+                                              ),
                                       ],
                                     ),
                                   ),
@@ -267,56 +290,28 @@ class _FundingCardState extends State<FundingCard> {
                           ),
                         ),
                         Positioned(
-                          top: 50,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                (public == true)
-                                    ? const SizedBox()
-                                    : Container(
-                                        alignment: Alignment.center,
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            //윤선아
-                                            color: Colors.lightBlue.shade200
-                                                .withOpacity(0.6)),
-                                        child: const Text(
-                                          '친구공개\n펀딩',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 10),
-                                        ),
-                                      ),
-                                (isExpired == true)
-                                    ? Container(
-                                        alignment: Alignment.center,
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: Theme.of(context)
-                                                .primaryColorLight
-                                                .withOpacity(0.6)),
-                                        child: const Text(
-                                          '만료된 \n펀딩',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 10),
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                              ],
-                            ),
-                          ),
-                        )
+                          top: 60,
+                          left: 5,
+                          child: (isExpired == true)
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Theme.of(context)
+                                          .primaryColorLight
+                                          .withOpacity(0.6)),
+                                  child: const Text(
+                                    '만료된 \n펀딩',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 10),
+                                  ),
+                                )
+                              : const SizedBox(),
+                        ),
                       ],
                     ));
               },
