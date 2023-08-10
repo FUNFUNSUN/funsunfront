@@ -110,9 +110,6 @@ class _FundingCardState extends State<FundingCard> {
     final FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
     ScrollHandler scrollHandler = ScrollHandler();
-    // Future<void> setAuthorId(authorId) async {
-    //   await profileProvider.updateProfile(authorId);
-    // }
 
     return (fundings.isNotEmpty)
         ? NotificationListener<ScrollNotification>(
@@ -144,10 +141,6 @@ class _FundingCardState extends State<FundingCard> {
                 final bool isExpired = DateTime.parse(fundings[index].expireOn)
                     .isBefore(DateTime.now());
                 final bool public = fundings[index].public!;
-                // TODO : 처리중
-                // String authorId = fundings[index].author!['id'];
-                // setAuthorId(authorId);
-                // String? imgUrl = profileProvider.profile!.image;
 
                 return InkWell(
                     onTap: () {
