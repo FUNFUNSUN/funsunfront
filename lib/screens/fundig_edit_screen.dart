@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
+import 'package:funsunfront/widgets/app_bar.dart';
 
 import 'package:provider/provider.dart';
 
@@ -81,6 +82,8 @@ class _FundingEditScreen extends State<FundingEditScreen> {
         Provider.of<FundingsProvider>(context, listen: false);
 
     return Scaffold(
+      appBar: const FunSunAppBar(
+          title: '펀딩 수정 페이지입니다.', content: '수정할 항목들을 입력해주세요.'),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

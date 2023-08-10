@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:funsunfront/screens/terms_screen.dart';
+import 'package:funsunfront/widgets/app_bar.dart';
 
 import 'package:intl/intl.dart';
 
@@ -84,6 +85,10 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
 
     String dateStr = _selectedDate.toString();
     return Scaffold(
+      appBar: const FunSunAppBar(
+        title: '펀딩 작성 페이지입니다.',
+        content: '작성할 내용들을 입력해주세요.',
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

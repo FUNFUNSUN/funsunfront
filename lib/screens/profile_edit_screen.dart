@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
 import '../provider/user_provider.dart';
+import '../widgets/app_bar.dart';
 import '../widgets/image_upload.dart';
 import '../widgets/pink_btn.dart';
 
@@ -140,50 +141,14 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 80,
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    '프로필 수정페이지입니다.',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                        color: Theme.of(context).primaryColor, Icons.close),
-                  ),
-                ],
-              ),
-              Text(
-                '수정할 항목들을 입력하세요.',
-                style: TextStyle(
-                  color: Colors.black.withOpacity(0.6),
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-        ),
+      appBar: const FunSunAppBar(
+        title: '프로필 수정 페이지입니다.',
+        content: '수정할 항목들을 입력하세요.',
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
+            padding: const EdgeInsets.all(30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

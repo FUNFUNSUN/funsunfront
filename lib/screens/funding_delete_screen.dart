@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/models/funding_model.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/services/api_funding.dart';
+import 'package:funsunfront/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/achievement_rate.dart';
@@ -30,31 +31,30 @@ class FundingDeleteScreen extends StatelessWidget {
     final leftHours = tempDifference - leftDays * 24;
     //print('차이나는 시간만 출력 : $leftHours');
     return Scaffold(
+      appBar: const FunSunAppBar(
+          title: '펀딩 삭제 페이지입니다.', content: '삭제하시기 전, 내용을 잘 읽어주세요.'),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+            padding: const EdgeInsets.all(30.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(
-                height: 60,
-              ),
+              // const SizedBox(
+              //   height: 60,
+              // ),
+              // const Text(
+              //   '펀딩 삭제 페이지입니다.',
+              //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+              // ),
+              // const SizedBox(
+              //   height: 30,
+              // ),
+              // const Text(
+              //   '펀딩을 삭제하기 전, 내용을 확인해주세요',
+              //   style: TextStyle(color: Color(0xff7D7D7D)),
+              // ),
               const Text(
-                '펀딩 삭제 페이지입니다.',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              const Text(
-                '펀딩을 삭제하기 전, 내용을 확인해주세요',
-                style: TextStyle(color: Color(0xff7D7D7D)),
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 20),
-                child: const Text(
-                    '펀딩을 삭제하게 될 경우, 되돌릴 수 없으며, 현재까지 모인 금액 또한 환불 받을 수 없습니다.  '),
-              ),
+                  '펀딩을 삭제하게 될 경우, 되돌릴 수 없으며, 현재까지 모인 금액 또한 환불 받을 수 없습니다.  '),
               const SizedBox(
                 height: 10,
               ),
@@ -64,7 +64,7 @@ class FundingDeleteScreen extends StatelessWidget {
                   '삭제할 게시글 : ',
                   style: TextStyle(
                     fontSize: 24,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ),
@@ -77,7 +77,7 @@ class FundingDeleteScreen extends StatelessWidget {
                   funding.title,
                   style: const TextStyle(
                     fontSize: 24,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
