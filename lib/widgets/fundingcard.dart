@@ -275,9 +275,10 @@ class _FundingCardState extends State<FundingCard> {
                                               style: const TextStyle(
                                                 fontSize: 16,
                                               ),
-                                              DateFormat.yMMMd('en_US').format(
-                                                  DateTime.parse(fundings[index]
-                                                      .expireOn)),
+                                              DateFormat('yyyy년 MM월 dd일')
+                                                  .format(DateTime.parse(
+                                                      fundings[index]
+                                                          .expireOn)),
                                             ),
                                           ],
                                         )
