@@ -292,7 +292,7 @@ class _FundingCardState extends State<FundingCard> {
                           ),
                         ),
                         Positioned(
-                          top: 60,
+                          top: 70,
                           left: 5,
                           child: (isExpired == true)
                               ? Container(

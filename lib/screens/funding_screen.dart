@@ -64,7 +64,8 @@ class FundingScreen extends StatelessWidget {
 
                 // print('펀딩에 등록된 시간 ${DateTime.parse(funding.expireOn)}');
                 // print('현재 시간 ${DateTime.now()}');
-
+                final bool isExpired =
+                    DateTime.parse(funding.expireOn).isBefore(DateTime.now());
                 final ex = DateTime.parse(funding.expireOn)
                     .difference(DateTime.now())
                     .toString();
@@ -173,25 +174,51 @@ class FundingScreen extends StatelessWidget {
                             const SizedBox(
                               height: 15,
                             ),
-                            Container(
-                              width: screenWidth * 0.8,
-                              height: screenWidth * 0.8,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Theme.of(context)
-                                    .primaryColorDark
-                                    .withOpacity(0.6),
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                              child: (funding.image != null)
-                                  ? Image.network(
-                                      '$baseurl${funding.image}',
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.asset(
-                                      'assets/images/default_funding.jpg',
-                                      fit: BoxFit.cover,
-                                    ),
+                            Stack(
+                              children: [
+                                Container(
+                                  width: screenWidth * 0.8,
+                                  height: screenWidth * 0.8,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Theme.of(context)
+                                        .primaryColorDark
+                                        .withOpacity(0.6),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: (funding.image != null)
+                                      ? Image.network(
+                                          '$baseurl${funding.image}',
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'assets/images/default_funding.jpg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                                (isExpired)
+                                    ? Container(
+                                        alignment: Alignment.center,
+                                        width: screenWidth * 0.8,
+                                        height: screenWidth * 0.12,
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(30),
+                                              topRight: Radius.circular(30)),
+                                          color: Theme.of(context)
+                                              .primaryColor
+                                              .withOpacity(0.7),
+                                        ),
+                                        child: const Text(
+                                          '만료된 펀딩입니다.',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 17),
+                                        ),
+                                      )
+                                    : const SizedBox()
+                              ],
                             ),
                           ],
                         ),
