@@ -71,71 +71,74 @@ class Profile extends StatelessWidget {
                     const AssetImage('assets/images/default_profile.jpg')),
         SizedBox(
           width: screenWidth - screenWidth * 0.38,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                '$userName님',
-                style: const TextStyle(fontSize: 23),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '$userName 님',
+                  style: const TextStyle(fontSize: 20),
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                        onTap: () async {
+                          // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
+                          await profileProvider.updateProfile(uid);
+                          fundingsProvider.getMyfundings(
+                              profileProvider.profile!.id, 1);
+                          if (context.mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const FollowScreen(
+                                  initIndex: 0,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                          child: Text('팔로워 $followerStr명',
+                              style: const TextStyle(fontSize: 15)),
+                        )),
+                    Text(
+                      '|',
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                    ),
+                    InkWell(
                       onTap: () async {
                         // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
                         await profileProvider.updateProfile(uid);
                         fundingsProvider.getMyfundings(
                             profileProvider.profile!.id, 1);
+
                         if (context.mounted) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const FollowScreen(
-                                initIndex: 0,
+                                initIndex: 1,
                               ),
                             ),
                           );
                         }
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('팔로워 $followerStr명',
+                        padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+                        child: Text('팔로잉 $followingStr명',
                             style: const TextStyle(fontSize: 15)),
-                      )),
-                  Text(
-                    '|',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.6),
+                      ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
-                      await profileProvider.updateProfile(uid);
-                      fundingsProvider.getMyfundings(
-                          profileProvider.profile!.id, 1);
-
-                      if (context.mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const FollowScreen(
-                              initIndex: 1,
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('팔로잉 $followingStr명',
-                          style: const TextStyle(fontSize: 15)),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ],

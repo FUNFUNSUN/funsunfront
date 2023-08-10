@@ -8,16 +8,9 @@ class FunSunAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      shape: Border(
-        bottom: BorderSide(
-          color: Theme.of(context).primaryColorLight,
-          width: 1,
-        ),
-      ),
       toolbarHeight: 80,
       backgroundColor: Colors.white,
-      shadowColor: Theme.of(context).primaryColor,
-      elevation: 3,
+      elevation: 0,
       automaticallyImplyLeading: false,
       title: Padding(
         padding: const EdgeInsets.only(left: 15),
