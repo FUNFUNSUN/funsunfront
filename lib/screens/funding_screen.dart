@@ -572,79 +572,95 @@ class FundingScreen extends StatelessWidget {
                             ),
                             // 여기까지가 댓글
                             (funding.review != null)
-                                ? Column(
-                                    children: [
-                                      Container(
-                                        color: const Color.fromARGB(
-                                            255, 255, 159, 208),
-                                        height: 50,
-                                      ),
-                                      Transform.translate(
-                                        offset: const Offset(0, -15),
-                                        child: Transform.scale(
-                                          scale: 1.5,
-                                          child: Image.asset(
-                                              'assets/images/purpleCircles.png'),
-                                        ),
-                                      ),
-                                      Transform.translate(
-                                        offset: const Offset(0, -30),
-                                        child: Container(
+                                ? Stack(children: [
+                                    Column(
+                                      children: [
+                                        Container(
                                           color: const Color.fromARGB(
-                                              255, 178, 159, 255),
-                                          width: screenWidth,
-                                          height: 500,
-                                          child: Transform.translate(
-                                            offset: const Offset(20, 20),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  '펀딩 후기',
-                                                  style: TextStyle(
-                                                    fontSize: 27,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                                if (funding.reviewImage != null)
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 30),
-                                                    child: Container(
-                                                      width: screenWidth * 0.8,
-                                                      height: screenWidth * 0.8,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30),
-                                                        color: Theme.of(context)
-                                                            .primaryColorDark
-                                                            .withOpacity(0.6),
-                                                      ),
-                                                      clipBehavior:
-                                                          Clip.hardEdge,
-                                                      child: Image.network(
-                                                        fit: BoxFit.cover,
-                                                        '$baseurl${funding.reviewImage}',
-                                                      ),
+                                              255, 255, 159, 208),
+                                          height: 50,
+                                        ),
+                                        Transform.translate(
+                                          offset: const Offset(0, -15),
+                                          child: Transform.scale(
+                                            scale: 1.5,
+                                            child: Image.asset(
+                                                'assets/images/purpleCircles.png'),
+                                          ),
+                                        ),
+                                        Transform.translate(
+                                          offset: const Offset(0, -30),
+                                          child: Container(
+                                            color: const Color.fromARGB(
+                                                255, 178, 159, 255),
+                                            width: screenWidth,
+                                            height: 450,
+                                            child: Transform.translate(
+                                              offset: const Offset(20, 20),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    '펀딩 후기',
+                                                    style: TextStyle(
+                                                      fontSize: 27,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                     ),
                                                   ),
-                                                Text(
-                                                  funding.review!,
-                                                  style: const TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.white),
-                                                ),
-                                              ],
+                                                  if (funding.reviewImage !=
+                                                      null)
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 30),
+                                                      child: Container(
+                                                        width:
+                                                            screenWidth * 0.8,
+                                                        height:
+                                                            screenWidth * 0.8,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(30),
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColorDark
+                                                              .withOpacity(0.6),
+                                                        ),
+                                                        clipBehavior:
+                                                            Clip.hardEdge,
+                                                        child: Image.network(
+                                                          fit: BoxFit.cover,
+                                                          '$baseurl${funding.reviewImage}',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  Text(
+                                                    funding.review!,
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
+                                      ],
+                                    ),
+                                    Transform.translate(
+                                      offset: const Offset(0, 480),
+                                      child: Container(
+                                        height: 50,
+                                        color: const Color.fromARGB(
+                                            255, 178, 159, 255),
                                       ),
-                                    ],
-                                  )
+                                    ),
+                                  ])
                                 : Column(
                                     children: [
                                       Container(

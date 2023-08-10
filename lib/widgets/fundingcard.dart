@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:intl/intl.dart';
@@ -81,9 +83,11 @@ class _FundingCardState extends State<FundingCard> {
         tmpFunding = [];
         break;
     }
-    setState(() {
-      fundings.addAll(tmpFunding);
-    });
+    if (tmpFunding.isNotEmpty) {
+      setState(() {
+        fundings.addAll(tmpFunding);
+      });
+    }
   }
 
   void initFunding() async {
@@ -107,22 +111,20 @@ class _FundingCardState extends State<FundingCard> {
         Provider.of<ProfileProvider>(context, listen: true);
     final FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
-
-    // Future<void> setAuthorId(authorId) async {
-    //   await profileProvider.updateProfile(authorId);
-    // }
+    ScrollHandler scrollHandler = ScrollHandler();
 
     return (fundings.isNotEmpty)
         ? NotificationListener<ScrollNotification>(
             onNotification: (scrollInfo) {
               if (scrollInfo.metrics.pixels ==
                   scrollInfo.metrics.maxScrollExtent) {
-                setState(() {
-                  page++;
+                scrollHandler.handleScroll(() {
+                  setState(() {
+                    page++;
+                  });
+                  getMoreFn(widget.fundingType, page);
+                  return true;
                 });
-                getMoreFn(widget.fundingType, page);
-
-                return true;
               }
               return false;
             },
@@ -141,11 +143,7 @@ class _FundingCardState extends State<FundingCard> {
                 final bool isExpired = DateTime.parse(fundings[index].expireOn)
                     .isBefore(DateTime.now());
                 final bool public = fundings[index].public!;
-                // TODO : 처리중
-                // String authorId = fundings[index].author!['id'];
-                // setAuthorId(authorId);
-                // String? imgUrl = profileProvider.profile!.image;
-                String? imgUrl = '';
+
                 return InkWell(
                     onTap: () {
                       fundingsProvider
@@ -277,9 +275,10 @@ class _FundingCardState extends State<FundingCard> {
                                               style: const TextStyle(
                                                 fontSize: 16,
                                               ),
-                                              DateFormat.yMMMd('en_US').format(
-                                                  DateTime.parse(fundings[index]
-                                                      .expireOn)),
+                                              DateFormat('yyyy년 MM월 dd일')
+                                                  .format(DateTime.parse(
+                                                      fundings[index]
+                                                          .expireOn)),
                                             ),
                                           ],
                                         )
@@ -322,5 +321,20 @@ class _FundingCardState extends State<FundingCard> {
         : Center(
             child: Text('${widget.title}이 없습니다.'),
           );
+  }
+}
+
+class ScrollHandler {
+  bool _canLoadMore = true;
+  final int _delaySecond = 1; // 1초
+
+  void handleScroll(bool Function() loadMoreFn) {
+    if (_canLoadMore) {
+      _canLoadMore = false;
+      loadMoreFn();
+      Timer(Duration(seconds: _delaySecond), () {
+        _canLoadMore = true;
+      });
+    }
   }
 }
