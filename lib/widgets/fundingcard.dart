@@ -83,9 +83,11 @@ class _FundingCardState extends State<FundingCard> {
         tmpFunding = [];
         break;
     }
-    setState(() {
-      fundings.addAll(tmpFunding);
-    });
+    if (tmpFunding.isNotEmpty) {
+      setState(() {
+        fundings.addAll(tmpFunding);
+      });
+    }
   }
 
   void initFunding() async {
