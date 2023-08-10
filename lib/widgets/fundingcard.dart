@@ -127,7 +127,7 @@ class _FundingCardState extends State<FundingCard> {
               return false;
             },
             child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
+              padding: const EdgeInsets.fromLTRB(5, 3, 5, 20),
               itemCount: fundings.length,
               physics: const AlwaysScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
