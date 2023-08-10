@@ -69,7 +69,7 @@ class ReportScreen extends StatelessWidget {
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(15)),
-                  hintText: '안녕',
+                  hintText: '신고사유를 적어주세요',
                 ),
                 controller: reportMessage,
               ),
