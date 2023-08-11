@@ -110,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                           left: screenWidth * 0.07,
                           right: screenWidth * 0.07),
                       width: screenWidth,
-                      height: screenHeight * 0.64,
+                      height: screenHeight * 0.6, //0.64였음
                       decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
@@ -211,7 +211,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     const Text(
                                         style: TextStyle(fontSize: 12),
-                                        '펀딩 진행 상태를 실시간으로 확인하고 모든 과정을 투명하게 관리하세요.'),
+                                        '펀딩 진행 상태와 친구들의 서포트를 실시간으로 확인하세요.'),
                                   ],
                                 ),
                               )
@@ -261,13 +261,13 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 55,
                           ),
                           Center(
                             child: Text(
                               '펀딩의 기쁨을 함께 나눠보세요!',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black.withOpacity(0.8),
                               ),
