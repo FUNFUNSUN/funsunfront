@@ -310,6 +310,11 @@ class _SearchBoxState extends State<SearchBox> {
                                       historyList.remove(duplicate);
                                       historyList.add(HistoryItem(
                                           user.id, user.username, user.image));
+                                    } else if (duplicate != null) {
+                                      historyList.remove(duplicate);
+                                      historyList.first.insertBefore(
+                                          HistoryItem(user.id, user.username,
+                                              user.image));
                                     } else {
                                       historyList.first.insertBefore(
                                           HistoryItem(user.id, user.username,
