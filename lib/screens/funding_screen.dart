@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/remit_model.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
@@ -36,7 +38,7 @@ class FundingScreen extends StatelessWidget {
     final Future<List<RemitModel>> remits = Remit.getRemit(id: id, page: '1');
 
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenHeight = MediaQuery.of(context).size.height;
 
     Future<void> refreshFunction() async {
       _fundingsProvider.getFundingDetail(id);

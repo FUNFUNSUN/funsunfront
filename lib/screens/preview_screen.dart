@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class PreviewScreen extends StatelessWidget {
     //final screenHeight = MediaQuery.of(context).size.height;
     bool flag = true;
 
-    DateTime KoreaDateTime = DateTime.now().add(const Duration(hours: 9));
+    // DateTime KoreaDateTime = DateTime.now().add(const Duration(hours: 9));
     //print('한국 시간 $KoreaDateTime');
     //print('펀딩시간 ${DateTime.parse(temp['expire_on'])}');
 

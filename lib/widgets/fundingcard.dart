@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -112,8 +111,6 @@ class _FundingCardState extends State<FundingCard> {
   @override
   Widget build(BuildContext context) {
     const imgBaseUrl = 'http://projectsekai.kro.kr:5000/';
-    final ProfileProvider profileProvider =
-        Provider.of<ProfileProvider>(context, listen: true);
     final FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: true);
     ScrollHandler scrollHandler = ScrollHandler();

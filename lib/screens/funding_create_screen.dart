@@ -81,7 +81,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenHeight = MediaQuery.of(context).size.height;
 
     String dateStr = _selectedDate.toString();
     return Scaffold(

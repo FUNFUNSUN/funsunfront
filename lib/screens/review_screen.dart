@@ -297,12 +297,12 @@ class _ReviewScreen extends State<ReviewScreen> {
                                 actions: [
                                   TextButton(
                                       onPressed: () async {
-                                        Map<String, dynamic> postResult =
-                                            await Funding.putReview(
-                                                editData: editData,
-                                                image: editImage);
+                                        // Map<String, dynamic> postResult =
+                                        await Funding.putReview(
+                                            editData: editData,
+                                            image: editImage);
 
-                                        print('put요청 이후');
+                                        // print('put요청 이후');
                                         fundingsProvider.getFundingDetail(
                                             widget.origin.id.toString());
                                         fundingsProvider.getMyfundings(

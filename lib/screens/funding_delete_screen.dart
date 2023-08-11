@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:funsunfront/models/funding_model.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
@@ -15,7 +17,7 @@ class FundingDeleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenHeight = MediaQuery.of(context).size.height;
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     FundingsProvider fundingsProvider =
         Provider.of<FundingsProvider>(context, listen: false);

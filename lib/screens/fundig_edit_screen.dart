@@ -434,10 +434,10 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                                 actions: [
                                   TextButton(
                                       onPressed: () async {
-                                        Map<String, dynamic> postResult =
-                                            await Funding.putFunding(
-                                                editData: editData,
-                                                image: editImage);
+                                        // Map<String, dynamic> postResult =
+                                        await Funding.putFunding(
+                                            editData: editData,
+                                            image: editImage);
 
                                         fundingsProvider.getFundingDetail(
                                             widget.origin.id.toString());
