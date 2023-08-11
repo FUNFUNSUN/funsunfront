@@ -100,8 +100,15 @@ class ReportScreen extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: ((context) {
-                        return const AlertDialog(
-                          title: Text('어딜 감히 박상규를 신고하려고'),
+                        return AlertDialog(
+                          title: const Text('어딜 감히 박상규를\n신고하려고 하십니까'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('죄송합니다'))
+                          ],
                         );
                       }),
                     );
