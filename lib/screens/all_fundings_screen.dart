@@ -58,7 +58,7 @@ class AllFundingsScreen extends StatelessWidget {
                       fundingType: fundingType,
                       title: title,
                       sizeX: sizeX,
-                      uid: (uid != null) ? uid : '',
+                      uid: uid,
                     )),
               ),
             ],

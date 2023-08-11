@@ -35,6 +35,7 @@ class _FundingCardState extends State<FundingCard> {
   int page = 1;
   List<FundingModel> fundings = [];
   late String? uid;
+  bool isThereMore = true;
 
   Future<List<FundingModel>>? fetchFunding(
       //fundingType에 따라 다른 api 호출
@@ -87,6 +88,10 @@ class _FundingCardState extends State<FundingCard> {
       setState(() {
         fundings.addAll(tmpFunding);
       });
+    } else {
+      setState(() {
+        isThereMore = false;
+      });
     }
   }
 
@@ -117,7 +122,8 @@ class _FundingCardState extends State<FundingCard> {
         ? NotificationListener<ScrollNotification>(
             onNotification: (scrollInfo) {
               if (scrollInfo.metrics.pixels ==
-                  scrollInfo.metrics.maxScrollExtent) {
+                      scrollInfo.metrics.maxScrollExtent &&
+                  isThereMore) {
                 scrollHandler.handleScroll(() {
                   setState(() {
                     page++;
