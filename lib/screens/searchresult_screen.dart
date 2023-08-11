@@ -233,6 +233,9 @@ class _SearchBoxState extends State<SearchBox> {
               //   //검색어 변경 시 동작할 코드 추가, 검색어 입력할 때마다 호출되는부분
               // },
               onSubmitted: (value) async {
+                if (value == '양재최고미남') {
+                  value = '정현';
+                }
                 setState(() {
                   widget.isSubmit = true;
                 });
