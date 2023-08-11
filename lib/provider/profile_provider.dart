@@ -21,4 +21,9 @@ class ProfileProvider extends ChangeNotifier {
     _profile!.follower--;
     notifyListeners();
   }
+
+  void setProfile(AccountModel profile) {
+    _profile = profile;
+    notifyListeners();
+  }
 }

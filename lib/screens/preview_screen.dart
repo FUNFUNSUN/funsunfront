@@ -7,6 +7,7 @@ import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../provider/profile_provider.dart';
 import '../services/api_funding.dart';
 import '../widgets/achievement_rate.dart';
 import 'funding_screen.dart';
@@ -42,6 +43,8 @@ class PreviewScreen extends StatelessWidget {
         Provider.of<FundingsProvider>(context, listen: false);
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+    ProfileProvider profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -135,14 +138,17 @@ class PreviewScreen extends StatelessWidget {
                           // 펀딩 작성 후에는 맨 밑까지 터트리고 펀딩 화면으로 이동
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);
-                          // 내 펀딩 목록에 추가해주고
+                          // 팔로잉페이지 때문에 profileProvider에 내정보 넣어주고
+                          profileProvider.setProfile(userProvider.user!);
+                          // 내 펀딩 목록 리로딩
                           fundingsProvider.getMyfundings(
                               userProvider.user!.id, 1);
-                          // 펀딩 상세 페이지에도 추가해줌
+                          // 전체공개 펀딩 목록 리로딩
+                          fundingsProvider.getPublicFundings(1);
+                          // 펀딩 상세 페이지 리로딩
                           fundingsProvider
                               .getFundingDetail(postResult['id'].toString());
-                          // 전체공개 펀딩 목록에도 추가해줌
-                          fundingsProvider.getPublicFundings(1);
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

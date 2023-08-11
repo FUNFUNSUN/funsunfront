@@ -86,17 +86,10 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
               setState(() {
                 _currentIndex = index;
               });
-              if (index == 0) {
-                _fundingsProvider.getPublicFundings(1);
-                _fundingsProvider.getJoinedfundings(1);
-              }
-              if (index == 1) {
-                _fundingsProvider.getFriendFundings(1);
-              }
+
               if (index == 2) {
-                await _profileProvider.updateProfile(_userProvider.user!.id);
-                _fundingsProvider.getMyfundings(_userProvider.user!.id, 1);
-                _fundingsProvider.getJoinedfundings(1);
+                // 마이페이지 탭시 초기화
+                _profileProvider.setProfile(_userProvider.user!);
               }
             },
             items: const [
