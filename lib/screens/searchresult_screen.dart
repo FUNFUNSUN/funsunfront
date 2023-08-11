@@ -264,24 +264,25 @@ class _SearchBoxState extends State<SearchBox> {
             ),
           ),
         ), //////////////검색바END
-        body: Container(
-          color: Colors.white,
-          child: (() {
-            if (widget.isSubmit && searchedUsers.isNotEmpty) //검색했고, 결과 있음
-            {
-              //검색결과
-              return SingleChildScrollView(
-                physics: const ScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                      child: Text('검색결과', style: TextStyle(fontSize: 15)),
-                    ),
-                    Container(
-                      child: ListView.builder(
+        body: SingleChildScrollView(
+          //키보드가 올라오면서 검색결과가 보이지 않는 문제 해결
+          child: Container(
+            color: Colors.white,
+            child: (() {
+              if (widget.isSubmit && searchedUsers.isNotEmpty) //검색했고, 결과 있음
+              {
+                //검색결과
+                return SingleChildScrollView(
+                  physics: const ScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                        child: Text('검색결과', style: TextStyle(fontSize: 15)),
+                      ),
+                      ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           //검색결과가 있으면 이니까 검색결과
@@ -391,32 +392,32 @@ class _SearchBoxState extends State<SearchBox> {
                               ),
                             );
                           }),
-                    ),
-                  ],
-                ),
-              );
-            } else if (widget.isSubmit && searchedUsers.isEmpty) //검색했지만 결과없음
-            {
-              //검색결과없음
-              return const Center(
-                child: Text('검색결과가 없습니다.'),
-              );
-            } else if (historyList.isNotEmpty) //검색안했고 기록 있으면
-            {
-              //검색기록
-              return Container(
-                color: Colors.white,
-                child: Column(
-                  children: getHistory(),
-                ),
-              );
-            } else //검색안했고 기록 없으면
-            {
-              return const Center(
-                child: Text('검색기록이 없습니다.'),
-              );
-            }
-          })(),
+                    ],
+                  ),
+                );
+              } else if (widget.isSubmit && searchedUsers.isEmpty) //검색했지만 결과없음
+              {
+                //검색결과없음
+                return const Center(
+                  child: Text('검색결과가 없습니다.'),
+                );
+              } else if (historyList.isNotEmpty) //검색안했고 기록 있으면
+              {
+                //검색기록
+                return Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: getHistory(),
+                  ),
+                );
+              } else //검색안했고 기록 없으면
+              {
+                return const Center(
+                  child: Text('검색기록이 없습니다.'),
+                );
+              }
+            })(),
+          ),
         ));
   }
 }
