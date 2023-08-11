@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:funsunfront/widgets/app_bar.dart';
 
 import '../services/api_report.dart';
 
@@ -13,9 +14,34 @@ class ReportScreen extends StatelessWidget {
   Map<String, dynamic> report;
   ReportScreen(this.report, {Key? key}) : super(key: key);
   final reportMessage = TextEditingController();
+
+  late String typeTitle;
+  setTypeTitle() {
+    print(report['type']);
+    switch (report['type']) {
+      case 'funding':
+        typeTitle = '펀딩';
+        break;
+      case 'account':
+        typeTitle = '유저';
+        break;
+      case 'remit':
+        typeTitle = '댓글';
+        break;
+      default:
+        typeTitle = '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    setTypeTitle();
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: FunSunAppBar(
+        title: "$typeTitle 신고 페이지",
+        content: '신고할 내용을 입력해주세요',
+      ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
@@ -23,20 +49,8 @@ class ReportScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //////////////////////////////////////////
-              /////////////////////////////////////////////
-              Text(report['target'].toString()),
-              //////////////////////////////////////////
-              /////////////////////////////////////////////
-              const Text(
-                '신고페이지',
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
               const Text(
                 '신고 메세지',
@@ -44,6 +58,9 @@ class ReportScreen extends StatelessWidget {
                   fontSize: 25,
                   fontWeight: FontWeight.w900,
                 ),
+              ),
+              const SizedBox(
+                height: 5,
               ),
               Text(
                 '신고하고자 하는 이유를 적어주세요',
@@ -53,7 +70,7 @@ class ReportScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 5,
+                height: 15,
               ),
               TextField(
                 textAlignVertical: TextAlignVertical.top,
@@ -78,7 +95,6 @@ class ReportScreen extends StatelessWidget {
               const SizedBox(
                 height: 100,
               ),
-
               InkWell(
                 onTap: () async {
                   if (reportMessage.text.length > 255 ||
@@ -93,9 +109,9 @@ class ReportScreen extends StatelessWidget {
                     );
                   } else {
                     report['message'] = reportMessage.text;
-                    print(report['type']);
-                    print(report['target']);
-                    print(report['message']);
+                    // print(report['type']);
+                    // print(report['target']);
+                    // print(report['message']);
 
                     var json = jsonEncode(report);
 
@@ -108,7 +124,7 @@ class ReportScreen extends StatelessWidget {
                           context: context,
                           builder: ((context) {
                             return AlertDialog(
-                              title: const Text('정상등록되었습니다'),
+                              title: const Text('신고되었습니다'),
                               actions: [
                                 TextButton(
                                     onPressed: () {
@@ -138,12 +154,6 @@ class ReportScreen extends StatelessWidget {
                         );
                       }
                     }
-
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => PreviewScreen(temp, image)),
-                    // );
                   }
                 },
                 child: Container(
