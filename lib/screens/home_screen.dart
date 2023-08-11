@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/all_fundings_screen.dart';
 import 'package:funsunfront/widgets/fundingcard_horizon.dart';
+import 'package:funsunfront/widgets/jeonghyunface.dart';
 import 'package:provider/provider.dart';
 import '../provider/fundings_provider.dart';
 import 'funding_create_screen.dart';
@@ -11,6 +13,12 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   late FundingsProvider fundingsProvider;
+  final List<String> devIdList = [
+    '2943720963',
+    '2943717833',
+    '2920117956',
+    '2919921020'
+  ];
 
   Future<void> refreshFunction() async {
     fundingsProvider.getFriendFundings(1);
@@ -263,13 +271,29 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(
                             height: 55,
                           ),
-                          Center(
-                            child: Text(
-                              '펀딩의 기쁨을 함께 나눠보세요!',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black.withOpacity(0.8),
+                          InkWell(
+                            //easterEgg
+                            onLongPress: () {
+                              if (devIdList.contains(Provider.of<UserProvider>(
+                                      context,
+                                      listen: false)
+                                  .user!
+                                  .id)) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => JeonghyunFace()),
+                                );
+                              }
+                            },
+                            child: Center(
+                              child: Text(
+                                '펀딩의 기쁨을 함께 나눠보세요!',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black.withOpacity(0.8),
+                                ),
                               ),
                             ),
                           ),

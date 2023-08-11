@@ -60,6 +60,7 @@ dependencies:
   android_intent_plus: ^4.0.2
   webview_flutter_android: ^3.9.2
   webview_flutter_wkwebview: ^3.7.2
+  audioplayers: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +97,7 @@ flutter:
     - assets/images/
     - assets/launcher/
     - assets/images/bank/
+    - assets/audio/circus.mp3
 
   fonts:
     - family: PretenDard
