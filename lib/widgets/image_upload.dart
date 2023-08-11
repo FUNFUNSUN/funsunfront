@@ -15,11 +15,13 @@ class ImageUpload extends StatefulWidget {
 class _ImageUploadState extends State<ImageUpload> {
   final picker = ImagePicker();
   File? previewImage;
+  //imageQuality: 30이었음, // 0~100
+  final int imageQuality = 18;
 
   imageFromGallery() async {
     var image = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 30,
+      imageQuality: imageQuality,
     );
     if (image != null) {
       setState(() {
@@ -31,7 +33,7 @@ class _ImageUploadState extends State<ImageUpload> {
   imageFromCamera() async {
     var image = await picker.pickImage(
       source: ImageSource.camera,
-      imageQuality: 30,
+      imageQuality: imageQuality,
     );
     if (image != null) {
       setState(() {
