@@ -25,7 +25,6 @@ class UserScreen extends StatelessWidget {
 
   Future<void> refreshFunction() async {
     userProvider.updateUser();
-    profileProvider.updateProfile(profileProvider.profile!.id);
     fundingsProvider.getMyfundings(profileProvider.profile!.id, 1);
     print('refreshed');
   }
@@ -66,7 +65,7 @@ class UserScreen extends StatelessWidget {
                           userName: profileProvider.profile!.username,
                           following: profileProvider.profile!.followee,
                           follower: profileProvider.profile!.follower,
-                          uid: profileProvider.profile!.id,
+                          user: profileProvider.profile!,
                         ),
 
                         ////////////////////////유저 프로필 END

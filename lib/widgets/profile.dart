@@ -1,17 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:funsunfront/provider/fundings_provider.dart';
-import 'package:funsunfront/provider/profile_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:funsunfront/models/account_model.dart';
 
 import '../screens/follow_screen.dart';
 
 class Profile extends StatelessWidget {
-  final String userName, uid;
+  final String userName;
   final int following, follower;
   final String? userimg;
   final File? uploadedImage;
+  final AccountModel user;
 
   const Profile(
       {super.key,
@@ -20,16 +19,12 @@ class Profile extends StatelessWidget {
       required this.follower,
       this.userimg,
       this.uploadedImage,
-      required this.uid});
+      required this.user});
 
   @override
   Widget build(BuildContext context) {
     String followingStr = following.toString();
     String followerStr = follower.toString();
-    ProfileProvider profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    FundingsProvider fundingsProvider =
-        Provider.of<FundingsProvider>(context, listen: false);
     final screenWidth = MediaQuery.of(context).size.width;
     const String baseUrl = 'http://projectsekai.kro.kr:5000/';
     return Row(
@@ -85,16 +80,13 @@ class Profile extends StatelessWidget {
                   children: [
                     InkWell(
                         onTap: () async {
-                          // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
-                          await profileProvider.updateProfile(uid);
-                          fundingsProvider.getMyfundings(
-                              profileProvider.profile!.id, 1);
                           if (context.mounted) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const FollowScreen(
+                                builder: (context) => FollowScreen(
                                   initIndex: 0,
+                                  user: user,
                                 ),
                               ),
                             );
@@ -113,17 +105,13 @@ class Profile extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () async {
-                        // 팔로우 팔로워를 위해 profileProvider에 uid 넘겨주기
-                        await profileProvider.updateProfile(uid);
-                        fundingsProvider.getMyfundings(
-                            profileProvider.profile!.id, 1);
-
                         if (context.mounted) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FollowScreen(
+                              builder: (context) => FollowScreen(
                                 initIndex: 1,
+                                user: user,
                               ),
                             ),
                           );

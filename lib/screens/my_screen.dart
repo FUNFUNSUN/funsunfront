@@ -9,7 +9,6 @@ import 'package:funsunfront/widgets/profile.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/fundings_provider.dart';
-import '../provider/profile_provider.dart';
 import '../provider/user_provider.dart';
 import '../widgets/fundingcard_horizon.dart';
 
@@ -21,11 +20,8 @@ class MyScreen extends StatelessWidget {
 
   late FundingsProvider _fundingsProvider;
   late UserProvider _userProvider;
-  late ProfileProvider _profileProvider;
 
   Future<void> refreshFunction() async {
-    await _profileProvider
-        .updateProfile(_userProvider.user!.id); // 팔로워 팔로잉 위젯 때문에 profile에 세팅
     _userProvider.updateUser();
     _fundingsProvider.refreshAllFundings(_userProvider.user!.id);
     print('refreshed');
@@ -35,7 +31,6 @@ class MyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
     _userProvider = Provider.of<UserProvider>(context, listen: true);
-    _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
     final sizeX = MediaQuery.of(context).size.width;
     int sunCnt = 0;
     // final sizeY = MediaQuery.of(context).size.height;
@@ -69,10 +64,7 @@ class MyScreen extends StatelessWidget {
                               userName: _userProvider.user!.username,
                               following: _userProvider.user!.followee,
                               follower: _userProvider.user!.follower,
-                              // 업로드한 이미지 있으면,
-                              //uploadedImage: _userProvider.profileImage,
-                              // 팔로워 팔로잉 위젯 때문에 profile에 세팅
-                              uid: _userProvider.user!.id,
+                              user: _userProvider.user!,
                             ),
                             Positioned(
                               //프로필 수정버튼

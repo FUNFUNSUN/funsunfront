@@ -11,8 +11,9 @@ import '../widgets/loading_circle.dart';
 import 'my_screen.dart';
 
 class FollowScreen extends StatefulWidget {
-  const FollowScreen({super.key, required this.initIndex});
+  const FollowScreen({super.key, required this.initIndex, required this.user});
   final int initIndex;
+  final AccountModel user;
   @override
   _FollowScreenState createState() => _FollowScreenState();
 }
@@ -56,7 +57,7 @@ class _FollowScreenState extends State<FollowScreen>
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          _profileProvider.profile!.username,
+          widget.user.username,
           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
         ),
         bottom: TabBar(
@@ -69,14 +70,15 @@ class _FollowScreenState extends State<FollowScreen>
         ),
       ),
       body: currentPageIndex == 0
-          ? const FollowerWidget() // 첫 번째 페이지
-          : const FolloweeWidget(), // 두 번째 페이지
+          ? FollowerWidget(user: widget.user) // 팔로워 페이지
+          : FolloweeWidget(user: widget.user), // 팔로잉 페이지
     );
   }
 }
 
 class FollowerWidget extends StatelessWidget {
-  const FollowerWidget({super.key});
+  const FollowerWidget({super.key, required this.user});
+  final AccountModel user;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class FollowerWidget extends StatelessWidget {
     _profileProvider = Provider.of<ProfileProvider>(context, listen: true);
 
     final Future<List<AccountModel>> followerList =
-        Follow.getFollowerList(id: _profileProvider.profile!.id);
+        Follow.getFollowerList(id: user.id);
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     return FutureBuilder(
@@ -172,7 +174,8 @@ class FollowerWidget extends StatelessWidget {
 }
 
 class FolloweeWidget extends StatelessWidget {
-  const FolloweeWidget({super.key});
+  const FolloweeWidget({super.key, required this.user});
+  final AccountModel user;
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +183,8 @@ class FolloweeWidget extends StatelessWidget {
     _userProvider = Provider.of<UserProvider>(context, listen: false);
 
     final Future<List<AccountModel>> followeeList =
-        Follow.getFolloweeList(id: _profileProvider.profile!.id);
+        Follow.getFolloweeList(id: user.id);
+    // TODO 여기가 포인트다 profileProvider의 profile을 사용하는 것이 아니라 걍 id 받아올거임
 
     const String baseurl = 'http://projectsekai.kro.kr:5000/';
     return FutureBuilder(
