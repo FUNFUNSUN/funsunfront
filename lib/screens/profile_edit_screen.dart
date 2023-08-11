@@ -141,6 +141,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const FunSunAppBar(
         title: '프로필 수정 페이지입니다.',
         content: '수정할 항목들을 입력하세요.',

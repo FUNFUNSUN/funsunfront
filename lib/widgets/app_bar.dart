@@ -13,7 +13,10 @@ class FunSunAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       automaticallyImplyLeading: false,
       title: Padding(
-        padding: const EdgeInsets.only(left: 15),
+        padding: const EdgeInsets.only(
+          left: 15,
+          top: 5,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

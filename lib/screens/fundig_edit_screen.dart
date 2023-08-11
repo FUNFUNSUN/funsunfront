@@ -82,6 +82,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
         Provider.of<FundingsProvider>(context, listen: false);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const FunSunAppBar(
           title: '펀딩 수정 페이지입니다.', content: '수정할 항목들을 입력해주세요.'),
       body: SafeArea(

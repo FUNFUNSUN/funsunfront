@@ -85,6 +85,7 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
 
     String dateStr = _selectedDate.toString();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const FunSunAppBar(
         title: '펀딩 작성 페이지입니다.',
         content: '작성할 내용들을 입력해주세요.',
