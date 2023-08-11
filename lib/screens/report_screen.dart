@@ -17,7 +17,6 @@ class ReportScreen extends StatelessWidget {
 
   late String typeTitle;
   setTypeTitle() {
-    print(report['type']);
     switch (report['type']) {
       case 'funding':
         typeTitle = '펀딩';
@@ -97,7 +96,16 @@ class ReportScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
-                  if (reportMessage.text.length > 255 ||
+                  if (typeTitle == '유저' && report['target'] == '2919921020') {
+                    showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return const AlertDialog(
+                          title: Text('어딜 감히 박상규를 신고하려고'),
+                        );
+                      }),
+                    );
+                  } else if (reportMessage.text.length > 255 ||
                       reportMessage.text.length < 2) {
                     showDialog(
                       context: context,
