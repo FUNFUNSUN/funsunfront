@@ -258,7 +258,7 @@ class MyScreen extends StatelessWidget {
                               ),
                               InkWell(
                                 onLongPress: () {
-                                  if (sunCnt > 5) {
+                                  if (sunCnt == 5) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
@@ -298,7 +298,7 @@ class MyScreen extends StatelessWidget {
                                 },
                                 child: IconButton(
                                     onPressed: () {
-                                      if (sunCnt < 4) {
+                                      if (sunCnt < 5) {
                                         sunCnt++;
                                       }
                                     },
