@@ -14,10 +14,10 @@ class HomeScreen extends StatelessWidget {
 
   late FundingsProvider fundingsProvider;
   final List<String> devIdList = [
-    '2943720963',
-    '2943717833',
-    '2920117956',
-    '2919921020'
+    '2943720963', //정현
+    // '2943717833', //후추
+    '2920117956', //윤선
+    '2919921020', //상규
   ];
 
   Future<void> refreshFunction() async {
