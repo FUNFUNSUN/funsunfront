@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/fundings_provider.dart';
 import 'package:funsunfront/provider/profile_provider.dart';
 import 'package:funsunfront/provider/user_provider.dart';
+import 'package:funsunfront/widgets/app_bar.dart';
 import 'package:funsunfront/widgets/fundingcard.dart';
 import 'package:provider/provider.dart';
 
@@ -36,20 +37,16 @@ class AllFundingsScreen extends StatelessWidget {
         return true; // 페이지를 pop 허용
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: FunSunAppBar(
+          title: title,
+          content: '',
+        ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 50, left: 15, right: 15),
+          padding: const EdgeInsets.only(top: 0, left: 15, right: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
               Expanded(
                 child: SizedBox(
                     width: sizeX,

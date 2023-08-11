@@ -26,7 +26,7 @@ class FunSunAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 27,
+                    fontSize: 25,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -39,13 +39,15 @@ class FunSunAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
-            Text(
-              content,
-              style: TextStyle(
-                color: Colors.black.withOpacity(0.6),
-                fontSize: 13,
-              ),
-            ),
+            (content.isNotEmpty)
+                ? Text(
+                    content,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: 12,
+                    ),
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
