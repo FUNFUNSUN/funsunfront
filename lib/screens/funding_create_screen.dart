@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:funsunfront/models/account_model.dart';
+import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/terms_screen.dart';
 import 'package:funsunfront/widgets/app_bar.dart';
 
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/image_upload.dart';
 import '../widgets/pink_btn.dart';
@@ -82,6 +85,8 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     // final screenHeight = MediaQuery.of(context).size.height;
+    final AccountModel user =
+        Provider.of<UserProvider>(context, listen: true).user!;
 
     String dateStr = _selectedDate.toString();
     return Scaffold(

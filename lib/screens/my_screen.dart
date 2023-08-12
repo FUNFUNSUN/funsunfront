@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:funsunfront/models/account_model.dart';
 import 'package:funsunfront/screens/all_fundings_screen.dart';
 import 'package:funsunfront/screens/dropout_confirm_screen.dart';
 import 'package:funsunfront/screens/funding_create_screen.dart';
@@ -31,6 +32,7 @@ class MyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
     _userProvider = Provider.of<UserProvider>(context, listen: true);
+    AccountModel user = _userProvider.user!;
     final sizeX = MediaQuery.of(context).size.width;
     int sunCnt = 0;
     // final sizeY = MediaQuery.of(context).size.height;
@@ -110,12 +112,47 @@ class MyScreen extends StatelessWidget {
                           /////////////////////////내펀딩만들기 | 팔로우 버튼
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const FundingCreateScreen()),
-                              );
+                              if (user.bankAccount == '' ||
+                                  user.bankAccount == null ||
+                                  user.bankAccount == ' ') {
+                                showDialog(
+                                  context: context,
+                                  builder: ((context) {
+                                    return AlertDialog(
+                                      title: const Text('계좌를 등록해주세요'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const FundingCreateScreen()),
+                                            );
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProfileEditScreen(
+                                                        origin: user,
+                                                      )),
+                                            );
+                                          },
+                                          child: const Text('프로필 수정하러 가기'),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const FundingCreateScreen()),
+                                );
+                              }
                             },
                             child: Container(
                               alignment: Alignment.center,

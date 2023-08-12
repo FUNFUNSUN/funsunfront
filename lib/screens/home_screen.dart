@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/all_fundings_screen.dart';
+import 'package:funsunfront/screens/profile_edit_screen.dart';
 import 'package:funsunfront/widgets/fundingcard_horizon.dart';
 import 'package:funsunfront/widgets/jeonghyunface.dart';
 import 'package:provider/provider.dart';
+import '../models/account_model.dart';
 import '../provider/fundings_provider.dart';
 import 'funding_create_screen.dart';
 
@@ -30,7 +32,7 @@ class HomeScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
-
+    AccountModel user = Provider.of<UserProvider>(context, listen: false).user!;
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
         body: RefreshIndicator(
@@ -79,12 +81,47 @@ class HomeScreen extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const FundingCreateScreen()),
-                            );
+                            if (user.bankAccount == '' ||
+                                user.bankAccount == null ||
+                                user.bankAccount == ' ') {
+                              showDialog(
+                                context: context,
+                                builder: ((context) {
+                                  return AlertDialog(
+                                    title: const Text('계좌를 등록해주세요'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const FundingCreateScreen()),
+                                          );
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProfileEditScreen(
+                                                      origin: user,
+                                                    )),
+                                          );
+                                        },
+                                        child: const Text('프로필 수정하러 가기'),
+                                      ),
+                                    ],
+                                  );
+                                }),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FundingCreateScreen()),
+                              );
+                            }
                           },
                           child: Center(
                             child: Container(
@@ -274,11 +311,7 @@ class HomeScreen extends StatelessWidget {
                           InkWell(
                             //easterEgg
                             onLongPress: () {
-                              if (devIdList.contains(Provider.of<UserProvider>(
-                                      context,
-                                      listen: false)
-                                  .user!
-                                  .id)) {
+                              if (devIdList.contains(user.id)) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -328,11 +361,45 @@ class HomeScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const FundingCreateScreen()),
-                    );
+                    if (user.bankAccount == '' ||
+                        user.bankAccount == null ||
+                        user.bankAccount == ' ') {
+                      showDialog(
+                        context: context,
+                        builder: ((context) {
+                          return AlertDialog(
+                            title: const Text('계좌를 등록해주세요'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const FundingCreateScreen()),
+                                  );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileEditScreen(
+                                              origin: user,
+                                            )),
+                                  );
+                                },
+                                child: const Text('프로필 수정하러 가기'),
+                              ),
+                            ],
+                          );
+                        }),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FundingCreateScreen()),
+                      );
+                    }
                   },
                   child: Container(
                     alignment: Alignment.center,
