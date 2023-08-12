@@ -38,7 +38,11 @@ class FunsunApp extends StatelessWidget {
           fontFamily: 'Pretendard',
           primarySwatch: createMaterialColor(const Color(0xffFF80C0)),
         ),
-        home: const BottomNavShortcuts(),
+        home: WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: const BottomNavShortcuts()),
       ),
     );
   }
