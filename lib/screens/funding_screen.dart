@@ -428,8 +428,8 @@ class FundingScreen extends StatelessWidget {
                                                   child: Column(
                                                     children: [
                                                       Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
                                                                 .start,
                                                         children: [
                                                           InkWell(
