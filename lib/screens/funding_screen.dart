@@ -428,6 +428,9 @@ class FundingScreen extends StatelessWidget {
                                                   child: Column(
                                                     children: [
                                                       Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           InkWell(
                                                             // 각각 유저 프로필로 이동, profileProvider로 유저 정보 불러오기
