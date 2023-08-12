@@ -159,13 +159,21 @@ class _RemitScreenState extends State<RemitScreen> {
                 child: GestureDetector(
                   onTap: () async {
                     if (tempAmount.text.isEmpty ||
-                        int.parse(tempAmount.text) > 10000000 ||
+                        int.parse(tempAmount.text) > 1000000 ||
                         int.parse(tempAmount.text) < 1000) {
                       showDialog(
                         context: context,
                         builder: ((context) {
-                          return const AlertDialog(
-                            title: Text('금액 확인'),
+                          return AlertDialog(
+                            title: const Text('금액은 1000원부터 100만원까지 가능해요'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('확인'),
+                              ),
+                            ],
                           );
                         }),
                       );
@@ -174,8 +182,16 @@ class _RemitScreenState extends State<RemitScreen> {
                       showDialog(
                         context: context,
                         builder: ((context) {
-                          return const AlertDialog(
-                            title: Text('메세지 확인'),
+                          return AlertDialog(
+                            title: const Text('메세지는 2글자 이상 255글자 이하로 입력해주세요'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('확인'),
+                              ),
+                            ],
                           );
                         }),
                       );
