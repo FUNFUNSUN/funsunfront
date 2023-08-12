@@ -74,7 +74,7 @@ class PreviewScreen extends StatelessWidget {
                   const Text(
                     '작성한 내용을 확인해주세요',
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 23,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
