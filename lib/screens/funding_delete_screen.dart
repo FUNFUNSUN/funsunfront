@@ -38,27 +38,12 @@ class FundingDeleteScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 30.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // const SizedBox(
-              //   height: 60,
-              // ),
-              // const Text(
-              //   '펀딩 삭제 페이지입니다.',
-              //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-              // ),
-              // const SizedBox(
-              //   height: 30,
-              // ),
-              // const Text(
-              //   '펀딩을 삭제하기 전, 내용을 확인해주세요',
-              //   style: TextStyle(color: Color(0xff7D7D7D)),
-              // ),
-              const Text(
-                  '펀딩을 삭제하게 될 경우, 되돌릴 수 없으며, 현재까지 모인 금액 또한 환불 받을 수 없습니다.  '),
+              const Text('펀딩을 삭제하게 될 경우, 되돌릴 수 없으며, 정산이 어려울 수 있습니다.  '),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Align(
                 alignment: Alignment.centerLeft,
@@ -75,11 +60,16 @@ class FundingDeleteScreen extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  funding.title,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
+                child: SizedBox(
+                  width: screenWidth * 0.9,
+                  child: Text(
+                    funding.title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
                   ),
                 ),
               ),
