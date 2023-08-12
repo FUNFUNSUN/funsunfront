@@ -28,6 +28,51 @@ class RemitCheckScreen extends StatelessWidget {
         Provider.of<FundingsProvider>(context, listen: false);
 
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 80,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(
+            top: 5,
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                    color: Theme.of(context).primaryColor,
+                    Icons.arrow_back_rounded),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '작성한 내용을 확인해주세요',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Text(
+                    '결제하기 전 확인하는 페이지입니다.',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: 12,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -35,38 +80,30 @@ class RemitCheckScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                      color: Theme.of(context).primaryColor, Icons.arrow_back),
-                ),
-                const Text(
-                  '작성한 내용을 확인해주세요',
-                  style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  '결제하기 전 확인하는 페이지입니다..',
-                  style: TextStyle(color: Color(0xff7D7D7D)),
-                ),
                 const SizedBox(
                   height: 20,
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: targetFunding.image != null
-                          ? NetworkImage(
+                    Container(
+                      width: screenWidth * 0.3,
+                      height: screenWidth * 0.3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color:
+                            Theme.of(context).primaryColorDark.withOpacity(0.6),
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                      child: (targetFunding.image != null)
+                          ? Image.network(
+                              fit: BoxFit.cover,
                               '$baseurl${targetFunding.image}',
                             )
-                          : Image.asset('assets/images/default_funding.jpg')
-                              .image,
+                          : Image.asset(
+                              'assets/images/default_funding.jpg',
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     const SizedBox(
                       width: 30,
@@ -78,7 +115,16 @@ class RemitCheckScreen extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(targetFunding.title),
+                        SizedBox(
+                          width: screenWidth * 0.4,
+                          child: Text(
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w600),
+                            targetFunding.title,
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
                       ],
                     ),
                   ],

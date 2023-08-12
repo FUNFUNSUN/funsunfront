@@ -46,28 +46,56 @@ class PreviewScreen extends StatelessWidget {
     ProfileProvider profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 80,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(
+            top: 5,
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                    color: Theme.of(context).primaryColor,
+                    Icons.arrow_back_rounded),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '작성한 내용을 확인해주세요',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Text(
+                    '업로드하기 전 확인하는 페이지입니다.',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                      fontSize: 12,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: Column(
               children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                const Text(
-                  '펀딩 내용을 확인해주세요',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  '업로드 전 미리 확인하는 페이지입니다.',
-                  style: TextStyle(color: Color(0xff7D7D7D)),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
                 Container(
                   width: screenWidth * 0.8,
                   height: screenWidth * 0.8,
