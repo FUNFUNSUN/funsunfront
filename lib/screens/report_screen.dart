@@ -117,8 +117,16 @@ class ReportScreen extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: ((context) {
-                        return const AlertDialog(
-                          title: Text('내용확인'),
+                        return AlertDialog(
+                          title: const Text('신고사유는 2자 이상 255자 이하입니다.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('확인'),
+                            ),
+                          ],
                         );
                       }),
                     );

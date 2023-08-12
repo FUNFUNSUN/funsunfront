@@ -414,25 +414,90 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                   width: double.infinity,
                   child: GestureDetector(
                       onTap: () async {
-                        if (_titleTextEditController.text.length < 2 ||
-                            _titleTextEditController.text.length > 20 ||
-                            _titleTextEditController.text.isEmpty) {
+                        if (_titleTextEditController.text.isEmpty) {
                           showDialog(
                             context: context,
                             builder: ((context) {
-                              return const AlertDialog(
-                                title: Text('제목확인'),
+                              return AlertDialog(
+                                title: const Text('제목을 입력해주세요'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('확인'),
+                                  ),
+                                ],
                               );
                             }),
                           );
-                        } else if (_contentTextEditController.text.length < 2 ||
-                            _contentTextEditController.text.length > 255 ||
-                            _contentTextEditController.text.isEmpty) {
+                        } else if (_titleTextEditController.text.length < 2) {
                           showDialog(
                             context: context,
                             builder: ((context) {
-                              return const AlertDialog(
-                                title: Text('내용확인'),
+                              return AlertDialog(
+                                title: const Text('제목은 두 글자 이상이어야합니다.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('확인'),
+                                  ),
+                                ],
+                              );
+                            }),
+                          );
+                        } else if (_titleTextEditController.text.length > 50) {
+                          showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return AlertDialog(
+                                title: const Text('제목은 50자 이하로 작성해주세요'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('확인'),
+                                  ),
+                                ],
+                              );
+                            }),
+                          );
+                        } else if (_contentTextEditController.text.length < 2) {
+                          showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return AlertDialog(
+                                title: const Text('내용은 두 글자 이상 작성해주세요'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('확인'),
+                                  ),
+                                ],
+                              );
+                            }),
+                          );
+                        } else if (_contentTextEditController.text.length >
+                            255) {
+                          showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return AlertDialog(
+                                title:
+                                    const Text('내용이 너무 길어요! 255자 이하로 작성해주세요'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('확인'),
+                                  ),
+                                ],
                               );
                             }),
                           );
@@ -444,8 +509,16 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                           showDialog(
                             context: context,
                             builder: ((context) {
-                              return const AlertDialog(
-                                title: Text('가격확인'),
+                              return AlertDialog(
+                                title: const Text('가격을 확인해주세요'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('확인'),
+                                  ),
+                                ],
                               );
                             }),
                           );
@@ -453,8 +526,16 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
                           showDialog(
                             context: context,
                             builder: ((context) {
-                              return const AlertDialog(
-                                title: Text('날짜골라'),
+                              return AlertDialog(
+                                title: const Text('날짜를 선택해주세요'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('확인'),
+                                  ),
+                                ],
                               );
                             }),
                           );

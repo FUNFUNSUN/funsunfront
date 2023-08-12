@@ -391,7 +391,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
                               : true;
                       editData['public'] = tempPublicBool;
 
-                      if (editData['text'].toString().length > 20 ||
+                      if (editData['text'].toString().length > 50 ||
                           editData['text'].toString().length < 2) {
                         showDialog(
                           context: context,

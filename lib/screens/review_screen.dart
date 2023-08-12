@@ -277,7 +277,7 @@ class _ReviewScreen extends State<ReviewScreen> {
                           context: context,
                           builder: ((context) {
                             return AlertDialog(
-                              title: const Text('리뷰 내용을 확인해주세요.'),
+                              title: const Text('리뷰 내용은 2자 이상 255자 이하로 작성해주세요'),
                               actions: [
                                 TextButton(
                                     onPressed: () {
