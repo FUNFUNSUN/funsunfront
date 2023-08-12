@@ -69,43 +69,55 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
       case '':
         return const FirstScreen();
       default:
-        return Scaffold(
-          body: IndexedStack(
-            index: _currentIndex,
-            children: [
-              ExploreScreen(),
-              HomeScreen(),
-              MyScreen(),
-            ],
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            currentIndex: _currentIndex,
-            onTap: (index) async {
+        return WillPopScope(
+          onWillPop: () async {
+            if (_currentIndex != 1) {
               setState(() {
-                _currentIndex = index;
+                _currentIndex = 1;
               });
+              return false;
+            } else {
+              return true;
+            }
+          },
+          child: Scaffold(
+            body: IndexedStack(
+              index: _currentIndex,
+              children: [
+                ExploreScreen(),
+                HomeScreen(),
+                MyScreen(),
+              ],
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              currentIndex: _currentIndex,
+              onTap: (index) async {
+                setState(() {
+                  _currentIndex = index;
+                });
 
-              if (index == 2) {
-                // 마이페이지 탭시 초기화
-                _profileProvider.setProfile(_userProvider.user!);
-              }
-            },
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Search',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'User',
-              ),
-            ],
+                if (index == 2) {
+                  // 마이페이지 탭시 초기화
+                  _profileProvider.setProfile(_userProvider.user!);
+                }
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  label: 'Search',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'User',
+                ),
+              ],
+            ),
           ),
         );
     }
