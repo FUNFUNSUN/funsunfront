@@ -127,16 +127,11 @@ class MyScreen extends StatelessWidget {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const FundingCreateScreen()),
-                                            );
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ProfileEditScreen(
-                                                        origin: user,
-                                                      )),
+                                                builder: (context) =>
+                                                    ProfileEditScreen(
+                                                  origin: user,
+                                                ),
+                                              ),
                                             );
                                           },
                                           child: const Text('프로필 수정하러 가기'),
