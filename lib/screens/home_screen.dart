@@ -97,12 +97,6 @@ class HomeScreen extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const FundingCreateScreen()),
-                                          );
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
                                                     ProfileEditScreen(
                                                       origin: user,
                                                     )),
@@ -373,12 +367,6 @@ class HomeScreen extends StatelessWidget {
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const FundingCreateScreen()),
-                                  );
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
