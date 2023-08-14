@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:funsunfront/models/account_model.dart';
 import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/terms_screen.dart';
 import 'package:funsunfront/widgets/app_bar.dart';
@@ -85,8 +84,8 @@ class _FundingCreateScreenState extends State<FundingCreateScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     // final screenHeight = MediaQuery.of(context).size.height;
-    final AccountModel user =
-        Provider.of<UserProvider>(context, listen: true).user!;
+    // final AccountModel user =
+    Provider.of<UserProvider>(context, listen: true).user!;
 
     String dateStr = _selectedDate.toString();
     return Scaffold(
