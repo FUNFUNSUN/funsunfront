@@ -55,6 +55,7 @@ class _FundingEditScreen extends State<FundingEditScreen> {
     setState(() {
       editImage = uploadedImage;
       originImage = null;
+      imgdel = false;
     });
   }
 

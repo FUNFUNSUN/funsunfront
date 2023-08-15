@@ -196,8 +196,6 @@ class Funding {
     req.fields['public'] = jsonEncode(editData['public']);
     req.fields['image_delete'] = editData['image_delete'];
 
-    print(editData['title']);
-
     if (image != null) {
       req.files.add(await http.MultipartFile.fromPath('image', image.path));
     }
