@@ -8,7 +8,7 @@ class ProfileProvider extends ChangeNotifier {
   AccountModel? get profile => _profile;
 
   Future<void> updateProfile(String uid) async {
-    _profile = await User.getProfile(uid: uid);
+    _profile = await FunsunUser.getProfile(uid: uid);
     notifyListeners();
   }
 

@@ -30,7 +30,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   void updateUser() async {
-    _user = await User.accessTokenLogin();
+    _user = await FunsunUser.accessTokenLogin();
     if (_user!.image != null) {
       _user!.image =
           '${_user!.image}?v=${DateTime.now().millisecondsSinceEpoch}';

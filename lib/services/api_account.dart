@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'kakao_login_api.dart';
 
-class User {
+class FunsunUser {
   static const String baseUrl = "http://projectsekai.kro.kr:5000/account/";
   static const storage = FlutterSecureStorage();
 
@@ -134,7 +134,7 @@ class User {
 
       return true;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       delAccount(uid: uid, apiCounter: apiCounter);
     }
     return false;
@@ -170,7 +170,7 @@ class User {
       print(resBodyJson);
       return resBodyJson;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       putProfile(image: image, editData: editData, apiCounter: apiCounter);
     } else {
       print('response.statusCode: ${response.statusCode}');

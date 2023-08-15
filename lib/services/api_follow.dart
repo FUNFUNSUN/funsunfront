@@ -28,7 +28,7 @@ class Follow {
       print(res);
       return res['detail'];
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       return postFollow(uid: uid);
     }
     return false;
@@ -50,7 +50,7 @@ class Follow {
     if (response.statusCode == 201) {
       return true;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       return postFollow(uid: uid);
     }
     return false;
@@ -73,7 +73,7 @@ class Follow {
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       return postFollow(uid: uid);
     }
     return false;
@@ -97,7 +97,7 @@ class Follow {
           .map((follower) => AccountModel.fromJson(follower))
           .toList();
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       getFollowerList(id: id, apiCounter: apiCounter);
     }
     throw Error();
@@ -121,7 +121,7 @@ class Follow {
           .map((followee) => AccountModel.fromJson(followee))
           .toList();
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       getFolloweeList(id: id, apiCounter: apiCounter);
     }
     throw Error();

@@ -22,7 +22,7 @@ class Remit {
       final List<dynamic> remitList = jsonDecode(response.body);
       return remitList.map((remit) => RemitModel.fromJson(remit)).toList();
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       getRemit(id: id, page: page, apiCounter: apiCounter);
     } else if (response.statusCode == 204) {
       return List.empty();
@@ -47,7 +47,7 @@ class Remit {
     if (response.statusCode == 201) {
       return true;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       return postRemit(remitData: remitData);
     }
     return false;
@@ -68,7 +68,7 @@ class Remit {
       final redirect = jsonDecode(response.body);
       return redirect['url'];
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       return getPayRedirect(amount: amount, userid: userid);
     }
     throw Error();
@@ -90,7 +90,7 @@ class Remit {
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       return postPayApprove(userid: userid, pgToken: pgToken);
     }
     return false;
@@ -108,7 +108,7 @@ class Remit {
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       return getPayApprove();
     }
     return false;

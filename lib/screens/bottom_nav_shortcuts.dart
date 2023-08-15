@@ -35,7 +35,7 @@ class _BottomNavShortcutsState extends State<BottomNavShortcuts> {
     String? value = await storage.read(key: 'accessToken');
 
     if (value != null) {
-      user = await User.accessTokenLogin();
+      user = await FunsunUser.accessTokenLogin();
       _userProvider.setLogin("logged");
       _userProvider.setUser(user);
       _fundingsProvider.getMyfundings(_userProvider.user!.id, 1);

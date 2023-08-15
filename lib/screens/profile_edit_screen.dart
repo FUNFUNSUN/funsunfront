@@ -561,7 +561,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                   TextButton(
                                       onPressed: () async {
                                         // 유저정보 수정 API
-                                        await User.putProfile(
+                                        await FunsunUser.putProfile(
                                             editData: editData,
                                             image: editImage);
                                         //provider 수정

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsunfront/provider/user_provider.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
 import '../services/api_account.dart';
@@ -46,11 +47,12 @@ class DropOutConfirmScreen extends StatelessWidget {
                             actions: [
                               TextButton(
                                   onPressed: () async {
-                                    final status = await User.delAccount(
+                                    final status = await FunsunUser.delAccount(
                                         uid: userProvider.user!.id);
 
                                     print(status);
                                     userProvider.setLogin("");
+                                    await UserApi.instance.unlink();
                                     if (context.mounted) {
                                       Navigator.pop(context);
                                       Navigator.pop(context);

@@ -26,7 +26,7 @@ class Report {
     if (response.statusCode == 201) {
       return true;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       postReport(reportData: reportData);
     }
     return false;

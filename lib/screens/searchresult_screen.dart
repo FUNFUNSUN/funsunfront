@@ -211,7 +211,7 @@ class _SearchBoxState extends State<SearchBox> {
           }),
         );
       } else {
-        searchedUsers = await User.userSearch(username: value);
+        searchedUsers = await FunsunUser.userSearch(username: value);
       }
       setState(() {});
     }

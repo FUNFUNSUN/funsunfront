@@ -26,7 +26,7 @@ class Funding {
       final funding = jsonDecode(response.body);
       return FundingModel.fromJson(funding);
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       getFunding(id: id, apiCounter: apiCounter);
     }
     throw Error();
@@ -52,7 +52,7 @@ class Funding {
     } else if (response.statusCode == 204) {
       return [];
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       getPublicFunding(page: page, apiCounter: apiCounter);
     }
     throw Error();
@@ -79,7 +79,7 @@ class Funding {
     } else if (response.statusCode == 204) {
       return [];
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       getFriendFunding(page: page, apiCounter: apiCounter);
     }
     throw Error();
@@ -106,7 +106,7 @@ class Funding {
     } else if (response.statusCode == 204) {
       return [];
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       getUserFunding(page: page, id: id, apiCounter: apiCounter);
     }
     throw Error();
@@ -132,7 +132,7 @@ class Funding {
     } else if (response.statusCode == 204) {
       return [];
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       getJoinedFunding(page: page, apiCounter: apiCounter);
     }
     throw Error();
@@ -168,7 +168,7 @@ class Funding {
 
       return resBodyJson;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       postFunding(
           fundingData: fundingData, image: image, apiCounter: apiCounter);
     }
@@ -208,7 +208,7 @@ class Funding {
       print(resBodyJson);
       return resBodyJson;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       putFunding(editData: editData, image: image, apiCounter: apiCounter);
     }
     print(response.body);
@@ -246,7 +246,7 @@ class Funding {
 
       return resBodyJson;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       putReview(editData: editData, image: image, apiCounter: apiCounter);
     }
     print(response.body);
@@ -268,7 +268,7 @@ class Funding {
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 401) {
-      await User.refreshToken();
+      await FunsunUser.refreshToken();
       return deleteFunding(id: id);
     }
     return false;
