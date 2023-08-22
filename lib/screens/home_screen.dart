@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
   late FundingsProvider fundingsProvider;
   final List<String> devIdList = [
     '2943720963', //정현
-    // '2943717833', //후추
+    '2943717833', //후추
     '2920117956', //윤선
     '2919921020', //상규
   ];
@@ -33,6 +33,7 @@ class HomeScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     fundingsProvider = Provider.of<FundingsProvider>(context, listen: true);
     AccountModel user = Provider.of<UserProvider>(context, listen: false).user!;
+    int cnt = 0;
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight.withOpacity(0.5),
         body: RefreshIndicator(
@@ -71,9 +72,16 @@ class HomeScreen extends StatelessWidget {
                           height: 30,
                         ),
                         Center(
-                          child: Image.asset(
-                            'assets/images/giftWithCal.png',
-                            width: 250,
+                          child: InkWell(
+                            onTap: () {
+                              if (cnt < 6) {
+                                cnt++;
+                              }
+                            },
+                            child: Image.asset(
+                              'assets/images/giftWithCal.png',
+                              width: 250,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -305,12 +313,14 @@ class HomeScreen extends StatelessWidget {
                           InkWell(
                             //easterEgg
                             onLongPress: () {
-                              if (devIdList.contains(user.id)) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => JeonghyunFace()),
-                                );
+                              if (cnt > 5) {
+                                if (devIdList.contains(user.id)) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => JeonghyunFace()),
+                                  );
+                                }
                               }
                             },
                             child: Center(
