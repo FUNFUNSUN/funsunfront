@@ -1,4 +1,4 @@
-# FunSun: 즐거운 원윤선 플랫폼
+# FunSun: 즐거운 펀딩 플랫폼
 
 ![FunSun Logo](assets/launcher/foreground.png)
 
@@ -29,40 +29,12 @@ FunSun은 상대방의 취향과 필요성을 고려하여 정말 받고싶은 �
 
 - **Frontend**: Flutter, Kakao Login API, Kakao Pay API, Provider
 
-- **Backend**: Django, Oracle Cloud, JWT, Kakao Login API, Kakao Pay API,
+- **Backend**: Django, Oracle Cloud, JWT, Kakao Login API, Kakao Pay API
 
-- **Database**: AWS RDS -> Oracle Cloud
+- **Database**: MySQL
 
 - **Version Control**: Git, Github
-
-- **Communication**: 카카오톡, 전화, 대면, 동거, 손편지, 인스타그램 스토리 언급
 
 - **IDE**: Visual Studio Code
 
 - **Design**: Figma
-
-# 팀원 소개
-
-## 최윤호 - 팀장
-
-- 학년: 2학년
-- 프론트엔드
-- 특이사항: 흡연장에서 비눗방울을 붑니다. 에러 발생 시 달려가 해결하는 모습이 말벌 아저씨 같습니다.
-
-## 박상규
-
-- 학년: 2학년
-- 백엔드
-- 특이사항: 백엔드를 혼자 처치하고 프론트까지 넘어온 괴물입니다. 모든 기업이 박상규를 원합니다. 더 이상의 설명은 생략합니다.
-
-## 이정현
-
-- 학년: 1학년
-- 프론트엔드
-- 특이사항: 담배를 맛있게 피기 위한 기능사를 취득한 1학년 에이스입니다. 박상규와 함께 있을 때의 시너지와 광기는 정말 무섭습니다. 집과 일터의 구분이 없어 보입니다.
-
-## 원윤선
-
-- 학년: 1학년
-- 프론트엔드, 디자인
-- 특이사항: 현 가라르지방 챔피언으로서 상당한 실력을 가진 굥선입니다. 구린 레이아웃을 견딜 수 없어서 매번 깃을 롤백합니다. 미모와 지성을 겸비하고 있습니다. 단, 본인은 모른다고 합니다.
