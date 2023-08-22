@@ -61,6 +61,10 @@ dependencies:
   webview_flutter_android: ^3.9.2
   webview_flutter_wkwebview: ^3.7.2
   audioplayers: ^5.1.0
+  firebase_core: ^2.15.1
+  firebase_auth: ^4.7.3
+  firebase_messaging: ^14.6.6
+  firebase_storage: ^11.2.6
 
 dev_dependencies:
   flutter_test:
