@@ -603,96 +603,88 @@ class FundingScreen extends StatelessWidget {
                                         ),
                                         Transform.translate(
                                           offset: const Offset(0, 0),
-                                          child: Expanded(
-                                            child: Container(
-                                              color: const Color.fromARGB(
-                                                  255, 178, 159, 255),
-                                              width: screenWidth,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 20),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      '펀딩 후기',
-                                                      style: TextStyle(
-                                                        fontSize: 22,
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
+                                          child: Container(
+                                            color: const Color.fromARGB(
+                                                255, 178, 159, 255),
+                                            width: screenWidth,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    '펀딩 후기',
+                                                    style: TextStyle(
+                                                      fontSize: 22,
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                     ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        if (funding
-                                                                .reviewImage !=
-                                                            null)
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        15),
-                                                            child: Container(
-                                                              width:
-                                                                  screenWidth *
-                                                                      0.8,
-                                                              height:
-                                                                  screenWidth *
-                                                                      0.8,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30),
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .primaryColorDark
-                                                                    .withOpacity(
-                                                                        0.6),
-                                                              ),
-                                                              clipBehavior:
-                                                                  Clip.hardEdge,
-                                                              child:
-                                                                  Image.network(
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                '$baseurl${funding.reviewImage}',
-                                                              ),
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      if (funding.reviewImage !=
+                                                          null)
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 15),
+                                                          child: Container(
+                                                            width: screenWidth *
+                                                                0.8,
+                                                            height:
+                                                                screenWidth *
+                                                                    0.8,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30),
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColorDark
+                                                                  .withOpacity(
+                                                                      0.6),
+                                                            ),
+                                                            clipBehavior:
+                                                                Clip.hardEdge,
+                                                            child:
+                                                                Image.network(
+                                                              fit: BoxFit.cover,
+                                                              '$baseurl${funding.reviewImage}',
                                                             ),
                                                           ),
-                                                        Container(
-                                                          color: const Color
-                                                                  .fromARGB(255,
-                                                              178, 159, 255),
-                                                          width: screenWidth,
-                                                          child: Text(
-                                                            funding.review!,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        16,
-                                                                    color: Colors
-                                                                        .white),
-                                                          ),
                                                         ),
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
+                                                      Container(
+                                                        color: const Color
+                                                                .fromARGB(
+                                                            255, 178, 159, 255),
+                                                        width: screenWidth,
+                                                        child: Text(
+                                                          funding.review!,
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                      .white),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
                                               ),
                                             ),
                                           ),
