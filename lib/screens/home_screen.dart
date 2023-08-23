@@ -5,7 +5,6 @@ import 'package:funsunfront/provider/user_provider.dart';
 import 'package:funsunfront/screens/all_fundings_screen.dart';
 import 'package:funsunfront/screens/profile_edit_screen.dart';
 import 'package:funsunfront/widgets/fundingcard_horizon.dart';
-import 'package:funsunfront/widgets/jeonghyunface.dart';
 import 'package:provider/provider.dart';
 import '../models/account_model.dart';
 import '../provider/fundings_provider.dart';
@@ -315,10 +314,39 @@ class HomeScreen extends StatelessWidget {
                             onLongPress: () {
                               if (cnt > 5) {
                                 if (devIdList.contains(user.id)) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => JeonghyunFace()),
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SizedBox(
+                                              width: 100,
+                                              child: Image.network(
+                                                'https://www.google.com/url?sa=i&url=https%3A%2F%2Fknowyourmeme.com%2Fmemes%2Fcrying-cat&psig=AOvVaw04_u_EDplbWjFMfAFWIEFW&ust=1692844015492000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNDoxcPd8YADFQAAAAAdAAAAABAE',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            const Text(
+                                              '원윤선 미워.',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // 다이얼로그 닫기
+                                            },
+                                            child: const Text('닫기'),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   );
                                 }
                               }

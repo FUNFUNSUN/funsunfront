@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'dart:io' show Platform;
 
 class KakaoPay extends StatelessWidget {
   const KakaoPay({Key? key, required this.url, required this.uid})
@@ -34,30 +35,49 @@ class KakaoPay extends StatelessWidget {
 
     final WebViewController controller =
         WebViewController.fromPlatformCreationParams(params);
-    if (controller.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
-      (controller.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
+    if (Platform.isAndroid) {
+      if (controller.platform is AndroidWebViewController) {
+        AndroidWebViewController.enableDebugging(true);
+        (controller.platform as AndroidWebViewController)
+            .setMediaPlaybackRequiresUserGesture(false);
+        controller.setNavigationDelegate(NavigationDelegate(
+          onNavigationRequest: (request) async {
+            print(request.url);
+            Uri uriParsed = Uri.parse(request.url);
+            if (uriParsed.scheme == 'intent') {
+              getAppUrl(request.url).then((value) async {
+                try {
+                  await launchUrl(Uri.parse(value),
+                      mode: LaunchMode.externalApplication);
+                } on PlatformException {
+                  Navigator.pop(context,
+                      {'result': false, 'message': '카카오톡이 설치되어 있지 않습니다.'});
+                } on Exception {
+                  Navigator.pop(
+                      context, {'result': false, 'message': '알 수 없는 오류 발생.'});
+                }
+              });
+
+              return NavigationDecision.prevent;
+            }
+            if (request.url.contains('projectsekai')) {
+              final pgToken = request.url.split('pg_token=')[1];
+              final bool res =
+                  await Remit.postPayApprove(userid: uid, pgToken: pgToken);
+              if (context.mounted) {
+                Navigator.pop(context, {'result': res, 'message': '200'});
+              }
+            }
+            return NavigationDecision.navigate;
+          },
+        ));
+      }
+      // Android-specific code
+    } else if (Platform.isIOS) {
+      // iOS-specific code
+
       controller.setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (request) async {
-          print(request.url);
-          Uri uriParsed = Uri.parse(request.url);
-          if (uriParsed.scheme == 'intent') {
-            getAppUrl(request.url).then((value) async {
-              try {
-                await launchUrl(Uri.parse(value),
-                    mode: LaunchMode.externalApplication);
-              } on PlatformException {
-                Navigator.pop(context,
-                    {'result': false, 'message': '카카오톡이 설치되어 있지 않습니다.'});
-              } on Exception {
-                Navigator.pop(
-                    context, {'result': false, 'message': '알 수 없는 오류 발생.'});
-              }
-            });
-
-            return NavigationDecision.prevent;
-          }
           if (request.url.contains('projectsekai')) {
             final pgToken = request.url.split('pg_token=')[1];
             final bool res =

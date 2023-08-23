@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../models/funding_model.dart';
 import '../widgets/kakao_pay.dart';
+import 'dart:io' show Platform;
 
 class RemitCheckScreen extends StatelessWidget {
   Map<String, dynamic> remitMap;
@@ -253,77 +254,126 @@ class RemitCheckScreen extends StatelessWidget {
                                   },
                                   child: const Text('취소')),
                               TextButton(
+                                  child: const Text('확인'),
                                   onPressed: () async {
-                                    // print('start');
-                                    bool result = false;
-                                    String msg = '';
-                                    final req = await Remit.getPayRedirect(
-                                        amount: remitMap['amount'],
-                                        userid: userProvider.user!.id);
+                                    if (Platform.isAndroid) {
+                                      // print('start');
+                                      bool result = false;
+                                      String msg = '';
+                                      final req = await Remit.getPayRedirect(
+                                          amount: remitMap['amount'],
+                                          userid: userProvider.user!.id);
 
-                                    if (context.mounted) {
-                                      final res = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => KakaoPay(
-                                                    url: req,
-                                                    uid: userProvider.user!.id,
-                                                  )));
-                                      if (res != null) {
-                                        result = res['result'];
-                                        msg = res['message'];
+                                      if (context.mounted) {
+                                        final res = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => KakaoPay(
+                                                      url: req,
+                                                      uid:
+                                                          userProvider.user!.id,
+                                                    )));
+                                        if (res != null) {
+                                          result = res['result'];
+                                          msg = res['message'];
+                                        }
+                                      }
+
+                                      if (result) {
+                                        result = await Remit.getPayApprove();
+                                      }
+                                      if (result) {
+                                        result = await Remit.postRemit(
+                                            remitData: jsonEncode(remitMap));
+                                      }
+                                      if (context.mounted) {
+                                        result
+                                            ? {
+                                                fundingsProvider
+                                                    .getFundingDetail(
+                                                        remitMap['funding']),
+                                                fundingsProvider
+                                                    .getJoinedfundings(1),
+                                                Navigator.pop(context),
+                                                Navigator.pop(context),
+                                                Navigator.pop(context),
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title:
+                                                            const Text('결제성공!'),
+                                                        actions: [
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: const Text(
+                                                                  '닫기'))
+                                                        ],
+                                                      );
+                                                    })
+                                              }
+                                            : showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return Center(
+                                                    child: AlertDialog(
+                                                      title: const Center(
+                                                          child: Text('결제실패')),
+                                                      content: Text(msg),
+                                                    ),
+                                                  );
+                                                });
+                                      } // Android-specific code
+                                    } else if (Platform.isIOS) {
+                                      // iOS-specific code
+                                      bool result = await Remit.postRemit(
+                                          remitData: jsonEncode(remitMap));
+                                      if (context.mounted) {
+                                        result
+                                            ? {
+                                                fundingsProvider
+                                                    .getFundingDetail(
+                                                        remitMap['funding']),
+                                                fundingsProvider
+                                                    .getJoinedfundings(1),
+                                                Navigator.pop(context),
+                                                Navigator.pop(context),
+                                                Navigator.pop(context),
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title:
+                                                            const Text('결제성공!'),
+                                                        actions: [
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: const Text(
+                                                                  '닫기'))
+                                                        ],
+                                                      );
+                                                    })
+                                              }
+                                            : showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return const Center(
+                                                    child: AlertDialog(
+                                                      title: Center(
+                                                          child: Text('결제실패')),
+                                                      content: Text('ios라 슬퍼요'),
+                                                    ),
+                                                  );
+                                                });
                                       }
                                     }
-
-                                    if (result) {
-                                      result = await Remit.getPayApprove();
-                                    }
-                                    if (result) {
-                                      result = await Remit.postRemit(
-                                          remitData: jsonEncode(remitMap));
-                                    }
-                                    if (context.mounted) {
-                                      result
-                                          ? {
-                                              fundingsProvider.getFundingDetail(
-                                                  remitMap['funding']),
-                                              fundingsProvider
-                                                  .getJoinedfundings(1),
-                                              Navigator.pop(context),
-                                              Navigator.pop(context),
-                                              Navigator.pop(context),
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return AlertDialog(
-                                                      title:
-                                                          const Text('결제성공!'),
-                                                      actions: [
-                                                        TextButton(
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: const Text(
-                                                                '닫기'))
-                                                      ],
-                                                    );
-                                                  })
-                                            }
-                                          : showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return Center(
-                                                  child: AlertDialog(
-                                                    title: const Center(
-                                                        child: Text('결제실패')),
-                                                    content: Text(msg),
-                                                  ),
-                                                );
-                                              });
-                                    }
-                                  },
-                                  child: const Text('확인')),
+                                  }),
                             ],
                           );
                         });
